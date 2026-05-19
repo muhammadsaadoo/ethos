@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "247794172122",
+    "project_id": "ethos-72361",
+    "storage_bucket": "ethos-72361.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247794172122:android:3bd6b22775253dec7ea5e3",
+        "android_client_info": {
+          "package_name": "com.example.expence_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZVxEBeWsslgYjKEMC4eY-cKxHBR_gGUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
