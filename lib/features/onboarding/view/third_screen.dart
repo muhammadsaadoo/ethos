@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:expence_management/features/auth/view/signup_screen.dart';
+import 'package:expence_management/features/auth/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class ThirdScreen extends StatelessWidget {
@@ -144,7 +144,7 @@ class ThirdScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => SignupScreen()),
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
                         (Route<dynamic> route) =>
                             false, // This line forces the removal of ALL previous routes
                       );

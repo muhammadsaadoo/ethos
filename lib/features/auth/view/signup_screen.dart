@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
 
-  final SignupController controller = Get.put(SignupController());
+  final SignupController controller = Get.find<SignupController>();
 
   @override
   Widget build(BuildContext context) {
@@ -301,7 +301,9 @@ class SignupScreen extends StatelessWidget {
                           ),
 
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
 
                             child: const Text(
                               "Sign In",

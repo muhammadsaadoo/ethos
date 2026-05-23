@@ -31,9 +31,7 @@ class SecondScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
+                        MaterialPageRoute(builder: (context) => LoginScreen()),
                         (Route<dynamic> route) =>
                             false, // This line forces the removal of ALL previous routes
                       );

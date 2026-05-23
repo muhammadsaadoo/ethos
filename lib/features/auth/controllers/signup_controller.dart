@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
-  final AuthService authService = AuthService();
+  // final AuthService authService = AuthService();
+  final AuthService authService;
 
   // ================= TEXT CONTROLLERS =================
 
@@ -24,6 +25,8 @@ class SignupController extends GetxController {
   RxString emailError = ''.obs;
   RxString passwordError = ''.obs;
   RxString confirmPasswordError = ''.obs;
+
+  SignupController(this.authService);
 
   // ================= VALIDATION =================
 
@@ -83,32 +86,31 @@ class SignupController extends GetxController {
     final password = passwordController.text.trim();
     final confirmPassword = confirmPasswordController.text.trim();
 
-    // CLEAR OLD ERRORS
+    // ================= CLEAR OLD ERRORS =================
+    fullNameError.value = '';
+    emailError.value = '';
+    passwordError.value = '';
+    confirmPasswordError.value = '';
 
-    // fullNameError.value = '';
-    // emailError.value = '';
-    // passwordError.value = '';
-    // confirmPasswordError.value = '';
+    // ================= VALIDATE =================
+    final fullNameErr = validateFullName(fullName);
+    final emailErr = validateEmail(email);
+    final passwordErr = validatePassword(password);
+    final confirmPasswordErr = validateConfirmPassword(
+      password,
+      confirmPassword,
+    );
 
-    // VALIDATE
+    fullNameError.value = fullNameErr ?? '';
+    emailError.value = emailErr ?? '';
+    passwordError.value = passwordErr ?? '';
+    confirmPasswordError.value = confirmPasswordErr ?? '';
 
-    fullNameError.value = validateFullName(fullName) ?? '';
-
-    emailError.value = validateEmail(email) ?? '';
-
-    passwordError.value = validatePassword(password) ?? '';
-
-    confirmPasswordError.value =
-        validateConfirmPassword(password, confirmPassword) ?? '';
-
-    // print(fullNameError);
-
-    // STOP IF ERROR EXISTS
-
-    if (fullNameError.value.isNotEmpty ||
-        emailError.value.isNotEmpty ||
-        passwordError.value.isNotEmpty ||
-        confirmPasswordError.value.isNotEmpty) {
+    // ================= STOP IF INVALID =================
+    if (fullNameErr != null ||
+        emailErr != null ||
+        passwordErr != null ||
+        confirmPasswordErr != null) {
       return;
     }
 
@@ -120,8 +122,22 @@ class SignupController extends GetxController {
         email: email,
         password: password,
       );
+      Get.back();
+
+      Get.snackbar(
+        "Success",
+        "Account created successfully",
+        backgroundColor: const Color(0xFF006C49),
+        colorText: Colors.white,
+      );
+      // Get.back()
     } catch (e) {
-      debugPrint(e.toString());
+      Get.snackbar(
+        "Error",
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     } finally {
       isLoading.value = false;
     }

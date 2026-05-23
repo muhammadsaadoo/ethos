@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:expence_management/features/onboarding/view/first_screen.dart';
+import 'package:expence_management/features/onboarding/view/on_boarding_screens.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
@@ -13,7 +13,7 @@ class SplashController extends GetxController {
 
   void navigateToHome() {
     Timer(const Duration(seconds: 3), () {
-      Get.off(() => const FirstScreen());
+      Get.off(() => const OnBoardingScreens());
     });
   }
 }
