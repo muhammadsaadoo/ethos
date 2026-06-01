@@ -180,6 +180,214 @@ class DummyDataService {
     print("========== CLEAN TEST FLOW END ==========");
   }
 
+  Future<void> _createTransaction({
+    required String cardId,
+    required double amount,
+    required String category,
+    required bool isExpense,
+    required DateTime date,
+    String note = "",
+  }) async {
+    final tx = TransactionModel(
+      id: uuid.v4(),
+      userId: userId,
+      cardId: cardId,
+      amount: amount,
+      category: category,
+      date: date,
+      note: note,
+      isExpense: isExpense,
+      isSynced: false,
+    );
+
+    await transactionRepository.addTransaction(tx);
+  }
+
+  Future<void> runDashboardTestData() async {
+    print("========== DASHBOARD TEST START ==========");
+
+    await clearAllData();
+
+    print("🧹 OLD DATA CLEARED");
+
+    // -------------------------------------------------
+    // CARD
+    // -------------------------------------------------
+
+    final card = await createDummyCard();
+
+    print("💳 CARD CREATED");
+
+    final now = DateTime.now();
+
+    // -------------------------------------------------
+    // INCOME 1
+    // -------------------------------------------------
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 50000,
+      category: "Salary",
+      isExpense: false,
+      date: DateTime(now.year, now.month - 2, 2),
+      note: "Monthly Salary",
+    );
+
+    // -------------------------------------------------
+    // 10 EXPENSES OVER LAST 3 MONTHS
+    // -------------------------------------------------
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1800,
+      category: "Food",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 3, 5),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 2500,
+      category: "Shopping",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 3, 12),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1200,
+      category: "Transport",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 3, 18),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 3000,
+      category: "Bills",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 2, 3),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 2200,
+      category: "Entertainment",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 2, 8),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1400,
+      category: "Health",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 2, 14),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 2800,
+      category: "Education",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 2, 22),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 3500,
+      category: "Travel",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 1, 4),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1600,
+      category: "Fuel",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 1, 15),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1900,
+      category: "Grocery",
+      isExpense: true,
+      date: DateTime(now.year, now.month - 1, 25),
+    );
+
+    // -------------------------------------------------
+    // SECOND INCOME
+    // -------------------------------------------------
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 20000,
+      category: "Freelance",
+      isExpense: false,
+      date: now.subtract(const Duration(days: 5)),
+    );
+
+    // -------------------------------------------------
+    // LAST WEEK EXPENSES
+    // -------------------------------------------------
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 800,
+      category: "Food",
+      isExpense: true,
+      date: now.subtract(const Duration(days: 4)),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 350,
+      category: "Coffee",
+      isExpense: true,
+      date: now.subtract(const Duration(days: 3)),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 650,
+      category: "Transport",
+      isExpense: true,
+      date: now.subtract(const Duration(days: 2)),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1500,
+      category: "Shopping",
+      isExpense: true,
+      date: now.subtract(const Duration(days: 1)),
+    );
+
+    await _createTransaction(
+      cardId: card.id,
+      amount: 1200,
+      category: "Bills",
+      isExpense: true,
+      date: now,
+    );
+
+    // -------------------------------------------------
+    // GOAL
+    // -------------------------------------------------
+
+    await createDummyGoal();
+
+    print("🎯 GOAL CREATED");
+
+    print("========== FETCH ==========");
+
+    await fetchEverything();
+
+    print("========== DASHBOARD TEST END ==========");
+  }
+
   // ======================================================
   // ====================== FULL TEST =====================
   // ======================================================

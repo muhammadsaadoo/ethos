@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 class HomeBindings extends Bindings {
   @override
   void dependencies() {
+    print("Bindings Runnn");
     Get.lazyPut(() => HomeService());
-    Get.lazyPut(() => HomeController());
+    Get.lazyPut<HomeController>(() => HomeController());
   }
 }

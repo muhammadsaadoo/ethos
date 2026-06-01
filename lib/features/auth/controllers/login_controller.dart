@@ -80,10 +80,10 @@ class LoginController extends GetxController {
       await service.login(email: email, password: password);
       print("test start..................");
       // dummyDataService.runCompleteTest();
-      await dummyDataService.runCleanTestFlow();
+      // await dummyDataService.runCleanTestFlow();
       print("test end.................");
 
-      Get.offAllNamed(AppRoutes.home);
+      Get.offAllNamed(AppRoutes.mainScreen);
     } catch (e) {
       print(e.toString());
       String message = _handleAuthError(e);

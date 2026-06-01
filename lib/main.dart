@@ -80,7 +80,7 @@ class MyApp extends StatelessWidget {
       // locale: Get.deviceLocale,   device locale
       // locale: Locale('en'),
       // fallbackLocale: Locale('en'),
-      initialRoute: AppRoutes.splash, // 👈 START SCREEN
+      initialRoute: AppRoutes.mainScreen, // 👈 START SCREEN
 
       getPages: AppPages.pages,
       // initialRoute: '/splashscreen',
