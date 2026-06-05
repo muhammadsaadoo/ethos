@@ -24,4 +24,37 @@ class CardFirestoreService {
 
     return snapshot.docs.map((e) => CardModel.fromJson(e.data())).toList();
   }
+
+  Future<void> updateCard(CardModel card) async {
+    await firestore
+        .collection('users')
+        .doc(card.userId)
+        .collection('cards')
+        .doc(card.id)
+        .update(card.toJson());
+  }
+
+  Future<void> deleteCard({
+    required String userId,
+    required String cardId,
+  }) async {
+    await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('cards')
+        .doc(cardId)
+        .delete();
+
+    // delete all transactions under this card
+    final txSnapshot = await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('transactions')
+        .where('cardId', isEqualTo: cardId)
+        .get();
+
+    for (final doc in txSnapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
 }

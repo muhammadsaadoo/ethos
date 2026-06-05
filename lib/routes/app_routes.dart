@@ -4,4 +4,6 @@ class AppRoutes {
   static const home = '/home';
   static const splash = '/splash';
   static const mainScreen = '/main_screen';
+
+  static const addTransaction = '/add_transaction';
 }

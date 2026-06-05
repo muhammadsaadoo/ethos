@@ -29,7 +29,7 @@ class DummyDataService {
       id: uuid.v4(),
       userId: userId,
       cardName: "Test Card",
-      totalAmount: 50000,
+      totalAmount: 0,
       cardNumber: "1234 5678 9012 3456",
       expiryDate: "12/28",
       cvv: "123",

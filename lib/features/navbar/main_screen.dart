@@ -2,6 +2,7 @@ import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/home/view/home_screen.dart';
 import 'package:expence_management/features/navbar/controller/nav_controller.dart';
 import 'package:expence_management/features/navbar/glass_app_bar.dart';
+import 'package:expence_management/features/transaction/view/transaction_screen.dart';
 // import 'package:expence_management/features/navbar/navbar_controller.dart'; // Import your controller
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX package
@@ -16,7 +17,7 @@ class MainScreen extends StatelessWidget {
 
     final List<Widget> screens = [
       HomeScreen(),
-      const Center(child: Text("Transactions Screen")),
+      TransactionScreen(),
       const Center(child: Text("Analytics Screen")),
       const Center(child: Text("Profile Screen")),
     ];

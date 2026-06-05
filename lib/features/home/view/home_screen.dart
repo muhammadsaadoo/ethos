@@ -13,6 +13,7 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0XFFF8F9FA),
+
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -343,25 +344,33 @@ class HomeScreen extends GetView<HomeController> {
                 "Weekly Spending",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               ),
-              SizedBox(width: 40),
-              Container(
-                // alignment: Alignment.centerRight,
-                height: 20,
-                width: 75,
-                decoration: BoxDecoration(
-                  // background: #EDEEEF;
-                  color: Color(0xFFEDEEEF),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text("This Week"),
-              ),
+              // SizedBox(width: 40),
+              // Container(
+              //   // alignment: Alignment.centerRight,
+              //   height: 20,
+              //   width: 75,
+              //   decoration: BoxDecoration(
+              //     // background: #EDEEEF;
+              //     color: Color(0xFFEDEEEF),
+              //     borderRadius: BorderRadius.circular(20),
+              //   ),
+              //   child: Text("This Week"),
+              // ),
             ],
           ),
           const SizedBox(height: 10),
 
           Obx(() {
             final data = controller.weeklySpending;
+            if (data.isEmpty) {
+              return const SizedBox(
+                height: 180,
+                child: Center(child: Text("No data")),
+              );
+            }
 
+            // final maxValue = data.reduce((a, b) => a > b ? a : b);
+            // final maxY = maxValue * 1.2;
             final maxY = (data.reduce((a, b) => a > b ? a : b) * 1.2);
 
             return SizedBox(

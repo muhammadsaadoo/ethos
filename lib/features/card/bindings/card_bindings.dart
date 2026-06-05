@@ -17,8 +17,11 @@ class CardBindings extends Bindings {
     Get.lazyPut(() => CardFirestoreService());
 
     Get.lazyPut(
-      () =>
-          CardRepository(hiveService: Get.find(), firestoreService: Get.find()),
+      () => CardRepository(
+        hiveService: Get.find(),
+        firestoreService: Get.find(),
+        transactionHiveService: Get.find(),
+      ),
     );
 
     Get.lazyPut(() => CardController(Get.find()));

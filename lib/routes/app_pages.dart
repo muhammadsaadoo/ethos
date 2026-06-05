@@ -10,6 +10,7 @@ import 'package:expence_management/features/navbar/bindings/navbar_bindings.dart
 import 'package:expence_management/features/navbar/main_screen.dart';
 import 'package:expence_management/features/splash/view/splash_screen.dart';
 import 'package:expence_management/features/transaction/bindings/transaction_bindings.dart';
+import 'package:expence_management/features/transaction/view/add_transaction_screen.dart';
 import 'package:get/get.dart';
 
 // import '../features/auth/login/binding/login_binding.dart';
@@ -28,9 +29,9 @@ class AppPages {
       page: () => LoginScreen(),
       bindings: [
         LoginBinding(),
-        CardBindings(),
-        TransactionBindings(),
-        GoalBindings(), // Your second binding class
+        // CardBindings(),
+        // TransactionBindings(),
+        // GoalBindings(), // Your second binding class
         // Add more bindings here as needed
       ],
     ),
@@ -55,11 +56,23 @@ class AppPages {
     //   // binding: HomeBindings(),
     // ),
     GetPage(
-      name: AppRoutes.mainScreen,
-      page: () => const MainScreen(),
+      name: AppRoutes.mainScreen, //route
+      page: () => const MainScreen(), // load screen
       bindings: [
         NavbarBindings(),
         HomeBindings(),
+        CardBindings(),
+        TransactionBindings(),
+        GoalBindings(),
+      ],
+      // 👈 Hooks bindings automatically on route load
+    ),
+    GetPage(
+      name: AppRoutes.addTransaction, //route
+      page: () => const AddTransactionScreen(), // load screen
+      bindings: [
+        // NavbarBindings(),
+        // HomeBindings(),
         CardBindings(),
         TransactionBindings(),
         GoalBindings(),

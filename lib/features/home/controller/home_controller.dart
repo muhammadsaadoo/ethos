@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:expence_management/features/dummy_data_service.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
 import 'package:expence_management/features/transaction/repository/transaction_repository.dart';
@@ -26,53 +28,55 @@ class HomeController extends GetxController {
 
   // Replace later with AuthController.currentUser.id
   final String userId = "dummy_user_1";
+  StreamSubscription? _txSub;
+
+  void bindTransactions() async {
+    print("bind Transactions Run");
+
+    _txSub?.cancel();
+
+    // 1. GET INITIAL DATA FIRST
+    final initialData = await transactionRepository.getTransactions(userId);
+
+    _recalculateAll(initialData);
+
+    // 2. THEN START LISTENING
+    _txSub = transactionRepository.watchTransactions(userId).listen((data) {
+      debugPrint("STREAM TRIGGERED");
+      debugPrint("Total TX: ${data.length}");
+
+      _recalculateAll(data);
+    });
+  }
+
+  void _recalculateAll(List<TransactionModel> data) {
+    transactions.assignAll(data);
+
+    _calculateSummary(data);
+    _calculateCategoryUsage(data);
+    _calculateWeeklySpending(data);
+    _calculateMonthlyFlow(data);
+  }
 
   @override
   Future<void> onInit() async {
     super.onInit();
     await service.runDashboardTestData();
-    loadDashboardData();
+
+    // loadDashboardData();
+    bindTransactions();
   }
+
+  final transactions = <TransactionModel>[].obs;
+
+  // var transactions;
 
   // =========================================================
   // ================= LOAD DASHBOARD ========================
   // =========================================================
 
-  Future<void> loadDashboardData() async {
-    try {
-      isLoading.value = true;
-
-      final transactions = await transactionRepository.getTransactions(userId);
-
-      _calculateSummary(transactions);
-
-      _calculateCategoryUsage(transactions);
-
-      _calculateWeeklySpending(transactions);
-
-      _calculateMonthlyFlow(transactions);
-    } catch (e) {
-      print("Dashboard Error: $e");
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
   /*
-  ok now creeate these functions for testing
-   transaction where add 50000 in card
-   10 transactions(with different categories) spendings 
-   divide these transactions on  last 3 months with different dates
-   then again add 20000
-   again 5 transactions in different categories for last week (spendings)
-   all done with a right money flow
-   manage dates correctly one after another 
-
-   here is my dummy data class modify it
-   forst remove all data 
-   then run this 
-   create a single test methos that have all the other methods
-   ill run that methos and test complete data
+  
 
 
 
@@ -241,6 +245,12 @@ class HomeController extends GetxController {
       weeklySpending.length,
       (index) => FlSpot(index.toDouble(), weeklySpending[index]),
     );
+  }
+
+  @override
+  void onClose() {
+    _txSub?.cancel();
+    super.onClose();
   }
 }
 

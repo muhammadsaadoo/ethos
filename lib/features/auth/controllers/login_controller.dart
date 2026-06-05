@@ -1,7 +1,6 @@
 // ======================= CONTROLLER =======================
 
 import 'package:expence_management/features/auth/services/login_service.dart';
-import 'package:expence_management/features/dummy_data_service.dart';
 import 'package:expence_management/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +8,7 @@ import 'package:get/get.dart';
 class LoginController extends GetxController {
   // final LoginService service = LoginService();
   final LoginService service;
-  final DummyDataService dummyDataService = DummyDataService();
+  // final DummyDataService dummyDataService = DummyDataService();
 
   // ================= CONTROLLERS =================
 

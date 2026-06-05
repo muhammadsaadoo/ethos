@@ -27,4 +27,25 @@ class CardHiveService {
   Future<void> clearAll() async {
     await box.clear();
   }
+
+  Future<void> deleteCard(String cardId) async {
+    await box.delete(cardId);
+  }
+
+  // Future<void> deleteTransactionsByCard(String cardId) async {
+  //   final keysToDelete = box.values
+  //       .where((tx) => tx.cardId == cardId)
+  //       .map((tx) => tx.id)
+  //       .toList();
+
+  //   for (final id in keysToDelete) {
+  //     await box.delete(id);
+  //   }
+  // }
+
+  Stream<List<CardModel>> watchCards(String userId) {
+    return box.watch().map((event) {
+      return box.values.where((e) => e.userId == userId).toList();
+    });
+  }
 }

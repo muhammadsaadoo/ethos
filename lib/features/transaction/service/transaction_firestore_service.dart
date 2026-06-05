@@ -25,4 +25,16 @@ class TransactionFirestoreService {
         .map((e) => TransactionModel.fromJson(e.data()))
         .toList();
   }
+
+  Future<void> deleteTransaction({
+    required String userId,
+    required String transactionId,
+  }) async {
+    await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('transactions')
+        .doc(transactionId)
+        .delete();
+  }
 }

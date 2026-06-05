@@ -2,6 +2,8 @@
 // import '../../../data/models/card_model.dart';
 // import '../../../data/repositories/card_repository.dart';
 
+import 'dart:async';
+
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/card/repository/card_repository.dart';
 import 'package:get/get.dart';
@@ -12,22 +14,29 @@ class CardController extends GetxController {
 
   CardController(this.repository);
 
-  RxList<CardModel> cards = <CardModel>[].obs;
+  final RxList<CardModel> cards = <CardModel>[].obs;
 
   final String userId = 'dummy_user_1';
+
+  StreamSubscription? _cardSub;
 
   @override
   void onInit() {
     super.onInit();
-
-    loadCards();
+    bindCards(); // IMPORTANT
   }
 
-  Future<void> loadCards() async {
-    final result = await repository.getCards(userId);
+  // ================= STREAM BIND =================
 
-    cards.value = result;
+  void bindCards() {
+    _cardSub?.cancel();
+
+    _cardSub = repository.watchCards(userId).listen((data) {
+      cards.assignAll(data);
+    });
   }
+
+  // ================= ADD CARD =================
 
   Future<void> addDummyCard() async {
     final card = CardModel(
@@ -43,6 +52,25 @@ class CardController extends GetxController {
 
     await repository.addCard(card);
 
-    cards.add(card);
+    // ❌ REMOVE THIS (stream will handle it)
+    // cards.add(card);
+  }
+
+  // ================= MANUAL REFRESH (OPTIONAL) =================
+
+  Future<void> loadCards() async {
+    final result = await repository.getCards(userId);
+    cards.assignAll(result);
+  }
+
+  Future<List> getCards() async {
+    return await repository.getCards(userId);
+    // cards.assignAll(result);
+  }
+
+  @override
+  void onClose() {
+    _cardSub?.cancel();
+    super.onClose();
   }
 }
