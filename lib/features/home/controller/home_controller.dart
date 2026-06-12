@@ -61,7 +61,7 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await service.runDashboardTestData();
+    // await service.clearAllData();
 
     // loadDashboardData();
     bindTransactions();

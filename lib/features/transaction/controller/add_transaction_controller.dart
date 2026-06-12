@@ -1,5 +1,6 @@
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/card/repository/card_repository.dart';
+import 'package:expence_management/features/dummy_data_service.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
 import 'package:expence_management/features/transaction/repository/transaction_repository.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,45 @@ import 'package:uuid/uuid.dart';
 // ───────────────────────────────────────────────────────────────────────────
 
 class AddTransactionController extends GetxController {
+  final selectedCategory = 'Food'.obs;
+
+  /// Category Map
+  /// Store category name in DB
+  /// Retrieve icon using categoryIcons[name]
+  final Map<String, IconData> categoryIcons = {
+    'Food': Icons.restaurant_rounded,
+    'Shopping': Icons.shopping_bag_rounded,
+    'Transport': Icons.directions_car_rounded,
+    'Bills': Icons.receipt_long_rounded,
+    'Health': Icons.favorite_rounded,
+    'Education': Icons.school_rounded,
+    'Salary': Icons.account_balance_wallet_rounded,
+    'Gift': Icons.card_giftcard_rounded,
+    'Travel': Icons.flight_rounded,
+    'Entertainment': Icons.movie_rounded,
+    'Sports': Icons.sports_soccer_rounded,
+    'Investment': Icons.trending_up_rounded,
+    'Groceries': Icons.local_grocery_store_rounded,
+    'Rent': Icons.home_rounded,
+    'Other': Icons.category_rounded,
+  };
+
+  /// Categories shown on Add Transaction screen
+  List<Map<String, dynamic>> get defaultCategories => [
+    {'label': 'Food', 'icon': categoryIcons['Food']!.codePoint},
+    {'label': 'Shopping', 'icon': categoryIcons['Shopping']!.codePoint},
+    {'label': 'Transport', 'icon': categoryIcons['Transport']!.codePoint},
+  ];
+
+  void selectCategory(String category) {
+    selectedCategory.value = category;
+  }
+
+  IconData getCategoryIcon(String category) {
+    return categoryIcons[category] ?? Icons.category_rounded;
+  }
+
+  DummyDataService service = DummyDataService();
   // ── Dependencies ──────────────────────────────────────────────────────────
   final uuid = const Uuid();
   final String userId = "dummy_user_1";
@@ -64,13 +104,13 @@ class AddTransactionController extends GetxController {
   }
 
   // ── Categories ────────────────────────────────────────────────────────────
-  final List<Map<String, dynamic>> defaultCategories = const [
-    {'label': 'Food', 'icon': 0xe56c}, // Icons.restaurant
-    {'label': 'Transport', 'icon': 0xe531}, // Icons.directions_car
-    {'label': 'Shopping', 'icon': 0xe59c}, // Icons.shopping_bag
-  ];
+  // final List<Map<String, dynamic>> defaultCategories = const [
+  //   {'label': 'Food', 'icon': 0xe56c}, // Icons.restaurant
+  //   {'label': 'Transport', 'icon': 0xe531}, // Icons.directions_car
+  //   {'label': 'Shopping', 'icon': 0xe59c}, // Icons.shopping_bag
+  // ];
 
-  final RxString selectedCategory = ''.obs;
+  // final RxString selectedCategory = ''.obs;
 
   // ── Note ─────────────────────────────────────────────────────────────────
   final RxString note = ''.obs;
@@ -80,8 +120,10 @@ class AddTransactionController extends GetxController {
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    // await service.createDummyCard();
+
     _loadCards();
 
     if (cards.isNotEmpty) selectedCard.value = cards.first;
@@ -93,7 +135,7 @@ class AddTransactionController extends GetxController {
 
   void toggleExpense(bool expense) => isExpense.value = expense;
 
-  void selectCategory(String category) => selectedCategory.value = category;
+  // void selectCategory(String category) => selectedCategory.value = category;
 
   /// Appends a digit or decimal point via the custom keypad
   void onKeypadTap(String key) {
@@ -161,6 +203,7 @@ class AddTransactionController extends GetxController {
       _resetForm();
       Get.back(result: true);
       Get.snackbar('Success', 'Transaction added successfully');
+      Get.back();
     } catch (e) {
       Get.snackbar('Error', 'Failed to add transaction: $e');
     } finally {

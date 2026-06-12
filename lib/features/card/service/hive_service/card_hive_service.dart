@@ -43,8 +43,11 @@ class CardHiveService {
   //   }
   // }
 
-  Stream<List<CardModel>> watchCards(String userId) {
-    return box.watch().map((event) {
+  Stream<List<CardModel>> watchCards(String userId) async* {
+    // Emit current state first so UI isn't blank on start
+    yield box.values.where((e) => e.userId == userId).toList();
+
+    yield* box.watch().map((_) {
       return box.values.where((e) => e.userId == userId).toList();
     });
   }

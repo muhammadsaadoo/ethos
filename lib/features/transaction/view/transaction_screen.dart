@@ -1,11 +1,13 @@
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/transaction/controller/transaction_controller.dart';
+import 'package:expence_management/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class TransactionScreen extends GetView<TransactionController> {
   const TransactionScreen({super.key});
+
   String _getMonthName(int monthNumber) {
     const months = [
       'Jan',
@@ -42,7 +44,12 @@ class TransactionScreen extends GetView<TransactionController> {
                     "My Cards",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                   ),
-                  TextButton(onPressed: () {}, child: const Text("Add Card")),
+                  TextButton(
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.createcard);
+                    },
+                    child: const Text("Add Card"),
+                  ),
                 ],
               ),
 
@@ -52,15 +59,16 @@ class TransactionScreen extends GetView<TransactionController> {
               SizedBox(
                 height: 190,
                 child: Obx(() {
-                  // final cards = Get.find<CardController>().cards;
-
                   if (controller.cards.isEmpty) {
                     return const Center(child: Text("No cards available"));
                   }
 
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
+                  return PageView.builder(
+                    controller: controller.pageController,
                     itemCount: controller.cards.length,
+                    onPageChanged: (index) {
+                      controller.selectedCardIndex.value = index;
+                    },
                     itemBuilder: (context, index) {
                       final card = controller.cards[index];
 
@@ -70,91 +78,40 @@ class TransactionScreen extends GetView<TransactionController> {
                             )
                           : card.cardNumber;
 
-                      return Container(
-                        width: 380,
-                        margin: const EdgeInsets.only(right: 14),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                            // #006C49
-                            //#2E3132
-                            colors: [Color(0xFF2E3132), Color(0xFF006C49)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black26,
-                              blurRadius: 10,
-                              offset: Offset(0, 6),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // TOP ROW
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Text(
-                                  "Available Balance",
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Icon(Icons.credit_card, color: Colors.white),
-                              ],
-                            ),
-
-                            const SizedBox(height: 10),
-
-                            // BALANCE
-                            Text(
-                              "\$${card.totalAmount}",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            const Spacer(),
-
-                            // CARD NUMBER + VISA
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "**** **** **** $last4",
-                                  style: const TextStyle(
-                                    color: Colors.white70,
-                                    letterSpacing: 2,
-                                  ),
-                                ),
-                                const Text(
-                                  "VISA",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              card.cardHolderName,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ],
-                        ),
+                      return AnimatedScale(
+                        duration: const Duration(milliseconds: 250),
+                        scale: controller.selectedCardIndex.value == index
+                            ? 1
+                            : 0.92,
+                        child: yourCardWidget(card, last4),
                       );
                     },
                   );
                 }),
               ),
+              const SizedBox(height: 20),
+              Obx(() {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(controller.cards.length, (index) {
+                    final isActive =
+                        controller.selectedCardIndex.value == index;
+
+                    return AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      height: 8,
+                      width: isActive ? 20 : 8,
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? AppColors.primary
+                            : Colors.grey.shade400,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    );
+                  }),
+                );
+              }),
 
               const SizedBox(height: 20),
 
@@ -199,9 +156,9 @@ class TransactionScreen extends GetView<TransactionController> {
                 child: Obx(
                   () => ListView.builder(
                     padding: const EdgeInsets.only(top: 10),
-                    itemCount: controller.recentTransactions.length,
+                    itemCount: controller.cardTransactions.length,
                     itemBuilder: (context, index) {
-                      final tx = controller.recentTransactions[index];
+                      final tx = controller.cardTransactions[index];
 
                       return AnimatedSize(
                         duration: const Duration(milliseconds: 250),
@@ -614,4 +571,60 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
     _controller.dispose();
     super.dispose();
   }
+}
+
+Widget yourCardWidget(card, last4) {
+  return Container(
+    width: 380,
+    margin: const EdgeInsets.only(right: 14),
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      gradient: const LinearGradient(
+        colors: [Color(0xFF2E3132), Color(0xFF006C49)],
+      ),
+      boxShadow: const [
+        BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 6)),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Available Balance",
+              style: TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+            Icon(Icons.credit_card, color: Colors.white),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "\$${card.totalAmount}",
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Spacer(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "**** **** **** $last4",
+              style: const TextStyle(color: Colors.white70, letterSpacing: 2),
+            ),
+            const Text(
+              "VISA",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ],
+        ),
+        Text(card.cardHolderName, style: const TextStyle(color: Colors.white)),
+      ],
+    ),
+  );
 }

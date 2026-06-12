@@ -7,7 +7,11 @@ import 'package:expence_management/core/network/network_service.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/card/service/firestore_service/card_firestore_service.dart';
 import 'package:expence_management/features/card/service/hive_service/card_hive_service.dart';
+import 'package:expence_management/features/transaction/model/transaction_model.dart';
+import 'package:expence_management/features/transaction/repository/transaction_repository.dart';
 import 'package:expence_management/features/transaction/service/transaction_hive_service.dart';
+import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 
 class CardRepository {
   final CardHiveService hiveService;
@@ -20,15 +24,39 @@ class CardRepository {
     required this.transactionHiveService,
   });
 
+  // Future<void> addCard(CardModel card) async {
+  //   if (await NetworkService.isConnected()) {
+  //     final syncedCard = card.copyWith(isSynced: true);
+  //     await firestoreService.addCard(syncedCard);
+  //     await hiveService.addCard(syncedCard); // single write, already synced
+  //   } else {
+  //     await hiveService.addCard(card); // single write, unsynced
+  //   }
+  // }
   Future<void> addCard(CardModel card) async {
-    await hiveService.addCard(card);
-
     if (await NetworkService.isConnected()) {
       final syncedCard = card.copyWith(isSynced: true);
-
       await firestoreService.addCard(syncedCard);
+      await hiveService.addCard(syncedCard);
+    } else {
+      await hiveService.addCard(card);
+    }
 
-      await hiveService.updateCard(syncedCard);
+    // Create initial balance transaction if amount > 0
+    if (card.totalAmount > 0) {
+      final initialTx = TransactionModel(
+        id: const Uuid().v4(),
+        userId: card.userId,
+        cardId: card.id,
+        amount: card.totalAmount,
+        category: "Initial Balance",
+        date: DateTime.now(),
+        note: "Opening balance",
+        isExpense: false,
+        isSynced: false,
+      );
+
+      await Get.find<TransactionRepository>().addTransaction(initialTx);
     }
   }
 
@@ -97,16 +125,27 @@ class CardRepository {
   Stream<List<CardModel>> watchCards(String userId) async* {
     if (await NetworkService.isConnected()) {
       final remote = await firestoreService.getCards(userId);
-
       for (final c in remote) {
         await hiveService.updateCard(c);
       }
-
-      yield remote;
-
-      yield* hiveService.watchCards(userId);
-    } else {
-      yield* hiveService.watchCards(userId);
     }
+
+    yield* hiveService.watchCards(userId);
   }
+
+  // Stream<List<CardModel>> watchCards(String userId) async* {
+  //   if (await NetworkService.isConnected()) {
+  //     final remote = await firestoreService.getCards(userId);
+
+  //     for (final c in remote) {
+  //       await hiveService.updateCard(c);
+  //     }
+
+  //     yield remote;
+
+  //     yield* hiveService.watchCards(userId);
+  //   } else {
+  //     yield* hiveService.watchCards(userId);
+  //   }
+  // }
 }

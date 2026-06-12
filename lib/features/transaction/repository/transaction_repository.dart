@@ -29,7 +29,9 @@ class TransactionRepository {
     print("add transaction");
     print(tx.amount);
 
-    await _updateCardBalance(tx);
+    if (tx.category != "Initial Balance") {
+      await _updateCardBalance(tx);
+    }
 
     if (await NetworkService.isConnected()) {
       final synced = tx.copyWith(isSynced: true);

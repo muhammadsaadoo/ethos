@@ -71,4 +71,27 @@ class GoalRepository {
       await hiveService.update(synced);
     }
   }
+
+  Future<void> updateGoal(GoalModel goal) async {
+    // 1. update locally first
+    await hiveService.update(goal.copyWith(isSynced: false));
+
+    // 2. if online → update firestore
+    if (await NetworkService.isConnected()) {
+      await firestoreService.updateGoal(goal);
+
+      // 3. mark synced in hive
+      await hiveService.update(goal.copyWith(isSynced: true));
+    }
+  }
+
+  Future<void> deleteGoal(GoalModel goal) async {
+    // 1. delete locally first
+    await hiveService.delete(goal.id);
+
+    // 2. if online → delete from firestore
+    if (await NetworkService.isConnected()) {
+      await firestoreService.deleteGoal(userId: goal.userId, goalId: goal.id);
+    }
+  }
 }

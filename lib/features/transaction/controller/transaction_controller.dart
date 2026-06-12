@@ -12,31 +12,49 @@ class TransactionController extends GetxController {
 
   TransactionController(this.repository);
 
+  final PageController pageController = PageController();
+
+  final RxInt selectedCardIndex = 0.obs;
+
   final RxList<TransactionModel> transactions = <TransactionModel>[].obs;
+
   final CardController cardController = Get.find();
-  // List get cards => await cardController.loadCards();
 
   final String userId = 'dummy_user_1';
 
-  // ===================== WEEKLY CACHE =====================
   final RxList<double> weeklySpending = List<double>.filled(7, 0.0).obs;
 
   StreamSubscription? _sub;
-  // final CardController cardController = Get.find();
 
+  // ================= CARDS =================
   List<CardModel> get cards => cardController.cards;
 
-  // ======================================================
+  CardModel? get selectedCard {
+    // print("print all Cards.......");
+    // for (var card in cards) {
+    //   print(
+    //     'Card ID: ${card.id}, Name: ${card.cardName}',
+    //   ); // Customize with your CardModel fields
+    // }
+    if (cards.isEmpty) return null;
+    if (selectedCardIndex.value >= cards.length) return null;
+    return cards[selectedCardIndex.value];
+  }
+
+  List<TransactionModel> get cardTransactions {
+    final cardId = selectedCard?.id;
+    if (cardId == null) return [];
+
+    return transactions.where((tx) => tx.cardId == cardId).toList();
+  }
+
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
     bindTransactions();
   }
 
-  // ======================================================
-  // LOAD
-  // ======================================================
-
+  // ================= STREAM =================
   void bindTransactions() {
     _sub?.cancel();
 
@@ -49,63 +67,23 @@ class TransactionController extends GetxController {
     });
   }
 
-  // void bindCards() {
-  //   _cardSub?.cancel();
-
-  //   _cardSub = repository.watchCards(userId).listen((data) {
-  //     cards.assignAll(data);
-  //   });
-  // }
-
-  // ======================================================
-  // ADD DUMMY TRANSACTION
-  // ======================================================
-
-  // Future<void> addDummyTransaction(String cardId) async {
-  //   final tx = TransactionModel(
-  //     id: const Uuid().v4(),
-  //     userId: userId,
-  //     cardId: cardId,
-  //     amount: 500,
-  //     category: 'Food',
-  //     date: DateTime.now(),
-  //     note: 'Dummy transaction',
-  //     isExpense: true,
-  //   );
-
-  //   await repository.addTransaction(tx);
-
-  //   transactions.insert(0, tx);
-
-  //   _calculateWeeklySpending();
-  // }
-
-  // ======================================================
-  // DELETE
-  // ======================================================
-
+  // ================= DELETE =================
   Future<void> deleteTransaction(TransactionModel tx) async {
     await repository.deleteTransaction(tx);
 
-    await cardController.loadCards();
+    // ❌ REMOVED: cardController.loadCards();
 
     transactions.removeWhere((e) => e.id == tx.id);
 
     _calculateWeeklySpending();
   }
 
-  // ======================================================
-  // RECENT
-  // ======================================================
-
+  // ================= RECENT =================
   List<TransactionModel> get recentTransactions {
     return transactions.take(3).toList();
   }
 
-  // ======================================================
-  // DATE LABEL
-  // ======================================================
-
+  // ================= DATE =================
   String getDateLabel(DateTime date) {
     final now = DateTime.now();
 
@@ -122,10 +100,7 @@ class TransactionController extends GetxController {
     return a.day == b.day && a.month == b.month && a.year == b.year;
   }
 
-  // ======================================================
-  // WEEKLY SPENDING (FOR CHART)
-  // ======================================================
-
+  // ================= WEEKLY =================
   void _calculateWeeklySpending() {
     final now = DateTime.now();
 
@@ -148,10 +123,7 @@ class TransactionController extends GetxController {
     weeklySpending.assignAll(temp);
   }
 
-  // ======================================================
-  // TOTALS (OPTIONAL DASHBOARD USE)
-  // ======================================================
-
+  // ================= TOTALS =================
   double get totalIncome {
     return transactions
         .where((t) => !t.isExpense)
@@ -165,14 +137,15 @@ class TransactionController extends GetxController {
   }
 
   double get balance => totalIncome - totalExpense;
-  // final RxString selectedFilter = "".obs;
 
+  // ================= FILTERS =================
   final RxList<String> filters = <String>[
     "Freeze",
     "Limits",
     "Pin",
     "More",
   ].obs;
+
   final Map<String, IconData> filterIcons = {
     "Freeze": Icons.ac_unit,
     "Limits": Icons.tune,
@@ -183,4 +156,10 @@ class TransactionController extends GetxController {
   final RxString selectedFilter = "Freeze".obs;
 
   void editTransaction(TransactionModel tx) {}
+
+  @override
+  void onClose() {
+    _sub?.cancel();
+    super.onClose();
+  }
 }

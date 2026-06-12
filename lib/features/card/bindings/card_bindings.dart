@@ -1,4 +1,5 @@
 import 'package:expence_management/features/card/controller/card_controller.dart';
+import 'package:expence_management/features/card/controller/create_card_controller.dart';
 import 'package:expence_management/features/card/repository/card_repository.dart';
 import 'package:expence_management/features/card/service/firestore_service/card_firestore_service.dart';
 import 'package:expence_management/features/card/service/hive_service/card_hive_service.dart';
@@ -25,5 +26,6 @@ class CardBindings extends Bindings {
     );
 
     Get.lazyPut(() => CardController(Get.find()));
+    Get.lazyPut(() => CreateCardController());
   }
 }

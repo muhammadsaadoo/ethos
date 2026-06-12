@@ -1,6 +1,7 @@
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/transaction/controller/add_transaction_controller.dart';
+import 'package:expence_management/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,17 +9,17 @@ import 'package:get/get.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Design tokens
-// ─────────────────────────────────────────────────────────────────────────────
-const _bg = Color(0xFF0F0F14);
-const _surface = Color(0xFF1A1A24);
-const _surfaceAlt = Color(0xFF22222F);
-const _accent = Color(0xFF6C63FF);
-const _accentSoft = Color(0x336C63FF);
-const _income = Color(0xFF22C55E);
+// // ─────────────────────────────────────────────────────────────────────────────
+// const _bg = Color(0xFF0F0F14);
+// const _surface = Color(0xFF1A1A24);
+// const _surfaceAlt = Color(0xFF22222F);
+// const _accent = Color(0xFF6C63FF);
+// const _accentSoft = Color(0x336C63FF);
+// const _income = Color(0xFF22C55E);
 const _expense = Color(0xFFEF4444);
 const _textPri = Color(0xFFFFFFFF);
 const _textSec = Color(0xFF8E8EA0);
-const _border = Color(0xFF2E2E3E);
+// const _border = Color(0xFF2E2E3E);
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Screen
@@ -443,7 +444,7 @@ class _CategoryRow extends StatelessWidget {
             // "More" button — identical layout to _CategoryChip
             Expanded(
               child: GestureDetector(
-                onTap: () => Get.toNamed('/categories'),
+                onTap: () => Get.toNamed(AppRoutes.transaction_categories),
                 child: Column(
                   children: [
                     Container(

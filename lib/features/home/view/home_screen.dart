@@ -1,6 +1,7 @@
 import 'package:expence_management/core/utils/shared_widgets/custom_card.dart';
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/home/controller/home_controller.dart';
+import 'package:expence_management/routes/app_routes.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,6 +40,32 @@ class HomeScreen extends GetView<HomeController> {
                 const SizedBox(height: 30),
               ],
             ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 100),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withAlpha(150),
+                blurRadius: 20,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child: FloatingActionButton(
+            onPressed: () {
+              // Add action here
+              Get.toNamed(AppRoutes.addTransaction);
+            },
+            backgroundColor: AppColors.primary,
+            elevation: 0, // IMPORTANT: we use custom shadow instead
+            child: const Icon(Icons.add, color: Colors.white),
           ),
         ),
       ),
@@ -368,10 +395,18 @@ class HomeScreen extends GetView<HomeController> {
                 child: Center(child: Text("No data")),
               );
             }
+            if (data.every((e) => e == 0)) {
+              return const SizedBox(
+                height: 180,
+                child: Center(child: Text('No spending data this week')),
+              );
+            }
 
             // final maxValue = data.reduce((a, b) => a > b ? a : b);
             // final maxY = maxValue * 1.2;
-            final maxY = (data.reduce((a, b) => a > b ? a : b) * 1.2);
+            // final maxY = (data.reduce((a, b) => a > b ? a : b) * 1.2);
+            final rawMaxY = data.reduce((a, b) => a > b ? a : b);
+            final maxY = rawMaxY <= 0 ? 10.0 : rawMaxY * 1.2;
 
             return SizedBox(
               height: 180,
@@ -425,7 +460,7 @@ class HomeScreen extends GetView<HomeController> {
                   gridData: FlGridData(
                     show: true,
                     drawVerticalLine: false,
-                    horizontalInterval: maxY / 4,
+                    horizontalInterval: (maxY / 4).clamp(1.0, double.infinity),
                     getDrawingHorizontalLine: (value) =>
                         const FlLine(color: Color(0x11000000), strokeWidth: 1),
                   ),
