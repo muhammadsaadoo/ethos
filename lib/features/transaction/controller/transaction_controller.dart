@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/features/card/controller/card_controller.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
 import 'package:expence_management/features/transaction/repository/transaction_repository.dart';
+import 'package:expence_management/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,13 +20,42 @@ class TransactionController extends GetxController {
 
   final RxList<TransactionModel> transactions = <TransactionModel>[].obs;
 
+  /// Track which transaction card is currently open (swiped)
+  final Rxn<String> openCardId = Rxn<String>();
+
   final CardController cardController = Get.find();
 
-  final String userId = 'dummy_user_1';
+  // final String userId = 'dummy_user_1';
+  final userId = Get.find<UserSessionService>().userId;
 
   final RxList<double> weeklySpending = List<double>.filled(7, 0.0).obs;
 
+  /// Category icons mapping
+  final Map<String, IconData> categoryIcons = {
+    'Food': Icons.restaurant_rounded,
+    'Shopping': Icons.shopping_bag_rounded,
+    'Transport': Icons.directions_car_rounded,
+    'Bills': Icons.receipt_long_rounded,
+    'Health': Icons.favorite_rounded,
+    'Education': Icons.school_rounded,
+    'Salary': Icons.account_balance_wallet_rounded,
+    'Gift': Icons.card_giftcard_rounded,
+    'Travel': Icons.flight_rounded,
+    'Entertainment': Icons.movie_rounded,
+    'Sports': Icons.sports_soccer_rounded,
+    'Investment': Icons.trending_up_rounded,
+    'Groceries': Icons.local_grocery_store_rounded,
+    'Rent': Icons.home_rounded,
+    'Initial Balance': Icons.account_balance_rounded,
+    'Other': Icons.category_rounded,
+  };
+
   StreamSubscription? _sub;
+
+  /// Get category icon by name
+  IconData getCategoryIcon(String category) {
+    return categoryIcons[category] ?? Icons.category_rounded;
+  }
 
   // ================= CARDS =================
   List<CardModel> get cards => cardController.cards;
@@ -155,7 +186,9 @@ class TransactionController extends GetxController {
 
   final RxString selectedFilter = "Freeze".obs;
 
-  void editTransaction(TransactionModel tx) {}
+  void editTransaction(TransactionModel tx) {
+    Get.toNamed(AppRoutes.addTransaction, arguments: tx);
+  }
 
   @override
   void onClose() {

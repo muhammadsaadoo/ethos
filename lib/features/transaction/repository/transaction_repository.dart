@@ -42,6 +42,69 @@ class TransactionRepository {
     }
   }
 
+  Future<void> editTransaction({
+    required TransactionModel oldTx,
+    required TransactionModel updatedTx,
+  }) async {
+    final isOnline = await NetworkService.isConnected();
+    final txToSave = updatedTx.copyWith(isSynced: isOnline);
+
+    await hiveService.updateTransaction(txToSave);
+
+    await _updateCardBalanceForEdit(oldTx, txToSave);
+
+    if (isOnline) {
+      await firestoreService.updateTransaction(txToSave);
+      await hiveService.update(txToSave);
+    }
+  }
+
+  Future<void> _updateCardBalanceForEdit(
+    TransactionModel oldTx,
+    TransactionModel updatedTx,
+  ) async {
+    if (oldTx.cardId == updatedTx.cardId) {
+      await _adjustCardBalanceForSameCard(oldTx, updatedTx);
+      return;
+    }
+
+    if (oldTx.category != "Initial Balance") {
+      await _reverseCardBalance(oldTx);
+    }
+
+    if (updatedTx.category != "Initial Balance") {
+      await _updateCardBalance(updatedTx);
+    }
+  }
+
+  Future<void> _adjustCardBalanceForSameCard(
+    TransactionModel oldTx,
+    TransactionModel updatedTx,
+  ) async {
+    final cards = cardHiveService.getCards(updatedTx.userId);
+    final card = cards.firstWhere((c) => c.id == updatedTx.cardId);
+
+    double updatedAmount = card.totalAmount;
+
+    if (oldTx.category != "Initial Balance") {
+      updatedAmount += oldTx.isExpense ? oldTx.amount : -oldTx.amount;
+    }
+
+    if (updatedTx.category != "Initial Balance") {
+      updatedAmount += updatedTx.isExpense
+          ? -updatedTx.amount
+          : updatedTx.amount;
+    }
+
+    if (updatedAmount != card.totalAmount) {
+      final updatedCard = card.copyWith(totalAmount: updatedAmount);
+      await cardHiveService.updateCard(updatedCard);
+      if (await NetworkService.isConnected()) {
+        await cardFirestoreService.updateCard(updatedCard);
+      }
+    }
+  }
+
   Future<void> _updateCardBalance(TransactionModel tx) async {
     final cards = cardHiveService.getCards(tx.userId);
 
@@ -122,6 +185,14 @@ class TransactionRepository {
         userId: tx.userId,
         transactionId: tx.id,
       );
+    }
+  }
+
+  Future<void> clearAllData(String userId) async {
+    await hiveService.clearAll();
+
+    if (await NetworkService.isConnected()) {
+      await firestoreService.clearAll(userId);
     }
   }
 

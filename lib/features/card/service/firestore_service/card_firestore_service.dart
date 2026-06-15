@@ -57,4 +57,16 @@ class CardFirestoreService {
       await doc.reference.delete();
     }
   }
+
+  Future<void> clearAll(String userId) async {
+    final cards = await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('cards')
+        .get();
+
+    for (final doc in cards.docs) {
+      await doc.reference.delete();
+    }
+  }
 }

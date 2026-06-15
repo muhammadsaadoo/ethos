@@ -1,3 +1,4 @@
+import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/features/goals/model/goal_model.dart';
 import 'package:expence_management/features/goals/repository/goal_repository.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ class GoalController extends GetxController {
 
   final RxList<GoalModel> goals = <GoalModel>[].obs;
 
-  final String userId = 'dummy_user_1';
+  // final String userId = 'dummy_user_1';
+  final userId = Get.find<UserSessionService>().userId;
 
   // Form
   final formKey = GlobalKey<FormState>();

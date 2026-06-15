@@ -2,6 +2,7 @@ import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/card/repository/card_repository.dart';
 import 'package:expence_management/features/goals/model/goal_model.dart';
 import 'package:expence_management/features/goals/repository/goal_repository.dart';
+import 'package:expence_management/features/monthly_budget/repository/budget_repository.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
 import 'package:expence_management/features/transaction/repository/transaction_repository.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,8 @@ class DummyDataService {
   final TransactionRepository transactionRepository = Get.find();
 
   final GoalRepository goalRepository = Get.find();
+
+  final BudgetRepository budgetRepository = Get.find();
 
   // ======================================================
   // ===================== CREATE CARD ====================
@@ -116,42 +119,14 @@ class DummyDataService {
   }
 
   Future<void> clearAllData() async {
-    print("🧹 Clearing Hive data...");
+    print("🧹 Clearing all card, transaction, goal, and budget data...");
 
-    await Get.find<CardRepository>().hiveService.clearAll();
+    await Get.find<CardRepository>().clearAllData(userId);
+    await Get.find<TransactionRepository>().clearAllData(userId);
+    await Get.find<GoalRepository>().clearAllData(userId);
+    await Get.find<BudgetRepository>().clearAllData(userId);
 
-    await Get.find<TransactionRepository>().hiveService.clearAll();
-
-    await Get.find<GoalRepository>().hiveService.clearAll();
-
-    print("🧹 Clearing Firestore data...");
-
-    final firestore = Get.find<CardRepository>().firestoreService.firestore;
-
-    final userRef = firestore.collection("users").doc(userId);
-
-    // delete cards
-    final cards = await userRef.collection("cards").get();
-
-    for (final doc in cards.docs) {
-      await doc.reference.delete();
-    }
-
-    // delete transactions
-    final txs = await userRef.collection("transactions").get();
-
-    for (final doc in txs.docs) {
-      await doc.reference.delete();
-    }
-
-    // delete goals
-    final goals = await userRef.collection("goals").get();
-
-    for (final doc in goals.docs) {
-      await doc.reference.delete();
-    }
-
-    print("🔥 Firestore cleared");
+    print("🔥 All data cleared");
   }
 
   Future<void> runCleanTestFlow() async {

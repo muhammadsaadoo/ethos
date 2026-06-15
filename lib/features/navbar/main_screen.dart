@@ -1,5 +1,6 @@
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/home/view/home_screen.dart';
+import 'package:expence_management/features/monthly_budget/view/view_budget_screen.dart';
 import 'package:expence_management/features/navbar/controller/nav_controller.dart';
 import 'package:expence_management/features/navbar/glass_app_bar.dart';
 import 'package:expence_management/features/profile/view/profile_screen.dart';
@@ -19,7 +20,8 @@ class MainScreen extends StatelessWidget {
     final List<Widget> screens = [
       HomeScreen(),
       TransactionScreen(),
-      const Center(child: Text("Analytics Screen")),
+      // const Center(child: Text("Analytics Screen")),
+      ViewBudgetScreen(),
       // const Center(child: Text("Profile Screen")),
       ProfileScreen(),
     ];

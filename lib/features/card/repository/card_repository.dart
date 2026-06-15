@@ -122,6 +122,14 @@ class CardRepository {
     }
   }
 
+  Future<void> clearAllData(String userId) async {
+    await hiveService.clearAll();
+
+    if (await NetworkService.isConnected()) {
+      await firestoreService.clearAll(userId);
+    }
+  }
+
   Stream<List<CardModel>> watchCards(String userId) async* {
     if (await NetworkService.isConnected()) {
       final remote = await firestoreService.getCards(userId);

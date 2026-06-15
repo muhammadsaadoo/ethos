@@ -147,13 +147,18 @@ class CreateCardController extends GetxController {
 
   String? validateAmount(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return "Amount is required";
+      return null;
     }
 
-    final amount = double.tryParse(value);
-    if (amount == null) {
+    final text = value.trim();
+
+    final regex = RegExp(r'^\d+(\.\d+)?$');
+
+    if (!regex.hasMatch(text)) {
       return "Enter valid number";
     }
+
+    final amount = double.parse(text);
 
     if (amount <= 0) {
       return "Must be greater than 0";

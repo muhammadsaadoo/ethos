@@ -46,6 +46,18 @@ class GoalFirestoreService {
         .doc(goalId)
         .delete();
   }
+
+  Future<void> clearAll(String userId) async {
+    final snapshot = await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('goals')
+        .get();
+
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
 }
 
 // class GoalFirestoreService {

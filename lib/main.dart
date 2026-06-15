@@ -1,6 +1,7 @@
 import 'package:expence_management/core/constants/hive_boxes.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/goals/model/goal_model.dart';
+import 'package:expence_management/features/monthly_budget/model/budget_model.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
 import 'package:expence_management/routes/app_pages.dart';
 import 'package:expence_management/routes/app_routes.dart';
@@ -21,10 +22,12 @@ void main() async {
   Hive.registerAdapter(CardModelAdapter());
   Hive.registerAdapter(TransactionModelAdapter());
   Hive.registerAdapter(GoalModelAdapter());
+  Hive.registerAdapter(BudgetModelAdapter());
 
   await Hive.openBox<CardModel>(HiveBoxes.cards);
   await Hive.openBox<TransactionModel>(HiveBoxes.transactions);
   await Hive.openBox<GoalModel>(HiveBoxes.goals);
+  await Hive.openBox<BudgetModel>(HiveBoxes.budget);
 
   runApp(const MyApp());
 

@@ -31,6 +31,10 @@ class TransactionHiveService {
     await box.put(tx.id, tx);
   }
 
+  Future<void> updateTransaction(TransactionModel tx) async {
+    await box.put(tx.id, tx);
+  }
+
   Future<void> clearAll() async {
     await box.clear();
   }

@@ -14,6 +14,15 @@ class TransactionFirestoreService {
         .set(tx.toJson());
   }
 
+  Future<void> updateTransaction(TransactionModel tx) async {
+    await firestore
+        .collection('users')
+        .doc(tx.userId)
+        .collection('transactions')
+        .doc(tx.id)
+        .update(tx.toJson());
+  }
+
   Future<List<TransactionModel>> getTransactions(String userId) async {
     final snapshot = await firestore
         .collection('users')
@@ -36,5 +45,17 @@ class TransactionFirestoreService {
         .collection('transactions')
         .doc(transactionId)
         .delete();
+  }
+
+  Future<void> clearAll(String userId) async {
+    final snapshot = await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('transactions')
+        .get();
+
+    for (final doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
   }
 }

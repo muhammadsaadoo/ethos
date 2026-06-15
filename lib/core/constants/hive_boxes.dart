@@ -1,5 +1,6 @@
 class HiveBoxes {
-  static const String cards = 'cards_box';
+  static final String cards = 'cards_box';
   static const String transactions = 'transactions_box';
   static const String goals = 'goals_box';
+  static const String budget = 'budget_box';
 }

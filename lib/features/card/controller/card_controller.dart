@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/card/repository/card_repository.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,8 @@ class CardController extends GetxController {
   CardController(this.repository);
 
   final RxList<CardModel> cards = <CardModel>[].obs;
-  final String userId = 'dummy_user_1';
+  // final String userId = 'dummy_user_1';
+  final userId = Get.find<UserSessionService>().userId;
 
   StreamSubscription? _cardSub;
 

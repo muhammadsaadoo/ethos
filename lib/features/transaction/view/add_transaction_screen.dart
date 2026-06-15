@@ -60,9 +60,11 @@ class AddTransactionScreen extends StatelessWidget {
             ),
           ),
         ),
-        title: const Text(
-          'Add Transaction',
-          style: TextStyle(
+        title: Text(
+          ctrl.editingTransaction.value == null
+              ? 'Add Transaction'
+              : 'Edit Transaction',
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.w700,
@@ -645,20 +647,19 @@ class _ConfirmButton extends StatelessWidget {
                     strokeWidth: 2.5,
                   ),
                 )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 10),
-                    const Text(
-                      'Confirm Transaction',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 0.2,
-                      ),
+              : Center(
+                  child: Text(
+                    ctrl.editingTransaction.value == null
+                        ? 'Confirm Transaction'
+                        : 'Update Transaction',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.2,
                     ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
         ),
       );

@@ -94,4 +94,12 @@ class GoalRepository {
       await firestoreService.deleteGoal(userId: goal.userId, goalId: goal.id);
     }
   }
+
+  Future<void> clearAllData(String userId) async {
+    await hiveService.clearAll();
+
+    if (await NetworkService.isConnected()) {
+      await firestoreService.clearAll(userId);
+    }
+  }
 }

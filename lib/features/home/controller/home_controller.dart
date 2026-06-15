@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/features/dummy_data_service.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
 import 'package:expence_management/features/transaction/repository/transaction_repository.dart';
@@ -27,7 +28,8 @@ class HomeController extends GetxController {
   final isLoading = false.obs;
 
   // Replace later with AuthController.currentUser.id
-  final String userId = "dummy_user_1";
+  // final String userId = "dummy_user_1";
+  final userId = Get.find<UserSessionService>().userId;
   StreamSubscription? _txSub;
 
   void bindTransactions() async {
@@ -61,7 +63,7 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    // await service.clearAllData();
+    await service.clearAllData();
 
     // loadDashboardData();
     bindTransactions();
@@ -273,72 +275,3 @@ class MonthlyFlow {
 
   MonthlyFlow(this.month, this.income, this.expense);
 }
-
-// import 'package:fl_chart/fl_chart.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-
-// class HomeController extends GetxController {
-//   final totalBalance = 50000.00.obs;
-//   final totalIncome = 75000.0.obs;
-//   final totalExpense = 25000.0.obs;
-//   final totalSavings = 50000.0.obs;
-
-//   final categoryData = <CategoryUsage>[
-//     // percentage
-//     CategoryUsage("Food", 35, Colors.green),
-//     CategoryUsage("Shopping", 25, Colors.blue),
-//     CategoryUsage("Transport", 20, Colors.orange),
-//     CategoryUsage("Bills", 20, Colors.red),
-//   ].obs;
-
-//   final weeklySpending = <double>[1200, 1800, 1400, 2500, 2200, 3000, 2700].obs;
-//   List<FlSpot> get weeklySpots {
-//     if (weeklySpending.isEmpty) return [];
-
-//     return List.generate(weeklySpending.length, (index) {
-//       final value = weeklySpending[index];
-
-//       if (value.isNaN || value.isInfinite) {
-//         return FlSpot(index.toDouble(), 0);
-//       }
-
-//       return FlSpot(index.toDouble(), value);
-//     });
-//   }
-
-//   final monthlyFlow = <MonthlyFlow>[
-//     MonthlyFlow("Jan", 60000, 45000),
-//     MonthlyFlow("Feb", 55000, 35000),
-//     MonthlyFlow("Mar", 70000, 50000),
-//   ].obs;
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     loadDashboardData();
-//   }
-
-//   Future<void> loadDashboardData() async {
-//     // later:
-//     // cards = await cardRepo.getCards();
-//     // transactions = await transactionRepo.getTransactions();
-//     // goals = await goalRepo.getGoals();
-//   }
-// }
-
-// class CategoryUsage {
-//   final String name;
-//   final double percentage;
-//   final Color color;
-
-//   CategoryUsage(this.name, this.percentage, this.color);
-// }
-
-// class MonthlyFlow {
-//   final String month;
-//   final double income;
-//   final double expense;
-
-//   MonthlyFlow(this.month, this.income, this.expense);
-// }

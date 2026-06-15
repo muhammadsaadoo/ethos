@@ -1,6 +1,7 @@
 // ======================= CONTROLLER =======================
 
 import 'package:expence_management/features/auth/services/login_service.dart';
+import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -81,7 +82,7 @@ class LoginController extends GetxController {
       // dummyDataService.runCompleteTest();
       // await dummyDataService.runCleanTestFlow();
       print("test end.................");
-
+      await Get.putAsync(() => UserSessionService().init());
       Get.offAllNamed(AppRoutes.mainScreen);
     } catch (e) {
       print(e.toString());

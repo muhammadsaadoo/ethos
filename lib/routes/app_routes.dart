@@ -12,4 +12,7 @@ class AppRoutes {
   static const creategoals = '/create_goals';
   static const viewgoals = '/view_goals';
   static const createcard = '/create_card';
+
+  static const createbudget = '/create_budget';
+  static const viewbudget = '/view_budget';
 }

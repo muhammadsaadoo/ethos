@@ -59,6 +59,7 @@ class HomeScreen extends GetView<HomeController> {
             ],
           ),
           child: FloatingActionButton(
+            heroTag: null,
             onPressed: () {
               // Add action here
               Get.toNamed(AppRoutes.addTransaction);
@@ -310,9 +311,14 @@ class HomeScreen extends GetView<HomeController> {
                   color: Colors.white,
                 ),
                 alignment: Alignment.center,
-                child: const Text(
-                  '100%',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                child: Obx(
+                  () => Text(
+                    controller.categoryData.isEmpty ? '0%' : '100%',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -564,6 +570,21 @@ class HomeScreen extends GetView<HomeController> {
                       maxY: maxY,
                       gridData: const FlGridData(show: false),
                       borderData: FlBorderData(show: false),
+                      barTouchData: BarTouchData(
+                        enabled: true,
+                        touchTooltipData: BarTouchTooltipData(
+                          // tooltipBgColor: AppColors.primary,
+                          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                            return BarTooltipItem(
+                              '\$${rod.toY.toStringAsFixed(0)}',
+                              const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
+                        ),
+                      ),
 
                       titlesData: FlTitlesData(
                         topTitles: const AxisTitles(

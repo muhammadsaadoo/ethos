@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/transaction/controller/transaction_controller.dart';
 import 'package:expence_management/routes/app_routes.dart';
@@ -168,6 +170,8 @@ class TransactionScreen extends GetView<TransactionController> {
 
                           child: SwipeTransactionCard(
                             key: ValueKey(tx.id),
+                            cardId: tx.id,
+                            openCardId: controller.openCardId,
                             onEdit: () => controller.editTransaction(tx),
                             onDelete: () async {
                               final result = await Get.dialog<bool>(
@@ -230,9 +234,7 @@ class TransactionScreen extends GetView<TransactionController> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
-                                      tx.isExpense
-                                          ? Icons.arrow_downward
-                                          : Icons.arrow_upward,
+                                      controller.getCategoryIcon(tx.category),
                                       color: tx.isExpense
                                           ? Colors.red
                                           : Colors.green,
@@ -417,12 +419,16 @@ class SwipeTransactionCard extends StatefulWidget {
   final Widget child;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final String cardId;
+  final Rxn<String> openCardId;
 
   const SwipeTransactionCard({
     super.key,
     required this.child,
     required this.onEdit,
     required this.onDelete,
+    required this.cardId,
+    required this.openCardId,
   });
 
   @override
@@ -435,6 +441,7 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
 
   late AnimationController _controller;
   Animation<double>? _animation;
+  late StreamSubscription _openCardSubscription;
 
   final double maxSwipe = 70;
   final double threshold = 45;
@@ -446,17 +453,14 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
       vsync: this,
       duration: const Duration(milliseconds: 180),
     );
-  }
 
-  @override
-  void didUpdateWidget(covariant SwipeTransactionCard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (offsetX != 0) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) reset();
-      });
-    }
+    /// Listen for changes to openCardId
+    /// If another card opens, reset this card
+    _openCardSubscription = widget.openCardId.listen((openId) {
+      if (openId != null && openId != widget.cardId && offsetX != 0) {
+        reset();
+      }
+    });
   }
 
   void animateTo(double target) {
@@ -551,11 +555,14 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
 
             onHorizontalDragEnd: (_) {
               if (offsetX > threshold) {
+                widget.openCardId.value = widget.cardId;
                 openLeft();
               } else if (offsetX < -threshold) {
+                widget.openCardId.value = widget.cardId;
                 openRight();
               } else {
                 reset();
+                widget.openCardId.value = null;
               }
             },
 
@@ -568,6 +575,7 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
 
   @override
   void dispose() {
+    _openCardSubscription.cancel();
     _controller.dispose();
     super.dispose();
   }

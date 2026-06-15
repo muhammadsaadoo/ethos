@@ -91,6 +91,7 @@ class ViewGoalsProgress extends GetView<GoalController> {
           ],
         ),
         child: FloatingActionButton.extended(
+          heroTag: null,
           onPressed: () {
             Get.toNamed(AppRoutes.creategoals);
           },

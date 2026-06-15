@@ -1,3 +1,4 @@
+import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/card/repository/card_repository.dart';
 import 'package:expence_management/features/dummy_data_service.dart';
@@ -55,7 +56,8 @@ class AddTransactionController extends GetxController {
   DummyDataService service = DummyDataService();
   // ── Dependencies ──────────────────────────────────────────────────────────
   final uuid = const Uuid();
-  final String userId = "dummy_user_1";
+  // final String userId = "dummy_user_1";
+  final userId = Get.find<UserSessionService>().userId;
   // Inject your real repository here:
   final TransactionRepository transactionRepository = Get.find();
   final CardRepository cardRepository = Get.find();
@@ -80,6 +82,8 @@ class AddTransactionController extends GetxController {
 
   /// Currently selected card
   final Rx<CardModel?> selectedCard = Rx<CardModel?>(null);
+
+  final Rxn<TransactionModel> editingTransaction = Rxn<TransactionModel>();
 
   /// true = Expense, false = Income
   final RxBool isExpense = true.obs;
@@ -122,11 +126,12 @@ class AddTransactionController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    // await service.createDummyCard();
+    await _loadCards();
+    _loadEditArguments();
 
-    _loadCards();
-
-    if (cards.isNotEmpty) selectedCard.value = cards.first;
+    if (selectedCard.value == null && cards.isNotEmpty) {
+      selectedCard.value = cards.first;
+    }
   }
 
   // ── Actions ───────────────────────────────────────────────────────────────
@@ -198,24 +203,68 @@ class AddTransactionController extends GetxController {
     }
 
     isLoading.value = true;
+    bool isUpdated = false;
+    print(
+      'confirmTransaction called, editingTransaction=${editingTransaction.value?.id}',
+    );
     try {
-      await _createTransaction(selectedCard.value!.id);
+      if (editingTransaction.value != null) {
+        isUpdated = true;
+        await _updateTransaction(selectedCard.value!.id);
+        print('transaction updated successfully');
+        // Get.snackbar('Success', 'Transaction updated successfully');
+      } else {
+        await _createTransaction(selectedCard.value!.id);
+        print('transaction added successfully');
+        // Get.snackbar('Success', 'Transaction added successfully');
+        print("check snakbar");
+      }
       _resetForm();
       Get.back(result: true);
-      Get.snackbar('Success', 'Transaction added successfully');
-      Get.back();
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to add transaction: $e');
+      Get.snackbar(
+        'Success',
+        isUpdated
+            ? 'transaction updated successfully'
+            : 'transaction created successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: const Color(0xff007A4D),
+        colorText: Colors.white,
+      );
+    } catch (e, stack) {
+      print('confirmTransaction failed: $e\n$stack');
+      Get.snackbar('Error', 'Failed to save transaction: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
   void _resetForm() {
+    print("form reset");
     amountRaw.value = '0';
     selectedCategory.value = '';
     note.value = '';
+    editingTransaction.value = null;
     // selectedCard keeps its value for convenience
+    // Get.back();
+  }
+
+  void _loadEditArguments() {
+    final arg = Get.arguments;
+    if (arg is TransactionModel) {
+      editingTransaction.value = arg;
+      selectedCategory.value = arg.category;
+      note.value = arg.note;
+      isExpense.value = arg.isExpense;
+      amountRaw.value = arg.amount.toStringAsFixed(2);
+
+      final selected = cards.isNotEmpty
+          ? cards.firstWhere(
+              (card) => card.id == arg.cardId,
+              orElse: () => cards.first,
+            )
+          : null;
+      selectedCard.value = selected;
+    }
   }
 
   Future<List> getCards() async {
@@ -239,5 +288,23 @@ class AddTransactionController extends GetxController {
     print(tx.toJson());
 
     return tx;
+  }
+
+  Future<void> _updateTransaction(String cardId) async {
+    final oldTx = editingTransaction.value!;
+    final updatedTx = oldTx.copyWith(
+      cardId: cardId,
+      amount: double.tryParse(amountRaw.value) ?? 0,
+      category: selectedCategory.value,
+      date: DateTime.now(),
+      note: note.value,
+      isExpense: isExpense.value,
+      isSynced: false,
+    );
+
+    await transactionRepository.editTransaction(
+      oldTx: oldTx,
+      updatedTx: updatedTx,
+    );
   }
 }
