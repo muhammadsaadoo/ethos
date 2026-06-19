@@ -1,12 +1,15 @@
-// core/utils/shared_widgets/custom_card.dart
-
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomCard extends StatelessWidget {
   final Widget child;
   final double width;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final List<BoxShadow>? boxShadow;
 
   const CustomCard({
     super.key,
@@ -14,6 +17,9 @@ class CustomCard extends StatelessWidget {
     this.width = double.infinity,
     this.padding,
     this.margin,
+    this.backgroundColor,
+    this.borderColor,
+    this.boxShadow,
   });
 
   @override
@@ -25,16 +31,22 @@ class CustomCard extends StatelessWidget {
         margin: margin,
         padding: padding,
         decoration: BoxDecoration(
-          color: const Color(0xFFFFFFFF),
+          color: backgroundColor ?? Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(32),
-          border: Border.all(color: const Color(0x80E1E3E4), width: 1),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x0D0F172A),
-              offset: Offset(0, 8),
-              blurRadius: 30,
-            ),
-          ],
+          border: Border.all(
+            // color: borderColor ?? AppColors.borderHalf,
+            color: Get.isDarkMode ? AppColors.darkCard : AppColors.borderHalf,
+            width: 1,
+          ),
+          boxShadow:
+              boxShadow ??
+              const [
+                BoxShadow(
+                  color: AppColors.shadowSoft,
+                  offset: Offset(0, 8),
+                  blurRadius: 30,
+                ),
+              ],
         ),
 
         // Height automatically adapts to child

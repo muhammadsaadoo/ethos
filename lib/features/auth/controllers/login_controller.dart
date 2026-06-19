@@ -1,5 +1,6 @@
 // ======================= CONTROLLER =======================
 
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/auth/services/login_service.dart';
 import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/routes/app_routes.dart';
@@ -83,6 +84,7 @@ class LoginController extends GetxController {
       // await dummyDataService.runCleanTestFlow();
       print("test end.................");
       await Get.putAsync(() => UserSessionService().init());
+
       Get.offAllNamed(AppRoutes.mainScreen);
     } catch (e) {
       print(e.toString());
@@ -92,8 +94,8 @@ class LoginController extends GetxController {
         "Login Failed",
         message,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xFFB00020),
-        colorText: Colors.white,
+        backgroundColor: AppColors.errorDark,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;

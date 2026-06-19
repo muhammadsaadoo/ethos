@@ -1,4 +1,6 @@
 import 'package:expence_management/core/constants/hive_boxes.dart';
+import 'package:expence_management/core/services/theme_controller.dart';
+import 'package:expence_management/core/utils/theme/apptheme/theme_data.dart';
 import 'package:expence_management/features/card/model/card_model.dart';
 import 'package:expence_management/features/goals/model/goal_model.dart';
 import 'package:expence_management/features/monthly_budget/model/budget_model.dart';
@@ -7,6 +9,7 @@ import 'package:expence_management/routes/app_pages.dart';
 import 'package:expence_management/routes/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 // import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,6 +17,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -28,6 +35,8 @@ void main() async {
   await Hive.openBox<TransactionModel>(HiveBoxes.transactions);
   await Hive.openBox<GoalModel>(HiveBoxes.goals);
   await Hive.openBox<BudgetModel>(HiveBoxes.budget);
+
+  await Get.putAsync(() => ThemeController().init());
 
   runApp(const MyApp());
 
@@ -46,49 +55,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      // themeMode: ThemeMode.dark,
-      // themeMode: ThemeMode.light,
-      // darkTheme: ThemeData.dark().copyWith(
-      //   // manual Changes
-      // ),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'inter'),
+    return Obx(() {
+      final themeController = Get.find<ThemeController>();
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeController.isDarkMode.value
+            ? ThemeMode.dark
+            : ThemeMode.light,
+        getPages: AppPages.pages,
+        initialRoute: AppRoutes.splash,
+      );
+    });
+  }
+}
 
-      // theme: ThemeData(
-      //   primaryColor: Colors.blue,
-      //   elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ElevatedButton.styleFrom(
-      //       backgroundColor: Colors.green,
-      //       foregroundColor: Colors.white,
-      //       // padding: EdgeInsets.all(20),
-      //     ),
-      //   ),
-      //   textTheme: TextTheme(headlineSmall: TextStyle(fontSize: 100)),
-      // ),
-
-      // Theme Practice
-      // initialRoute: '/',
-      // routes: RouteHelper.myRoutes(),
-      // // routes: {
-      // //   '/': (context) => RoutesAdvance(),
-      // //   '/home': (context) => HomeScreen(),
-      // //   '/settings': (context) => SettingsScreen(),
-      // //   // '/profile': (context) =>
-      // //   //     ProfileScreeen(), //we cannot pass data from one screen to another when usyng routes so we use on generate routes
-      // // },
-      // onGenerateRoute: (RouteSettings settings) =>
-      //     RouteHelper.myGeneratedRoutes(settings),
-      // translations: InternationalizeApp(),
-      // locale: Get.deviceLocale,   device locale
-      // locale: Locale('en'),
+  // backdrop-filter: blur(12px)
+// } //green card has this color combination
       // fallbackLocale: Locale('en'),
       // initialRoute: AppRoutes.addTransaction,
-      initialRoute: AppRoutes.splash, // 👈 START SCREEN
+      // initialRoute: void AppRoutes.splash, // 👈 START SCREEN
       // // 👈 START SCREEN
       // total target savings
       //
-      getPages: AppPages.pages,
+      // getPages: void AppPages.pages,
       // initialRoute: '/splashscreen',
       // getPages: [
       //   GetPage(name: '/splashscreen', page: () => SplashScreen()),
@@ -118,6 +109,6 @@ class MyApp extends StatelessWidget {
       // ],
 
       // home: Signup(),
-    );
-  }
-}
+//     );
+//   }
+// }

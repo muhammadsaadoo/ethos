@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/auth/services/user_session_service.dart';
 import 'package:expence_management/features/dummy_data_service.dart';
 import 'package:expence_management/features/transaction/model/transaction_model.dart';
@@ -63,7 +64,7 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await service.clearAllData();
+    // await service.clearAllData();
 
     // loadDashboardData();
     bindTransactions();
@@ -135,13 +136,13 @@ class HomeController extends GetxController {
     }
 
     final colors = [
-      Colors.green,
-      Colors.blue,
-      Colors.orange,
-      Colors.red,
-      Colors.purple,
-      Colors.teal,
-      Colors.pink,
+      AppColors.green,
+      AppColors.blue,
+      AppColors.orange,
+      AppColors.red,
+      AppColors.purple,
+      AppColors.teal,
+      AppColors.pink,
     ];
 
     final result = <CategoryUsage>[];

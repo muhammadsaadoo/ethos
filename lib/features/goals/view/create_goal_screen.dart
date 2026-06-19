@@ -7,11 +7,11 @@ import 'package:intl/intl.dart';
 class CreateGoalScreen extends GetView<GoalController> {
   const CreateGoalScreen({super.key});
 
-  static const Color reusablecolor = Color(0xFF6C7A71);
+  static const Color reusablecolor = AppColors.slateText;
 
   static const _shadow = [
     BoxShadow(
-      color: Color(0x0D0F172A),
+      color: AppColors.shadowSoft,
       blurRadius: 20.0,
       spreadRadius: 0.0,
       offset: Offset(0.0, 4.0),
@@ -31,14 +31,14 @@ class CreateGoalScreen extends GetView<GoalController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () {
             controller.clearForm();
             Get.back();
@@ -47,7 +47,7 @@ class CreateGoalScreen extends GetView<GoalController> {
         title: Obx(
           () => Text(
             controller.editingGoalId.value != null ? 'Edit Goal' : 'New Goal',
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: const TextStyle(color: AppColors.black, fontSize: 16),
           ),
         ),
       ),
@@ -87,7 +87,7 @@ class CreateGoalScreen extends GetView<GoalController> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
@@ -114,7 +114,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                   style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff007A4D),
+                    color: AppColors.actionGreen,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -128,7 +128,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                     style: const TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff007A4D),
+                      color: AppColors.actionGreen,
                     ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -136,7 +136,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                       hintStyle: TextStyle(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                       contentPadding: EdgeInsets.zero,
                       isDense: true,
@@ -164,7 +164,7 @@ class CreateGoalScreen extends GetView<GoalController> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
@@ -185,21 +185,21 @@ class CreateGoalScreen extends GetView<GoalController> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: const Color(0xFFF3F4F5),
+                color: AppColors.fieldFill,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: TextFormField(
                 controller: controller.goalNameController,
                 decoration: const InputDecoration(
                   hintText: "European Tour",
-                  hintStyle: TextStyle(color: Color(0xFF191C1D), fontSize: 16),
+                  hintStyle: TextStyle(color: AppColors.bodyText, fontSize: 16),
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(
                     vertical: 12,
                     horizontal: 12,
                   ),
                 ),
-                style: const TextStyle(color: Colors.black87),
+                style: const TextStyle(color: AppColors.blackOverlay87),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Enter goal name';
@@ -218,7 +218,7 @@ class CreateGoalScreen extends GetView<GoalController> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
@@ -243,7 +243,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF3F4F5),
+                    color: AppColors.fieldFill,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Padding(
@@ -255,7 +255,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                       children: [
                         const Icon(
                           Icons.calendar_today_outlined,
-                          color: Color(0xFF191C1D),
+                          color: AppColors.bodyText,
                           size: 15,
                         ),
                         const SizedBox(width: 12),
@@ -266,7 +266,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                                   'MM/dd/yyyy',
                                 ).format(controller.selectedDate.value!),
                           style: const TextStyle(
-                            color: Color(0xFF191C1D),
+                            color: AppColors.bodyText,
                             fontSize: 14,
                           ),
                         ),
@@ -285,7 +285,7 @@ class CreateGoalScreen extends GetView<GoalController> {
   Widget _buildCategoryGrid() {
     return Container(
       height: 226,
-      color: Colors.white,
+      color: AppColors.white,
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -308,13 +308,13 @@ class CreateGoalScreen extends GetView<GoalController> {
                 decoration: BoxDecoration(
                   boxShadow: _shadow,
                   color: isSelected
-                      ? const Color(0xff007A4D).withOpacity(0.08)
-                      : Colors.white,
+                      ? AppColors.actionGreen.withOpacity(0.08)
+                      : AppColors.white,
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isSelected
-                        ? const Color(0xff007A4D)
-                        : Colors.grey.shade200,
+                        ? AppColors.actionGreen
+                        : AppColors.grey200,
                     width: isSelected ? 1.5 : 1,
                   ),
                 ),
@@ -325,7 +325,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                       item['icon'] as IconData,
                       size: 26,
                       color: isSelected
-                          ? const Color(0xff007A4D)
+                          ? AppColors.actionGreen
                           : reusablecolor,
                     ),
                     const SizedBox(height: 6),
@@ -333,7 +333,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                       item['title'] as String,
                       style: TextStyle(
                         color: isSelected
-                            ? const Color(0xff007A4D)
+                            ? AppColors.actionGreen
                             : reusablecolor,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
@@ -357,7 +357,7 @@ class CreateGoalScreen extends GetView<GoalController> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: _shadow,
       ),
@@ -372,7 +372,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
-                  color: Color(0xFF191C1D),
+                  color: AppColors.bodyText,
                 ),
               ),
               SizedBox(height: 2),
@@ -388,7 +388,7 @@ class CreateGoalScreen extends GetView<GoalController> {
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.background,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Row(
@@ -410,7 +410,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                     ),
                     textAlign: TextAlign.right,
                     style: const TextStyle(
-                      color: Color(0xFF6B7280),
+                      color: AppColors.neutralText,
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                     ),
@@ -441,13 +441,13 @@ class CreateGoalScreen extends GetView<GoalController> {
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Color(0x1A000000),
+              color: AppColors.blackOverlay10,
               offset: Offset(0.0, 2.0),
               blurRadius: 4.0,
               spreadRadius: -2.0,
             ),
             BoxShadow(
-              color: Color(0x1A000000),
+              color: AppColors.blackOverlay10,
               offset: Offset(0.0, 4.0),
               blurRadius: 6.0,
               spreadRadius: -1.0,
@@ -471,7 +471,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                   width: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 )
               : Text(
@@ -481,7 +481,7 @@ class CreateGoalScreen extends GetView<GoalController> {
                       : 'Create Goal',
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

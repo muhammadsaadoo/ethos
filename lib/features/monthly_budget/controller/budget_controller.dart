@@ -5,6 +5,7 @@ import 'package:expence_management/features/monthly_budget/repository/budget_rep
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 
 class BudgetController extends GetxController {
   final BudgetRepository repository;
@@ -129,16 +130,16 @@ class BudgetController extends GetxController {
             ? 'Budget updated successfully'
             : 'Budget created successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xff007A4D),
-        colorText: Colors.white,
+        backgroundColor: AppColors.actionGreen,
+        colorText: AppColors.white,
       );
     } catch (e) {
       Get.snackbar(
         'Budget Error',
         e.toString().replaceAll('Exception: ', ''),
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;
@@ -397,8 +398,8 @@ class BudgetController extends GetxController {
 //             ? 'Budget updated successfully'
 //             : 'Budget created successfully',
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: const Color(0xff007A4D),
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.actionGreen,
+//         colorText: AppColors.white,
 //         margin: const EdgeInsets.all(12),
 //       );
 //     } catch (e) {
@@ -406,10 +407,10 @@ class BudgetController extends GetxController {
 //         'Budget Error',
 //         e.toString().replaceAll("Exception: ", ""),
 //         snackPosition: SnackPosition.BOTTOM,
-//         backgroundColor: Colors.red,
-//         colorText: Colors.white,
+//         backgroundColor: AppColors.red,
+//         colorText: AppColors.white,
 //         margin: const EdgeInsets.all(12),
-//         icon: const Icon(Icons.error, color: Colors.white),
+//         icon: const Icon(Icons.error, color: AppColors.white),
 //       );
 //     } finally {
 //       isLoading.value = false;

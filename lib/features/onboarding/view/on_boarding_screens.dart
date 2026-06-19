@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/onboarding/controller/welcome_s_getx_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,10 +16,11 @@ class OnBoardingScreens extends StatelessWidget {
     final WelcomeSGetxController controller = Get.put(WelcomeSGetxController());
 
     return Scaffold(
-      // backgroundColor: Colors.white,
+      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      // appBar: AppBar(backgroundColor: Colors.white),
       body: Stack(
         children: [
-          Container(color: const Color(0xFFF8F9FA)),
+          Container(color: Theme.of(context).scaffoldBackgroundColor),
           Positioned(
             top: 0,
             left: 0,
@@ -30,16 +32,14 @@ class OnBoardingScreens extends StatelessWidget {
                 child: Container(
                   height: size.height * 0.70,
 
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    // gradient: LinearGradient(
+                    //   begin: Alignment.topCenter,
+                    //   end: Alignment.bottomCenter,
 
-                      colors: [
-                        Color.fromRGBO(16, 185, 129, 0.10),
-                        Color.fromRGBO(16, 185, 129, 0.00),
-                      ],
-                    ),
+                    //   colors: Theme.of(context).scaffoldBackgroundColor,
+                    // ),
                   ),
                 ),
               ),
@@ -54,12 +54,12 @@ class OnBoardingScreens extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 45),
                   child: Obx(
                     () => controller.currentIndex.value == 0
-                        ? const Center(
+                        ? Center(
                             child: Text(
                               "Ethos Finance",
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(0xFF006C49),
+                                color: Theme.of(context).primaryColor,
                                 fontFamily: "liberation-serif",
                                 fontSize: 28,
                                 fontWeight: FontWeight.w700,
@@ -71,12 +71,12 @@ class OnBoardingScreens extends StatelessWidget {
                             children: [
                               TextButton(
                                 onPressed: controller.skip,
-                                child: const Text(
+                                child: Text(
                                   "Skip",
                                   style: TextStyle(
                                     fontFamily: "liberation-serif",
                                     fontSize: 18,
-                                    color: Color(0xFF006C49),
+                                    color: Theme.of(context).primaryColor,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -104,26 +104,39 @@ class OnBoardingScreens extends StatelessWidget {
                           Text(
                             textAlign: TextAlign.center,
                             data.title,
-                            style: const TextStyle(
-                              fontFamily: "liberation-serif",
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xff000000),
-                            ),
+                            // style:  TextStyle(
+                            //   fontFamily: "liberation-serif",
+                            //   fontSize: 24,
+                            //   fontWeight: FontWeight.w700,
+                            //   color: AppColors.black,
+                            // ),
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(
+                                  fontFamily: "liberation-serif",
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                ),
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 5),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               data.description,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontFamily: "liberation-serif",
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xffA8A8A9),
-                                height: 1.5,
-                              ),
+                              // style: const TextStyle(
+                              //   fontFamily: "liberation-serif",
+                              //   fontSize: 14,
+                              //   fontWeight: FontWeight.w600,
+                              //   color: AppColors.onboardingSubtitle,
+                              //   height: 1.5,
+                              // ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    fontFamily: "liberation-serif",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.5,
+                                  ),
                             ),
                           ),
                         ],
@@ -132,7 +145,7 @@ class OnBoardingScreens extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 100),
+                const SizedBox(height: 80),
                 Obx(
                   () => Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -163,12 +176,18 @@ class OnBoardingScreens extends StatelessWidget {
                                 controller.currentIndex.value > 0
                                     ? "Prev"
                                     : "Skip",
-                                style: const TextStyle(
-                                  fontFamily: "liberation-serif",
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xffC4C4C4),
-                                ),
+                                // style: const TextStyle(
+                                //   fontFamily: "liberation-serif",
+                                //   fontSize: 18,
+                                //   fontWeight: FontWeight.w600,
+                                //   color: AppColors.onboardingIcon,
+                                // ),
+                                style: Theme.of(context).textTheme.bodyLarge
+                                    ?.copyWith(
+                                      fontFamily: "liberation-serif",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
                             ),
                           ),
@@ -191,7 +210,7 @@ class OnBoardingScreens extends StatelessWidget {
                                   vertical: 14,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFF006C49),
+                                  color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                                 child: Text(
@@ -199,9 +218,11 @@ class OnBoardingScreens extends StatelessWidget {
                                           controller.pagesData.length - 1
                                       ? "Get Started"
                                       : "Next",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 18,
-                                    color: Colors.white,
+                                    color: Get.isDarkMode
+                                        ? Colors.black
+                                        : Colors.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -230,7 +251,9 @@ class OnBoardingScreens extends StatelessWidget {
       width: currentIndex == index ? 40 : 10,
       decoration: BoxDecoration(
         //background: #E1E3E4;
-        color: currentIndex == index ? Color(0xFF006C49) : Color(0XFFE1E3E4),
+        color: currentIndex == index
+            ? Get.theme.primaryColor
+            : AppColors.border,
         borderRadius: BorderRadius.circular(8),
       ),
     );

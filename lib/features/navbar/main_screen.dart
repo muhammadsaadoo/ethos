@@ -1,3 +1,4 @@
+import 'package:expence_management/core/services/theme_controller.dart';
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/home/view/home_screen.dart';
 import 'package:expence_management/features/monthly_budget/view/view_budget_screen.dart';
@@ -9,7 +10,7 @@ import 'package:expence_management/features/transaction/view/transaction_screen.
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import GetX package
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends GetView {
   const MainScreen({super.key});
 
   @override
@@ -33,64 +34,73 @@ class MainScreen extends StatelessWidget {
     //   ProfileScreen(),
     // ];
 
-    return Scaffold(
-      backgroundColor: Color(0XFFF8F9FA),
-      extendBody:
-          true, // Allows your body screens to render beautifully behind custom rounded bars
-      appBar: const GlassAppBar(),
+    return Obx(() {
+      final themeController = Get.find<ThemeController>();
+      return Scaffold(
+        // backgroundColor: AppColors.lightBackground,
+        backgroundColor: themeController.isDarkMode.value
+            ? AppColors.black
+            : AppColors.lightBackground,
 
-      // 2. Wrap body in Obx so the active screen flips seamlessly when the index updates
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0),
-        child: Obx(
-          () => IndexedStack(
-            index: controller.selectedIndex.value,
-            children: screens,
-          ),
-        ),
-      ),
+        extendBody:
+            true, // Allows your body screens to render beautifully behind custom rounded bars
+        appBar: const GlassAppBar(),
 
-      // ================= CUSTOM NAVBAR =================
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xCCF8F9FA),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(32),
-            topRight: Radius.circular(32),
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 15,
-              spreadRadius: 2,
-              offset: Offset(0, -5),
+        // 2. Wrap body in Obx so the active screen flips seamlessly when the index updates
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          child: Obx(
+            () => IndexedStack(
+              index: controller.selectedIndex.value,
+              children: screens,
             ),
-          ],
+          ),
         ),
-        padding: const EdgeInsets.only(
-          top: 12,
-          bottom: 24,
-        ), // Added extra bottom safety padding for modern notch devices
-        // 3. Wrap Row in Obx to instantly repaint active/inactive item text and icon color shades
-        child: Obx(
-          () => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              //Icon
-              navItem(Icons.home, "Home", 0, controller),
-              navItem(
-                Icons.account_balance_wallet_outlined,
-                "Transactions",
-                1,
-                controller,
+
+        // ================= CUSTOM NAVBAR =================
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: themeController.isDarkMode.value
+                ? AppColors.black
+                : AppColors.lightBackgroundGlass,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(32),
+              topRight: Radius.circular(32),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.blackOverlay12,
+                blurRadius: 15,
+                spreadRadius: 2,
+                offset: Offset(0, -5),
               ),
-              navItem(Icons.auto_graph, "Analytics", 2, controller),
-              navItem(Icons.person_2_outlined, "Profile", 3, controller),
             ],
           ),
+          padding: const EdgeInsets.only(
+            top: 12,
+            bottom: 24,
+          ), // Added extra bottom safety padding for modern notch devices
+          // 3. Wrap Row in Obx to instantly repaint active/inactive item text and icon color shades
+          child: Obx(
+            () => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Icon
+                navItem(Icons.home, "Home", 0, controller),
+                navItem(
+                  Icons.account_balance_wallet_outlined,
+                  "Transactions",
+                  1,
+                  controller,
+                ),
+                navItem(Icons.auto_graph, "Analytics", 2, controller),
+                navItem(Icons.person_2_outlined, "Profile", 3, controller),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   // 4. Pass the controller instance into the helper nav item builder
@@ -101,6 +111,7 @@ class MainScreen extends StatelessWidget {
     NavController controller,
   ) {
     bool isSelected = controller.selectedIndex.value == index;
+    final isDark = Get.find<ThemeController>().isDarkMode.value;
 
     return GestureDetector(
       onTap: () => controller.updateIndex(
@@ -117,21 +128,40 @@ class MainScreen extends StatelessWidget {
               icon,
 
               //background: #3C4A42;
-              color: isSelected ? AppColors.primary : Color(0xFF3C4A42),
+              color: isSelected
+                  ? (isDark ? AppColors.mintAccent : AppColors.primary)
+                  : (isDark ? AppColors.white : AppColors.lightSecondaryText),
+              // : AppColors.lightSecondaryText,
               shadows: isSelected
-                  ? [const Shadow(color: Color(0x804EDEA3), blurRadius: 40)]
+                  ? [
+                      Shadow(
+                        // color: AppColors.glowGreenSoft,
+                        color: isDark
+                            ? AppColors.mintAccent
+                            : AppColors.glowGreenSoft,
+                        blurRadius: 40,
+                      ),
+                    ]
                   : [],
             ),
             const SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? AppColors.primary : Color(0xFF3C4A42),
+                color: isSelected
+                    ? (isDark ? AppColors.mintAccent : AppColors.primary)
+                    : (isDark ? AppColors.white : AppColors.lightSecondaryText),
+                // color: isSelected
+                //     ? AppColors.primary
+                //     : AppColors.lightSecondaryText,
                 fontWeight: FontWeight.w600,
                 shadows: isSelected
                     ? [
-                        const Shadow(
-                          color: Color(0x804EDEA3),
+                        Shadow(
+                          // color: AppColors.glowGreenSoft,
+                          color: isDark
+                              ? AppColors.glowGreenLight
+                              : AppColors.glowGreenSoft,
                           blurRadius: 8.0,
                           offset: Offset.zero,
                         ),

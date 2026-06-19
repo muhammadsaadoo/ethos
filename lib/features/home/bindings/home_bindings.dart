@@ -8,5 +8,6 @@ class HomeBindings extends Bindings {
     print("Bindings Runnn");
     Get.lazyPut(() => HomeService());
     Get.lazyPut<HomeController>(() => HomeController());
+    // Get.lazyPut(() => UserSessionService());
   }
 }

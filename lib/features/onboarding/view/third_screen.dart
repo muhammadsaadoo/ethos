@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/auth/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class ThirdScreen extends StatelessWidget {
       body: Stack(
         children: [
           // ================= BASE BACKGROUND =================
-          Container(color: const Color(0xFFF8F9FA)),
+          Container(color: AppColors.lightBackground),
 
           // ================= GREEN BLUR GRADIENT =================
           Positioned(
@@ -34,8 +35,8 @@ class ThirdScreen extends StatelessWidget {
                       end: Alignment.bottomCenter,
 
                       colors: [
-                        Color.fromRGBO(16, 185, 129, 0.10),
-                        Color.fromRGBO(16, 185, 129, 0.00),
+                        AppColors.successSoft,
+                        AppColors.transparent,
                       ],
                     ),
                   ),
@@ -63,11 +64,11 @@ class ThirdScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(10),
 
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.white,
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Color(0x14000000),
+                              color: AppColors.blackOverlay08,
                               blurRadius: 10,
                               offset: Offset(0, 2),
                             ),
@@ -102,7 +103,7 @@ class ThirdScreen extends StatelessWidget {
                         fontFamily: "liberation-serif",
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                     ),
                   ),
@@ -120,7 +121,7 @@ class ThirdScreen extends StatelessWidget {
                         fontFamily: "liberation-serif",
                         fontSize: 14, // BIG
                         fontWeight: FontWeight.w400,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                     ),
                   ),
@@ -154,11 +155,11 @@ class ThirdScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
 
                       decoration: BoxDecoration(
-                        color: const Color(0xFF006C49),
+                        color: AppColors.primary,
                         borderRadius: BorderRadius.circular(40),
                         boxShadow: const [
                           BoxShadow(
-                            color: Color(0x33006C49),
+                            color: AppColors.primaryGlow,
                             blurRadius: 12,
                             offset: Offset(0, 4),
                           ),
@@ -170,7 +171,7 @@ class ThirdScreen extends StatelessWidget {
                           "Get Started",
                           style: TextStyle(
                             fontFamily: "liberation-serif",
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
                           ),
@@ -195,7 +196,7 @@ class ThirdScreen extends StatelessWidget {
       width: isActive ? 32 : 8,
       height: 8,
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF006C49) : const Color(0xFFE1E3E4),
+        color: isActive ? AppColors.primary : AppColors.border,
         borderRadius: BorderRadius.circular(20),
       ),
     );

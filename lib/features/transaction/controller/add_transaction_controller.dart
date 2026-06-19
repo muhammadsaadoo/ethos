@@ -7,6 +7,7 @@ import 'package:expence_management/features/transaction/repository/transaction_r
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 
 // class CardModel {
 //   final String id, name, lastFour;
@@ -196,8 +197,8 @@ class AddTransactionController extends GetxController {
       Get.snackbar(
         'Insufficient Balance',
         'Amount exceeds card balance of \$${selectedCard.value!.totalAmount.toStringAsFixed(2)}',
-        backgroundColor: const Color(0xFFEF4444),
-        colorText: Colors.white,
+        backgroundColor: AppColors.expense,
+        colorText: AppColors.white,
       );
       return;
     }
@@ -227,8 +228,8 @@ class AddTransactionController extends GetxController {
             ? 'transaction updated successfully'
             : 'transaction created successfully',
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: const Color(0xff007A4D),
-        colorText: Colors.white,
+        backgroundColor: AppColors.actionGreen,
+        colorText: AppColors.white,
       );
     } catch (e, stack) {
       print('confirmTransaction failed: $e\n$stack');

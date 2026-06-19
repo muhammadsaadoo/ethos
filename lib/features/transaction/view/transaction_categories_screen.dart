@@ -13,11 +13,11 @@ class TransactionCategoriesScreen extends GetView<AddTransactionController> {
     return Scaffold(
       extendBody: false,
       // background: #FBFCFCCC;
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppColors.lightBackground,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        backgroundColor: const Color(0xFFF8F9FA),
+        backgroundColor: AppColors.lightBackground,
         centerTitle: true,
         // elevation: 0,
         leading: IconButton(
@@ -59,17 +59,17 @@ class TransactionCategoriesScreen extends GetView<AddTransactionController> {
                       //background: #EDEEEF;
                       color: isSelected
                           ? AppColors.primary
-                          : const Color(0xFFEDEEEF),
+                          : AppColors.inputFill,
                       shape: BoxShape.circle,
                       border: Border.all(
                         color: isSelected
                             ? AppColors.primary
-                            : const Color(0xFFEDEEEF),
+                            : AppColors.inputFill,
                       ),
                     ),
                     child: Icon(
                       category.value,
-                      color: isSelected ? Colors.white : Colors.black,
+                      color: isSelected ? AppColors.white : AppColors.black,
                       size: 28,
                     ),
                   ),

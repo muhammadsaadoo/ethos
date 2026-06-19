@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 class CreateBudgetScreen extends GetView<BudgetController> {
   const CreateBudgetScreen({super.key});
 
-  static const Color reusablecolor = Color(0xFF6C7A71);
+  static const Color reusablecolor = AppColors.slateText;
 
   String _formatMonth(String value) {
     try {
@@ -24,7 +24,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
 
   static const _shadow = [
     BoxShadow(
-      color: Color(0x0D0F172A),
+      color: AppColors.shadowSoft,
       blurRadius: 20.0,
       spreadRadius: 0.0,
       offset: Offset(0.0, 4.0),
@@ -44,14 +44,14 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () {
             controller.clearForm();
             Get.back();
@@ -62,7 +62,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
             controller.editingBudgetId.value != null
                 ? 'Edit Budget'
                 : 'New Budget',
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: const TextStyle(color: AppColors.black, fontSize: 16),
           ),
         ),
       ),
@@ -100,7 +100,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
@@ -127,7 +127,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                   style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff007A4D),
+                    color: AppColors.actionGreen,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -141,7 +141,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                     style: const TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff007A4D),
+                      color: AppColors.actionGreen,
                     ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -149,7 +149,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                       hintStyle: TextStyle(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                       contentPadding: EdgeInsets.zero,
                       isDense: true,
@@ -193,7 +193,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
@@ -270,7 +270,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF3F4F5),
+                  color: AppColors.fieldFill,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -282,7 +282,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                     children: [
                       const Icon(
                         Icons.calendar_today_outlined,
-                        color: Color(0xFF191C1D),
+                        color: AppColors.bodyText,
                         size: 15,
                       ),
                       const SizedBox(width: 12),
@@ -292,7 +292,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                               ? "Select month"
                               : _formatMonth(controller.selectedMonth.value),
                           style: const TextStyle(
-                            color: Color(0xFF191C1D),
+                            color: AppColors.bodyText,
                             fontSize: 14,
                           ),
                         ),
@@ -312,7 +312,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //   return Container(
   //     width: double.infinity,
   //     decoration: BoxDecoration(
-  //       color: Colors.white,
+  //       color: AppColors.white,
   //       borderRadius: BorderRadius.circular(5),
   //       boxShadow: _shadow,
   //     ),
@@ -361,7 +361,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //             child: Container(
   //               width: double.infinity,
   //               decoration: BoxDecoration(
-  //                 color: const Color(0xFFF3F4F5),
+  //                 color: AppColors.fieldFill,
   //                 borderRadius: BorderRadius.circular(20),
   //               ),
   //               child: Padding(
@@ -373,7 +373,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //                   children: [
   //                     const Icon(
   //                       Icons.calendar_today_outlined,
-  //                       color: Color(0xFF191C1D),
+  //                       color: AppColors.bodyText,
   //                       size: 15,
   //                     ),
   //                     const SizedBox(width: 12),
@@ -384,7 +384,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //                             ? "Select month"
   //                             : _formatMonth(controller.selectedMonth.value),
   //                         style: const TextStyle(
-  //                           color: Color(0xFF191C1D),
+  //                           color: AppColors.bodyText,
   //                           fontSize: 14,
   //                         ),
   //                       ),
@@ -404,7 +404,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //   return Container(
   //     width: double.infinity,
   //     decoration: BoxDecoration(
-  //       color: Colors.white,
+  //       color: AppColors.white,
   //       borderRadius: BorderRadius.circular(5),
   //       boxShadow: _shadow,
   //     ),
@@ -429,7 +429,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //               child: Container(
   //                 width: double.infinity,
   //                 decoration: BoxDecoration(
-  //                   color: const Color(0xFFF3F4F5),
+  //                   color: AppColors.fieldFill,
   //                   borderRadius: BorderRadius.circular(20),
   //                 ),
   //                 child: Padding(
@@ -441,7 +441,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //                     children: [
   //                       const Icon(
   //                         Icons.calendar_today_outlined,
-  //                         color: Color(0xFF191C1D),
+  //                         color: AppColors.bodyText,
   //                         size: 15,
   //                       ),
   //                       const SizedBox(width: 12),
@@ -452,7 +452,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   //                                 'MM/dd/yyyy',
   //                               ).format(controller.selectedDate.value!),
   //                         style: const TextStyle(
-  //                           color: Color(0xFF191C1D),
+  //                           color: AppColors.bodyText,
   //                           fontSize: 14,
   //                         ),
   //                       ),
@@ -471,7 +471,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   Widget _buildCategoryGrid() {
     return Container(
       height: 350,
-      color: Colors.white,
+      color: AppColors.white,
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -494,13 +494,13 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                 decoration: BoxDecoration(
                   boxShadow: _shadow,
                   color: isSelected
-                      ? const Color(0xff007A4D).withOpacity(0.08)
-                      : Colors.white,
+                      ? AppColors.actionGreen.withOpacity(0.08)
+                      : AppColors.white,
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isSelected
-                        ? const Color(0xff007A4D)
-                        : Colors.grey.shade200,
+                        ? AppColors.actionGreen
+                        : AppColors.grey200,
                     width: isSelected ? 1.5 : 1,
                   ),
                 ),
@@ -511,7 +511,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                       item['icon'] as IconData,
                       size: 26,
                       color: isSelected
-                          ? const Color(0xff007A4D)
+                          ? AppColors.actionGreen
                           : reusablecolor,
                     ),
                     const SizedBox(height: 6),
@@ -519,7 +519,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                       item['title'] as String,
                       style: TextStyle(
                         color: isSelected
-                            ? const Color(0xff007A4D)
+                            ? AppColors.actionGreen
                             : reusablecolor,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
@@ -544,13 +544,13 @@ class CreateBudgetScreen extends GetView<BudgetController> {
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Color(0x1A000000),
+              color: AppColors.blackOverlay10,
               offset: Offset(0.0, 2.0),
               blurRadius: 4.0,
               spreadRadius: -2.0,
             ),
             BoxShadow(
-              color: Color(0x1A000000),
+              color: AppColors.blackOverlay10,
               offset: Offset(0.0, 4.0),
               blurRadius: 6.0,
               spreadRadius: -1.0,
@@ -574,7 +574,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                   width: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 )
               : Text(
@@ -584,7 +584,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                       : 'Create Budget',
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

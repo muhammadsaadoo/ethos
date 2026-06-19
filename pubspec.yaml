@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^6.3.0
   get: ^4.7.3
   connectivity_plus: ^7.1.1
+  shared_preferences: ^2.2.2
   # http: ^1.6.0
   # flutter_svg: ^2.2.4
   # firebase_crashlytics: ^5.2.0

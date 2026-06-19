@@ -3,6 +3,44 @@ import 'package:flutter/material.dart';
 class AppColors {
   const AppColors._();
 
+  static const List<Color> lightPrimaryGradient = [
+    Color(0xFF006C49),
+    Color(0xFF005236),
+  ];
+  static List<Color> circleGradient = [
+    // Color(0xFF006C49),
+    // Color(0xFF005236),
+    AppColors.black.withAlpha(100),
+    AppColors.transparent,
+  ];
+  static List<Color> circleGradientdark = [
+    // Color(0xFF006C49),
+    // Color(0xFF005236),
+    // AppColors.black.withAlpha(100),
+    // AppColors.transparent,
+    AppColors.mintAccent,
+    // const Color.fromARGB(0, 214, 217, 210),
+    AppColors.white,
+  ];
+  static List<Color> transactionCardLight = [
+    // Color(0xFF006C49),
+    // Color(0xFF005236),
+    // AppColors.black.withAlpha(100),
+    // AppColors.transparent,
+    // AppColors.mintAccent,
+    // // const Color.fromARGB(0, 214, 217, 210),
+    // AppColors.white,
+    AppColors.cardGradientDark,
+    AppColors.primary,
+  ];
+  //colors: [AppColors.cardGradientDark, AppColors.primary],
+
+  // Dark
+  static const List<Color> darkPrimaryGradient = [
+    Color(0xFF10B981),
+    Color(0xFF00BD85),
+  ];
+
   // Brand green used for primary buttons, active tabs, selected states,
   // form borders, snackbars, progress indicators, and brand gradients.
   static const Color primary = Color(0xFF006C49);
@@ -34,13 +72,30 @@ class AppColors {
 
   // Dark secondary text used in auth copy, onboarding copy, navbar items,
   // home labels, and budget category titles.
-  static const Color darkText = Color(0xFF3C4A42);
+  static const Color lightSecondaryText = Color(0xFF3C4A42);
+
+  // Light theme aliases used by AppTheme.
+  static const Color lightCard = white;
+  static const Color lightText = bodyText;
+  static const Color lightSubtitle = slateText;
+
+  // Dark theme colors used by AppTheme and dark-mode containers.
+  static const Color darkBackground = Color(0xFF121212);
+  static const Color darkCard = Color(0xFF2A2A2A);
+  static const Color darkText = Color(0xFFE5E2E1);
+  static const Color darkSubtitle = Color(0xFFBBCABF);
+  //background: #4EDEA3;
+
+  static const Color darkBar = Color(0xFF4EDEA3);
+  static const Color darkAmount = darkBar;
+  static const Color darkCardShadow = Color(0x33000000);
 
   // Muted labels used in profile details and transaction metadata.
   static const Color mutedText = Color(0xFF565E74);
 
   // Muted text used in goal and budget cards.
-  static const Color slateText = Color(0xFF6C7A71);
+  // static const Color slateText = Color(0xFF6C7A71); //Color(0XFF3C4A42)
+  static const Color slateText = Color(0XFF3C4A42);
 
   // Medium grey labels used in goal and budget forms/progress screens.
   static const Color neutralText = Color(0xFF6B7280);

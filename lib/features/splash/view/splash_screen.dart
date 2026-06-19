@@ -1,3 +1,4 @@
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/splash/controller/splash_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF131B2E),
+      backgroundColor: AppColors.splashBackground,
 
       body: Padding(
         padding: const EdgeInsets.only(
@@ -34,10 +35,10 @@ class SplashScreen extends StatelessWidget {
                   height: 29,
 
                   decoration: BoxDecoration(
-                    color: const Color(0x1AF8F9FA),
+                    color: AppColors.splashGlass,
 
                     border: Border.all(
-                      color: const Color(0x1AF8F9FA),
+                      color: AppColors.splashGlass,
                       width: 1,
                     ),
 
@@ -45,7 +46,7 @@ class SplashScreen extends StatelessWidget {
 
                     boxShadow: const [
                       BoxShadow(
-                        color: Color(0x0D000000),
+                        color: AppColors.blackOverlay05,
                         blurRadius: 2,
                         offset: Offset(0, 1),
                       ),
@@ -56,13 +57,13 @@ class SplashScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
 
                     children: const [
-                      Icon(Icons.sunny, color: Colors.white, size: 15),
+                      Icon(Icons.sunny, color: AppColors.white, size: 15),
 
                       SizedBox(width: 5),
 
                       Text(
                         "LIGHT",
-                        style: TextStyle(color: Colors.white, fontSize: 10),
+                        style: TextStyle(color: AppColors.white, fontSize: 10),
                       ),
                     ],
                   ),
@@ -77,7 +78,7 @@ class SplashScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF006C49),
+                    color: AppColors.primary,
                     blurRadius: 20,
                     offset: Offset(0, 0),
                   ),
@@ -100,7 +101,7 @@ class SplashScreen extends StatelessWidget {
                   return const LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
-                    colors: [Color(0xFFFFFFFF), Color(0xFF4EDEA3)],
+                    colors: [AppColors.white, AppColors.glowGreen],
                   ).createShader(
                     Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                   );
@@ -112,7 +113,7 @@ class SplashScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 48,
                     fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 ),
               ),
@@ -131,7 +132,7 @@ class SplashScreen extends StatelessWidget {
                 style: TextStyle(
                   height: 1.5,
                   fontSize: 18,
-                  color: Color(0xFFBEC6E0),
+                  color: AppColors.splashSubtitle,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -145,15 +146,15 @@ class SplashScreen extends StatelessWidget {
               height: 46,
 
               decoration: BoxDecoration(
-                color: const Color(0x1AF8F9FA),
+                color: AppColors.splashGlass,
 
-                border: Border.all(color: const Color(0x1AF8F9FA), width: 1),
+                border: Border.all(color: AppColors.splashGlass, width: 1),
 
                 borderRadius: BorderRadius.circular(30),
 
                 boxShadow: const [
                   BoxShadow(
-                    color: Color(0x0D000000),
+                    color: AppColors.blackOverlay05,
                     blurRadius: 2,
                     offset: Offset(0, 1),
                   ),
@@ -170,7 +171,7 @@ class SplashScreen extends StatelessWidget {
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
 
-                    valueColor: AlwaysStoppedAnimation(Color(0xFF6FFBBE)),
+                    valueColor: AlwaysStoppedAnimation(AppColors.mintAccent),
                   ),
                 ),
               ),

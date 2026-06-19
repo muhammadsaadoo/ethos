@@ -11,30 +11,39 @@ class ViewGoalsProgress extends GetView<GoalController> {
   const ViewGoalsProgress({super.key});
 
   static const List<Color> _iconBgColors = [
-    Color(0xffEAEEF9),
-    Color(0xffEAF4F0),
-    Color(0xffFFF4E5),
-    Color(0xffF3EAFD),
-    Color(0xffFFEAEA),
-    Color(0xffE5F6FF),
+    AppColors.iconBgBlue,
+    AppColors.iconBgGreen,
+    AppColors.iconBgOrange,
+    AppColors.iconBgPurple,
+    AppColors.iconBgRed,
+    AppColors.iconBgSky,
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F7F7),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: const Color(0xffF7F7F7),
+        // backgroundColor: AppColors.pageBackground,
+        backgroundColor: Get.isDarkMode
+            ? Colors.black
+            : AppColors.pageBackground,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? Colors.white : AppColors.black,
+          ),
           onPressed: () => Get.back(),
         ),
-        title: const Text(
+        title: Text(
           'My Goals',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            color: Get.isDarkMode ? Colors.white : AppColors.black,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Obx(() {
@@ -43,20 +52,20 @@ class ViewGoalsProgress extends GetView<GoalController> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.flag_outlined, size: 56, color: Colors.grey),
+                Icon(Icons.flag_outlined, size: 56, color: AppColors.grey),
                 SizedBox(height: 12),
                 Text(
                   'No goals yet',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.grey,
+                    color: AppColors.grey,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(height: 4),
                 Text(
                   'Create your first goal to get started',
-                  style: TextStyle(fontSize: 13, color: Colors.grey),
+                  style: TextStyle(fontSize: 13, color: AppColors.grey),
                 ),
               ],
             ),
@@ -66,7 +75,7 @@ class ViewGoalsProgress extends GetView<GoalController> {
         return ListView.separated(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           itemCount: controller.goals.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 4),
+          separatorBuilder: (_, __) => const SizedBox(height: 20),
           itemBuilder: (context, index) {
             final goal = controller.goals[index];
             final iconBg = _iconBgColors[index % _iconBgColors.length];
@@ -84,7 +93,8 @@ class ViewGoalsProgress extends GetView<GoalController> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withAlpha(150),
+              color: Theme.of(context).primaryColor,
+              // color: Get.isDarkMode ? AppColors.white : AppColors.black,
               blurRadius: 20,
               offset: const Offset(0, 5),
             ),
@@ -95,12 +105,17 @@ class ViewGoalsProgress extends GetView<GoalController> {
           onPressed: () {
             Get.toNamed(AppRoutes.creategoals);
           },
-          backgroundColor: AppColors.primary,
+          backgroundColor: Theme.of(context).primaryColor,
           elevation: 0, // Handled by our custom Container decoration shadow
-          icon: const Icon(Icons.add, color: Colors.white),
-          label: const Text(
+          icon: Icon(
+            Icons.add,
+            color: Get.isDarkMode ? Colors.black : AppColors.white,
+          ),
+          label: Text(
             'Create Goal', // Add your desired text string here
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Get.isDarkMode ? Colors.black : AppColors.white,
+            ),
           ),
         ),
       ),
@@ -132,15 +147,24 @@ class _GoalCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
+        title: Text(
           'Delete Goal',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: Get.isDarkMode ? AppColors.white : AppColors.black,
+          ),
         ),
         content: Text(
           'Are you sure you want to delete "${goal.goalName}"? This action cannot be undone.',
-          style: const TextStyle(color: Color(0xFF6C7A71), fontSize: 14),
+          style: TextStyle(
+            color: Get.isDarkMode
+                ? AppColors.darkSubtitle
+                : AppColors.slateText,
+            fontSize: 14,
+          ),
         ),
         actionsPadding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -153,16 +177,20 @@ class _GoalCard extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () => Navigator.of(ctx).pop(),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFFE1E3E4)),
+                side: BorderSide(
+                  color: Get.isDarkMode
+                      ? AppColors.mintAccent
+                      : AppColors.border,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-              child: const Text(
+              child: Text(
                 'Cancel',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Get.isDarkMode ? AppColors.white : AppColors.black,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -179,7 +207,7 @@ class _GoalCard extends StatelessWidget {
                 goalCtrl.deleteGoal(goal);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE53935),
+                backgroundColor: AppColors.destructive,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -189,7 +217,7 @@ class _GoalCard extends StatelessWidget {
               child: const Text(
                 'Delete',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -211,11 +239,11 @@ class _GoalCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(30),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x0D0F172A),
+            color: AppColors.shadowSoft,
             blurRadius: 30,
             spreadRadius: 0,
             offset: Offset(0, 8),
@@ -237,7 +265,7 @@ class _GoalCard extends StatelessWidget {
                   color: iconBgColor,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Icon(icon, size: 22, color: const Color(0xff4A5568)),
+                child: Icon(icon, size: 22, color: AppColors.iconText),
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,21 +274,25 @@ class _GoalCard extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       '$_progressPercent%',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xff6B7280),
+                        color: Get.isDarkMode
+                            ? AppColors.mintAccent
+                            : AppColors.neutralText,
                       ),
                     ),
                   ),
                   const SizedBox(width: 4),
                   PopupMenuButton<String>(
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.more_vert,
-                      color: Color(0xFF6C7A71),
+                      color: Get.isDarkMode
+                          ? Colors.white
+                          : AppColors.slateText,
                       size: 20,
                     ),
-                    color: Colors.white,
+                    color: Get.isDarkMode ? AppColors.black : AppColors.white,
                     elevation: 8,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
@@ -276,18 +308,20 @@ class _GoalCard extends StatelessWidget {
                       PopupMenuItem(
                         value: 'edit',
                         child: Row(
-                          children: const [
+                          children: [
                             Icon(
                               Icons.edit_outlined,
                               size: 18,
-                              color: Color(0xFF4A5568),
+                              color: AppColors.iconText,
                             ),
                             SizedBox(width: 10),
                             Text(
                               'Edit Goal',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Color(0xFF191C1D),
+                                color: Get.isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.bodyText,
                               ),
                             ),
                           ],
@@ -301,14 +335,14 @@ class _GoalCard extends StatelessWidget {
                             Icon(
                               Icons.delete_outline,
                               size: 18,
-                              color: Color(0xFFE53935),
+                              color: AppColors.destructive,
                             ),
                             SizedBox(width: 10),
                             Text(
                               'Delete Goal',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Color(0xFFE53935),
+                                color: AppColors.destructive,
                               ),
                             ),
                           ],
@@ -326,10 +360,10 @@ class _GoalCard extends StatelessWidget {
           // Goal name
           Text(
             goal.goalName,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: Colors.black,
+              color: Get.isDarkMode ? Colors.white : AppColors.black,
             ),
           ),
 
@@ -340,21 +374,29 @@ class _GoalCard extends StatelessWidget {
             children: [
               Text(
                 goal.category,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF26282B)),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Get.isDarkMode
+                      ? AppColors.darkSubtitle
+                      : AppColors.headingText,
+                ),
               ),
               const SizedBox(width: 8),
               Container(
                 width: 3,
                 height: 3,
                 decoration: const BoxDecoration(
-                  color: Color(0xff9CA3AF),
+                  color: AppColors.disabledText,
                   shape: BoxShape.circle,
                 ),
               ),
               const SizedBox(width: 8),
               Text(
                 DateFormat('MMM d, yyyy').format(goal.deadline),
-                style: const TextStyle(fontSize: 13, color: Color(0xff9CA3AF)),
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.disabledText,
+                ),
               ),
             ],
           ),
@@ -367,9 +409,11 @@ class _GoalCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: _progress,
               minHeight: 6,
-              backgroundColor: const Color(0xffE5E7EB),
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                AppColors.primary,
+              backgroundColor: Get.isDarkMode
+                  ? AppColors.black.withAlpha(200)
+                  : AppColors.borderMuted,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Get.isDarkMode ? AppColors.mintAccent : AppColors.primary,
               ),
             ),
           ),
@@ -382,15 +426,20 @@ class _GoalCard extends StatelessWidget {
             children: [
               Text(
                 '\$${_format(goal.savedAmount)}',
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Colors.black,
+                  color: Get.isDarkMode
+                      ? AppColors.darkSubtitle
+                      : AppColors.black,
                 ),
               ),
               Text(
                 'of \$${_format(goal.targetAmount)}',
-                style: const TextStyle(fontSize: 13, color: Color(0xff9CA3AF)),
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.disabledText,
+                ),
               ),
             ],
           ),

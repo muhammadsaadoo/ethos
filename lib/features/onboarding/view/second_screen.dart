@@ -1,6 +1,7 @@
 import 'package:expence_management/features/auth/view/login_screen.dart';
 import 'package:expence_management/features/onboarding/view/third_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 
 class SecondScreen extends StatelessWidget {
   const SecondScreen({super.key});
@@ -13,7 +14,7 @@ class SecondScreen extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFFFFFFFF), Color(0xFFF8F9FA)],
+            colors: [AppColors.white, AppColors.lightBackground],
           ),
         ),
 
@@ -41,7 +42,7 @@ class SecondScreen extends StatelessWidget {
                       "Skip",
                       style: TextStyle(
                         fontFamily: "liberation-serif",
-                        color: Color(0xFF006C49),
+                        color: AppColors.primary,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -58,7 +59,7 @@ class SecondScreen extends StatelessWidget {
               decoration: const BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0x26006C49),
+                    color: AppColors.primarySoft,
                     blurRadius: 100,
                     offset: Offset(5, 10),
                   ),
@@ -78,7 +79,7 @@ class SecondScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
 
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
 
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
@@ -87,7 +88,7 @@ class SecondScreen extends StatelessWidget {
 
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0x14000000),
+                    color: AppColors.blackOverlay08,
                     blurRadius: 20,
                     offset: Offset(0, -2),
                   ),
@@ -107,7 +108,7 @@ class SecondScreen extends StatelessWidget {
                         fontFamily: "liberation-serif",
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                     ),
                   ),
@@ -131,7 +132,7 @@ class SecondScreen extends StatelessWidget {
                               fontFamily: "liberation-serif",
                               fontSize: 14, // BIG
                               fontWeight: FontWeight.w400,
-                              color: Colors.black,
+                              color: AppColors.black,
                             ),
                           ),
                         ),
@@ -178,13 +179,13 @@ class SecondScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(16),
 
                             decoration: BoxDecoration(
-                              color: const Color(0xFF006C49),
+                              color: AppColors.primary,
 
                               borderRadius: BorderRadius.circular(30),
 
                               boxShadow: const [
                                 BoxShadow(
-                                  color: Color(0x33006C49),
+                                  color: AppColors.primaryGlow,
                                   blurRadius: 10,
                                   offset: Offset(0, 4),
                                 ),
@@ -194,7 +195,7 @@ class SecondScreen extends StatelessWidget {
                             child: const Icon(
                               Icons.arrow_forward,
                               size: 20,
-                              color: Colors.white,
+                              color: AppColors.white,
                             ),
                           ),
                         ),
@@ -219,7 +220,7 @@ class SecondScreen extends StatelessWidget {
       height: 8,
 
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF006C49) : const Color(0xFFE1E3E4),
+        color: isActive ? AppColors.primary : AppColors.border,
 
         borderRadius: BorderRadius.circular(20),
       ),

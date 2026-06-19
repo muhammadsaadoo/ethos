@@ -11,12 +11,12 @@ class ViewBudgetScreen extends GetView<BudgetController> {
   const ViewBudgetScreen({super.key});
 
   static const List<Color> _iconBgColors = [
-    Color(0xffEAEEF9),
-    Color(0xffEAF4F0),
-    Color(0xffFFF4E5),
-    Color(0xffF3EAFD),
-    Color(0xffFFEAEA),
-    Color(0xffE5F6FF),
+    AppColors.iconBgBlue,
+    AppColors.iconBgGreen,
+    AppColors.iconBgOrange,
+    AppColors.iconBgPurple,
+    AppColors.iconBgRed,
+    AppColors.iconBgSky,
   ];
 
   String _formatMonth(String value) {
@@ -37,19 +37,19 @@ class ViewBudgetScreen extends GetView<BudgetController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF7F7F7),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       // appBar: AppBar(
       //   elevation: 0,
       //   scrolledUnderElevation: 0,
       //   centerTitle: true,
-      //   backgroundColor: const Color(0xffF7F7F7),
+      //   backgroundColor: AppColors.pageBackground,
       //   leading: IconButton(
-      //     icon: const Icon(Icons.arrow_back, color: Colors.black),
+      //     icon: const Icon(Icons.arrow_back, color: AppColors.black),
       //     onPressed: () => Get.back(),
       //   ),
       //   title: const Text(
       //     'My Budgets',
-      //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+      //     style: TextStyle(color: AppColors.black, fontWeight: FontWeight.w600),
       //   ),
       // ),
       body: SafeArea(
@@ -64,21 +64,21 @@ class ViewBudgetScreen extends GetView<BudgetController> {
                   const Icon(
                     Icons.account_balance_wallet_outlined,
                     size: 56,
-                    color: Colors.grey,
+                    color: AppColors.grey,
                   ),
                   const SizedBox(height: 12),
                   const Text(
                     'No budgets yet',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey,
+                      color: AppColors.grey,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 4),
                   const Text(
                     'Create your first budget to get started',
-                    style: TextStyle(fontSize: 13, color: Colors.grey),
+                    style: TextStyle(fontSize: 13, color: AppColors.grey),
                   ),
                 ],
               ),
@@ -91,14 +91,24 @@ class ViewBudgetScreen extends GetView<BudgetController> {
               SizedBox(height: 12),
               Text(
                 "My Budgets",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
 
               //background: #3C4A42;
               SizedBox(height: 8),
               Text(
                 "Track Your spendings against your budget",
-                style: TextStyle(fontSize: 16, color: Color(0xFF3C4A42)),
+                style: TextStyle(
+                  fontSize: 16,
+                  // color: AppColors.lightSecondaryText,
+                  color: Get.isDarkMode
+                      ? AppColors.darkSubtitle
+                      : AppColors.lightSecondaryText,
+                ),
               ),
               SizedBox(height: 24),
               _buildSummaryCard(),
@@ -136,7 +146,8 @@ class ViewBudgetScreen extends GetView<BudgetController> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withAlpha(150),
+                // color: AppColors.primary.withAlpha(150),
+                color: Theme.of(context).primaryColor.withAlpha(150),
                 blurRadius: 20,
                 offset: const Offset(0, 5),
               ),
@@ -147,12 +158,17 @@ class ViewBudgetScreen extends GetView<BudgetController> {
             onPressed: () {
               Get.toNamed(AppRoutes.createbudget);
             },
-            backgroundColor: AppColors.primary,
+            backgroundColor: Theme.of(context).primaryColor,
             elevation: 0,
-            icon: const Icon(Icons.add, color: Colors.white),
-            label: const Text(
+            icon: Icon(
+              Icons.add,
+              color: Get.isDarkMode ? AppColors.black : AppColors.white,
+            ),
+            label: Text(
               'Create Budget',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                color: Get.isDarkMode ? AppColors.black : AppColors.white,
+              ),
             ),
           ),
         ),
@@ -164,11 +180,11 @@ class ViewBudgetScreen extends GetView<BudgetController> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(30),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x0D0F172A),
+            color: AppColors.shadowSoft,
             blurRadius: 30,
             spreadRadius: 0,
             offset: Offset(0, 8),
@@ -178,11 +194,16 @@ class ViewBudgetScreen extends GetView<BudgetController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Total Monthly Budget',
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF6C7A71),
+              // color: AppColors.slateText,
+              //background: #3C4A42;
+              color: Get.isDarkMode
+                  ? AppColors.darkSubtitle
+                  : AppColors.slateText,
+
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -191,14 +212,26 @@ class ViewBudgetScreen extends GetView<BudgetController> {
             children: [
               Text(
                 "\$${controller.totalMonthlySpending}",
-                style: TextStyle(fontSize: 48, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: 48,
+                  fontWeight: FontWeight.w600,
+                  color: Get.isDarkMode
+                      ? AppColors.mintAccent
+                      : AppColors.black,
+                ),
               ),
               SizedBox(width: 10),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
                   "/ \$${controller.totalMonthlyBudget}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Get.isDarkMode
+                        ? AppColors.white
+                        : AppColors.slateText,
+                  ),
                 ),
               ),
             ],
@@ -214,15 +247,19 @@ class ViewBudgetScreen extends GetView<BudgetController> {
                 width: 78,
                 height: 32,
                 decoration: BoxDecoration(
-                  color: Color(0x1A10B981),
+                  // color: AppColors.successSoft,
+                  color: Get.isDarkMode
+                      ? AppColors.black
+                      : AppColors.successSoft,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   '${(controller.monthlyProgress * 100).round()}% spent',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
+                    // color: Get.isDarkMode ? AppColors.white : AppColors.primary,
                   ),
                 ),
               ),
@@ -232,11 +269,15 @@ class ViewBudgetScreen extends GetView<BudgetController> {
                 child: LinearProgressIndicator(
                   minHeight: 10,
                   value: controller.monthlyProgress,
-                  backgroundColor: const Color(0xffE5E7EB),
+                  backgroundColor: Get.isDarkMode
+                      ? AppColors.black.withAlpha(200)
+                      : AppColors.borderMuted,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     controller.totalMonthlySpending >
                             controller.totalMonthlyBudget
-                        ? Colors.red
+                        ? AppColors.red
+                        : Get.isDarkMode
+                        ? AppColors.mintAccent
                         : AppColors.primary,
                   ),
                 ),
@@ -247,7 +288,7 @@ class ViewBudgetScreen extends GetView<BudgetController> {
                 children: [
                   Text(
                     '\$${NumberFormat('#,##0', 'en_US').format(0)}',
-                    style: const TextStyle(color: Color(0xFF9CA3AF)),
+                    style: const TextStyle(color: AppColors.disabledText),
                   ),
 
                   Text(
@@ -259,8 +300,8 @@ class ViewBudgetScreen extends GetView<BudgetController> {
                       color:
                           controller.totalMonthlySpending >
                               controller.totalMonthlyBudget
-                          ? Colors.red
-                          : const Color(0xFF9CA3AF),
+                          ? AppColors.red
+                          : AppColors.disabledText,
                     ),
                   ),
                 ],
@@ -273,7 +314,7 @@ class ViewBudgetScreen extends GetView<BudgetController> {
           //     _SummaryItem(
           //       label: '',
           //       amount: controller.totalMonthlyBudget,
-          //       color: const Color(0xff007A4D),
+          //       color: AppColors.actionGreen,
           //     ),
           //     _SummaryItem(
           //       label: '',
@@ -285,17 +326,19 @@ class ViewBudgetScreen extends GetView<BudgetController> {
           const SizedBox(height: 5),
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.calendar_today_outlined,
-                color: Color(0xFF191C1D),
+                color: Get.isDarkMode ? AppColors.white : AppColors.bodyText,
                 size: 16,
               ),
               const SizedBox(width: 8),
               Text(
                 _formatMonth(controller.selectedMonth.value),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
-                  color: Color(0xFF191C1D),
+                  color: Get.isDarkMode
+                      ? AppColors.darkSubtitle
+                      : AppColors.bodyText,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -330,7 +373,7 @@ class ViewBudgetScreen extends GetView<BudgetController> {
 //         children: [
 //           Text(
 //             label,
-//             style: const TextStyle(fontSize: 13, color: Color(0xFF6C7A71)),
+//             style: const TextStyle(fontSize: 13, color: AppColors.slateText),
 //           ),
 //           const SizedBox(height: 8),
 //           Text(
@@ -371,15 +414,22 @@ class _BudgetCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text(
+        title: Text(
           'Delete Budget',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+            color: Get.isDarkMode ? AppColors.white : AppColors.black,
+          ),
         ),
         content: Text(
           'Are you sure you want to delete the ${budget.category} budget? This action cannot be undone.',
-          style: const TextStyle(color: Color(0xFF6C7A71), fontSize: 14),
+          style: TextStyle(
+            color: Get.isDarkMode ? AppColors.white : AppColors.slateText,
+            fontSize: 14,
+          ),
         ),
         actionsPadding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -391,16 +441,20 @@ class _BudgetCard extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () => Navigator.of(ctx).pop(),
               style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Color(0xFFE1E3E4)),
+                side: BorderSide(
+                  color: Get.isDarkMode
+                      ? AppColors.mintAccent
+                      : AppColors.border,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-              child: const Text(
+              child: Text(
                 'Cancel',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Get.isDarkMode ? AppColors.white : AppColors.black,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -416,7 +470,7 @@ class _BudgetCard extends StatelessWidget {
                 controller.deleteBudget(budget);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFE53935),
+                backgroundColor: AppColors.destructive,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
@@ -426,7 +480,7 @@ class _BudgetCard extends StatelessWidget {
               child: const Text(
                 'Delete',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: AppColors.white,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -448,11 +502,11 @@ class _BudgetCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(30),
         boxShadow: const [
           BoxShadow(
-            color: Color(0x0D0F172A),
+            color: AppColors.shadowSoft,
             blurRadius: 30,
             spreadRadius: 0,
             offset: Offset(0, 8),
@@ -475,29 +529,31 @@ class _BudgetCard extends StatelessWidget {
                       color: iconBgColor,
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: Icon(icon, size: 22, color: const Color(0xff4A5568)),
+                    child: Icon(icon, size: 22, color: AppColors.iconText),
                   ),
                   const SizedBox(width: 20),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
                     child: Text(
                       budget.category,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: Colors.black,
+                        color: Get.isDarkMode
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                     ),
                   ),
                 ],
               ),
               PopupMenuButton<String>(
-                icon: const Icon(
+                icon: Icon(
                   Icons.more_vert,
-                  color: Color(0xFF6C7A71),
+                  color: Get.isDarkMode ? AppColors.white : AppColors.slateText,
                   size: 20,
                 ),
-                color: Colors.white,
+                color: Get.isDarkMode ? AppColors.black : AppColors.white,
                 elevation: 8,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -513,18 +569,22 @@ class _BudgetCard extends StatelessWidget {
                   PopupMenuItem(
                     value: 'edit',
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.edit_outlined,
                           size: 18,
-                          color: Color(0xFF4A5568),
+                          color: Get.isDarkMode
+                              ? AppColors.white
+                              : AppColors.iconText,
                         ),
                         SizedBox(width: 10),
                         Text(
                           'Edit Budget',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color(0xFF191C1D),
+                            color: Get.isDarkMode
+                                ? AppColors.white
+                                : AppColors.bodyText,
                           ),
                         ),
                       ],
@@ -538,14 +598,14 @@ class _BudgetCard extends StatelessWidget {
                         Icon(
                           Icons.delete_outline,
                           size: 18,
-                          color: Color(0xFFE53935),
+                          color: AppColors.destructive,
                         ),
                         SizedBox(width: 10),
                         Text(
                           'Delete Budget',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color(0xFFE53935),
+                            color: AppColors.destructive,
                           ),
                         ),
                       ],
@@ -562,14 +622,26 @@ class _BudgetCard extends StatelessWidget {
             children: [
               Text(
                 "\$${_format(spent)}",
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: Get.isDarkMode
+                      ? AppColors.mintAccent
+                      : AppColors.black,
+                ),
               ),
               SizedBox(width: 10),
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Text(
                   "/ \$${budget.targetAmount}",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Get.isDarkMode
+                        ? AppColors.white
+                        : AppColors.slateText,
+                  ),
                 ),
               ),
             ],
@@ -581,7 +653,13 @@ class _BudgetCard extends StatelessWidget {
               // const SizedBox(height: 16),
               Text(
                 '${((spent / budget.targetAmount) * 100).toStringAsFixed(0)}% of budget used',
-                style: const TextStyle(fontSize: 13, color: Color(0xff9CA3AF)),
+                style: TextStyle(
+                  fontSize: 13,
+                  // color: AppColors.disabledText,
+                  color: Get.isDarkMode
+                      ? AppColors.primary
+                      : AppColors.disabledText,
+                ),
               ),
               const SizedBox(height: 14),
               ClipRRect(
@@ -589,10 +667,14 @@ class _BudgetCard extends StatelessWidget {
                 child: LinearProgressIndicator(
                   minHeight: 10,
                   value: progress,
-                  backgroundColor: const Color(0xffE5E7EB),
+                  backgroundColor: Get.isDarkMode
+                      ? AppColors.black.withAlpha(200)
+                      : AppColors.borderMuted,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     spent > budget.targetAmount
-                        ? Colors.red
+                        ? AppColors.red
+                        : Get.isDarkMode
+                        ? AppColors.mintAccent
                         : AppColors.primary,
                   ),
                 ),
@@ -603,13 +685,13 @@ class _BudgetCard extends StatelessWidget {
                 children: [
                   // Text(
                   //   '\$${NumberFormat('#,##0', 'en_US').format(0)}',
-                  //   style: const TextStyle(color: Color(0xFF9CA3AF)),
+                  //   style: const TextStyle(color: AppColors.disabledText),
                   // ),
                   // Text(
                   //   '\$${_format(budget.targetAmount - spent)} left',
                   //   style: const TextStyle(
                   //     fontSize: 13,
-                  //     color: Color(0xff9CA3AF),
+                  //     color: AppColors.disabledText,
                   //   ),
                   // ),
                   Text(
@@ -618,8 +700,8 @@ class _BudgetCard extends StatelessWidget {
                         : '\$${NumberFormat('#,##0', 'en_US').format(budget.targetAmount - spent)} Remaining',
                     style: TextStyle(
                       color: spent > budget.targetAmount
-                          ? Colors.red
-                          : const Color(0xFF9CA3AF),
+                          ? AppColors.red
+                          : AppColors.disabledText,
                     ),
                   ),
                 ],
@@ -630,21 +712,21 @@ class _BudgetCard extends StatelessWidget {
           //   children: [
           //     Text(
           //       formattedMonth,
-          //       style: const TextStyle(fontSize: 13, color: Color(0xFF26282B)),
+          //       style: const TextStyle(fontSize: 13, color: AppColors.headingText),
           //     ),
           //     const SizedBox(width: 8),
           //     Container(
           //       width: 3,
           //       height: 3,
           //       decoration: const BoxDecoration(
-          //         color: Color(0xff9CA3AF),
+          //         color: AppColors.disabledText,
           //         shape: BoxShape.circle,
           //       ),
           //     ),
           //     const SizedBox(width: 8),
           //     Text(
           //       '\$${_format(spent)} spent',
-          //       style: const TextStyle(fontSize: 13, color: Color(0xff9CA3AF)),
+          //       style: const TextStyle(fontSize: 13, color: AppColors.disabledText),
           //     ),
           //   ],
           // ),
@@ -654,7 +736,7 @@ class _BudgetCard extends StatelessWidget {
           //   child: LinearProgressIndicator(
           //     value: progress,
           //     minHeight: 6,
-          //     backgroundColor: const Color(0xffE5E7EB),
+          //     backgroundColor: AppColors.borderMuted,
           //     valueColor: const AlwaysStoppedAnimation<Color>(
           //       AppColors.primary,
           //     ),
@@ -669,12 +751,12 @@ class _BudgetCard extends StatelessWidget {
           //       style: const TextStyle(
           //         fontSize: 14,
           //         fontWeight: FontWeight.w600,
-          //         color: Colors.black,
+          //         color: AppColors.black,
           //       ),
           //     ),
           //     Text(
           //       'of \$${_format(budget.targetAmount)}',
-          //       style: const TextStyle(fontSize: 13, color: Color(0xff9CA3AF)),
+          //       style: const TextStyle(fontSize: 13, color: AppColors.disabledText),
           //     ),
           //   ],
           // ),

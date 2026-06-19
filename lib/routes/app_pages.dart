@@ -65,7 +65,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => HomeScreen(),
-      // binding: HomeBindings(),
+      binding: HomeBindings(),
       middlewares: [AuthMiddleware()],
     ),
 

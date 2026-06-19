@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
   const GlassAppBar({super.key});
@@ -16,7 +17,7 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
       decoration: const BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Color(0x0F172A0D),
+            color: AppColors.shadowInk,
             blurRadius: 20,
             offset: Offset(0, 10),
           ),
@@ -27,7 +28,9 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            color: const Color(0xCCF8F9FA),
+            color: Get.isDarkMode
+                ? Colors.black
+                : AppColors.lightBackgroundGlass,
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -39,9 +42,9 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
                     Container(
                       width: 42,
                       height: 42,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white,
+                        color: Get.isDarkMode ? Colors.black : AppColors.white,
                       ),
                       child: ClipOval(
                         child: Image.asset(
@@ -53,10 +56,10 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
 
                     const SizedBox(width: 12),
 
-                    const Text(
+                    Text(
                       "Ethos Finance",
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
@@ -66,9 +69,9 @@ class GlassAppBar extends StatelessWidget implements PreferredSizeWidget {
 
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.notifications_none,
-                        color: AppColors.primary,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ],

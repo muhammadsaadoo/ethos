@@ -3,6 +3,7 @@
 import 'package:expence_management/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 
 class SignupController extends GetxController {
   // final AuthService authService = AuthService();
@@ -127,16 +128,16 @@ class SignupController extends GetxController {
       Get.snackbar(
         "Success",
         "Account created successfully",
-        backgroundColor: const Color(0xFF006C49),
-        colorText: Colors.white,
+        backgroundColor: AppColors.primary,
+        colorText: AppColors.white,
       );
       // Get.back()
     } catch (e) {
       Get.snackbar(
         "Error",
         e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+        backgroundColor: AppColors.red,
+        colorText: AppColors.white,
       );
     } finally {
       isLoading.value = false;

@@ -16,9 +16,9 @@ import 'package:get/get.dart';
 // const _accent = Color(0xFF6C63FF);
 // const _accentSoft = Color(0x336C63FF);
 // const _income = Color(0xFF22C55E);
-const _expense = Color(0xFFEF4444);
-const _textPri = Color(0xFFFFFFFF);
-const _textSec = Color(0xFF8E8EA0);
+const _expense = AppColors.expense;
+const _textPri = AppColors.white;
+const _textSec = AppColors.transactionTextSecondary;
 // const _border = Color(0xFF2E2E3E);
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -35,12 +35,12 @@ class AddTransactionScreen extends StatelessWidget {
     return Scaffold(
       extendBody: false,
       // background: #FBFCFCCC;
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppColors.lightBackground,
       // ── App Bar ────────────────────────────────────────────────────────────
       appBar: AppBar(
         //         background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
         // linear-gradient(0deg, #FBFCFC, #FBFCFC);
-        backgroundColor: const Color(0xFFF8F9FA),
+        backgroundColor: AppColors.lightBackground,
 
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -55,7 +55,7 @@ class AddTransactionScreen extends StatelessWidget {
             // ),
             child: const Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: Colors.black,
+              color: AppColors.black,
               size: 16,
             ),
           ),
@@ -65,7 +65,7 @@ class AddTransactionScreen extends StatelessWidget {
               ? 'Add Transaction'
               : 'Edit Transaction',
           style: const TextStyle(
-            color: Colors.black,
+            color: AppColors.black,
             fontSize: 18,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.3,
@@ -129,11 +129,11 @@ class _CardSelector extends StatelessWidget {
       height: 46,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(40),
 
         // background: #FFFFFF; border: 1px solid #EDEEEF
-        border: Border.all(color: Color(0xFFEDEEEF)),
+        border: Border.all(color: AppColors.inputFill),
       ),
       child: Obx(
         () => Row(
@@ -144,7 +144,7 @@ class _CardSelector extends StatelessWidget {
 
               decoration: BoxDecoration(
                 //background: #DAE2FD;
-                color: Color(0xFFDAE2FD),
+                color: AppColors.purpleSoft,
                 // borderRadius: BorderRadius.circular(),
                 shape: BoxShape.circle,
               ),
@@ -163,10 +163,10 @@ class _CardSelector extends StatelessWidget {
                   DropdownButtonHideUnderline(
                     child: DropdownButton<CardModel>(
                       value: ctrl.selectedCard.value,
-                      dropdownColor: Colors.white,
+                      dropdownColor: AppColors.white,
                       icon: const Icon(
                         Icons.keyboard_arrow_down_rounded,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                       style: const TextStyle(
                         color: _textPri,
@@ -181,7 +181,7 @@ class _CardSelector extends StatelessWidget {
                               child: Text(
                                 c.cardName,
                                 style: const TextStyle(
-                                  color: Colors.black,
+                                  color: AppColors.black,
                                   fontSize: 14,
                                 ),
                               ),
@@ -219,7 +219,7 @@ class _TypeSwitcher extends StatelessWidget {
         width: 240,
         decoration: BoxDecoration(
           // background: #EDEEEF;
-          color: Color(0xFFEDEEEF),
+          color: AppColors.inputFill,
           borderRadius: BorderRadius.circular(30),
           // border: Border.all(color: _border),
         ),
@@ -273,7 +273,7 @@ class _SwitchTab extends StatelessWidget {
             height: 50,
             curve: Curves.easeInOut,
             decoration: BoxDecoration(
-              color: active ? AppColors.primary : Colors.transparent,
+              color: active ? AppColors.primary : AppColors.transparent,
               borderRadius: BorderRadius.circular(30),
               // border: active
               //     ? Border.all(color: activeColor.withOpacity(0.4))
@@ -287,7 +287,7 @@ class _SwitchTab extends StatelessWidget {
                 Text(
                   label,
                   style: TextStyle(
-                    color: active ? Colors.white : Colors.black,
+                    color: active ? AppColors.white : AppColors.black,
                     fontWeight: active ? FontWeight.w700 : FontWeight.w500,
                     fontSize: 14,
                   ),
@@ -402,7 +402,7 @@ class _SpendingProgress extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: ratio,
                 minHeight: 7,
-                backgroundColor: Colors.grey,
+                backgroundColor: AppColors.grey,
                 valueColor: AlwaysStoppedAnimation(color),
               ),
             ),
@@ -453,14 +453,14 @@ class _CategoryRow extends StatelessWidget {
                       height: 64,
                       width: 64,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppColors.white,
                         // borderRadius: BorderRadius.circular(30),
                         shape: BoxShape.circle,
-                        border: Border.all(color: Color(0xFFEDEEEF)),
+                        border: Border.all(color: AppColors.inputFill),
                       ),
                       child: const Icon(
                         Icons.apps_rounded,
-                        color: Colors.black,
+                        color: AppColors.black,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -505,7 +505,7 @@ class _CategoryChip extends StatelessWidget {
             height: 64,
             width: 64,
             decoration: BoxDecoration(
-              color: selected ? AppColors.primary : Colors.white,
+              color: selected ? AppColors.primary : AppColors.white,
               shape: BoxShape.circle,
               // borderRadius: BorderRadius.circular(30),
               boxShadow: selected
@@ -518,10 +518,10 @@ class _CategoryChip extends StatelessWidget {
                     ]
                   : [],
               border: Border.all(
-                color: selected ? AppColors.primary : Color(0xFFEDEEEF),
+                color: selected ? AppColors.primary : AppColors.inputFill,
               ),
             ),
-            child: Icon(icon, color: selected ? Colors.white : Colors.black),
+            child: Icon(icon, color: selected ? AppColors.white : AppColors.black),
           ),
           const SizedBox(height: 4),
           Text(
@@ -553,7 +553,7 @@ class _NumPad extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FA),
+        color: AppColors.lightBackground,
         // borderRadius: BorderRadius.circular(24),
         // border: Border.all(color: _border),
       ),
@@ -575,7 +575,7 @@ class _NumPad extends StatelessWidget {
                         duration: const Duration(milliseconds: 100),
                         height: 56,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF8F9FA),
+                          color: AppColors.lightBackground,
                           // borderRadius: BorderRadius.circular(14),
                           // border: Border.all(
                           //   color: isBack ? _accent.withOpacity(0.3) : _border,
@@ -585,13 +585,13 @@ class _NumPad extends StatelessWidget {
                         child: isBack
                             ? const Icon(
                                 Icons.backspace_outlined,
-                                color: Colors.black,
+                                color: AppColors.black,
                                 size: 24,
                               )
                             : Text(
                                 key,
                                 style: const TextStyle(
-                                  color: Colors.black,
+                                  color: AppColors.black,
                                   fontSize: 24,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -643,7 +643,7 @@ class _ConfirmButton extends StatelessWidget {
                   width: 22,
                   height: 22,
                   child: CircularProgressIndicator(
-                    color: Colors.white,
+                    color: AppColors.white,
                     strokeWidth: 2.5,
                   ),
                 )
@@ -653,7 +653,7 @@ class _ConfirmButton extends StatelessWidget {
                         ? 'Confirm Transaction'
                         : 'Update Transaction',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.2,
@@ -676,11 +676,11 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFFF8F9FA),
+      color: AppColors.lightBackground,
       child: Container(
         height: 75,
         decoration: BoxDecoration(
-          color: const Color(0xFFF8F9FA),
+          color: AppColors.lightBackground,
           // border: const Border(top: BorderSide(color: _border)),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),
@@ -730,7 +730,7 @@ class _NavItem extends StatelessWidget {
           decoration: active
               ? BoxDecoration(
                   //background: #10B9814D;
-                  color: Colors.green[200],
+                  color: AppColors.lightGreen,
                   borderRadius: BorderRadius.circular(20),
                 )
               : null,
@@ -745,7 +745,7 @@ class _NavItem extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: active ? AppColors.primary : Colors.black,
+                  color: active ? AppColors.primary : AppColors.black,
                   fontSize: 11,
                   fontWeight: active ? FontWeight.w700 : FontWeight.w500,
                 ),

@@ -1,6 +1,7 @@
 import 'package:expence_management/features/auth/view/login_screen.dart';
 import 'package:expence_management/features/onboarding/view/second_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 
 class FirstScreen extends StatelessWidget {
   const FirstScreen({super.key});
@@ -31,7 +32,7 @@ class FirstScreen extends StatelessWidget {
                       "Ethos Finance",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFF006C49),
+                        color: AppColors.primary,
                         fontFamily: "liberation-serif",
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
@@ -52,7 +53,7 @@ class FirstScreen extends StatelessWidget {
                         fontFamily: "liberation-serif",
                         height: 1.5,
                         fontSize: 24,
-                        color: Colors.black,
+                        color: AppColors.black,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -66,7 +67,7 @@ class FirstScreen extends StatelessWidget {
           Container(
             height: 127,
             width: double.infinity,
-            color: Colors.white,
+            color: AppColors.white,
 
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -107,7 +108,7 @@ class FirstScreen extends StatelessWidget {
                         child: const Text(
                           "Skip",
                           style: TextStyle(
-                            color: Color(0xFF3C4A42),
+                            color: AppColors.lightSecondaryText,
                             fontFamily: "liberation-serif",
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -120,10 +121,10 @@ class FirstScreen extends StatelessWidget {
 
                         style:
                             ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF006C49),
-                              foregroundColor: Colors.white,
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: AppColors.white,
                               elevation: 0,
-                              shadowColor: Colors.transparent,
+                              shadowColor: AppColors.transparent,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 25,
                                 vertical: 11,
@@ -133,7 +134,7 @@ class FirstScreen extends StatelessWidget {
                               ),
                             ).copyWith(
                               shadowColor: WidgetStateProperty.all(
-                                const Color(0x33006C49),
+                                AppColors.primaryGlow,
                               ),
                               elevation: WidgetStateProperty.all(14),
                             ),
@@ -184,7 +185,7 @@ class FirstScreen extends StatelessWidget {
       width: isActive ? 32 : 6,
       height: 8,
       decoration: BoxDecoration(
-        color: isActive ? const Color(0xFF006C49) : const Color(0xFFE1E3E4),
+        color: isActive ? AppColors.primary : AppColors.border,
         borderRadius: BorderRadius.circular(20),
       ),
     );

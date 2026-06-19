@@ -1,3 +1,4 @@
+import 'package:expence_management/core/services/theme_controller.dart';
 import 'package:expence_management/core/utils/shared_widgets/custom_card.dart';
 import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/auth/services/user_session_service.dart';
@@ -11,7 +12,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFFF8F9FA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       body: SafeArea(
         child: SingleChildScrollView(
@@ -52,16 +53,23 @@ class ProfileScreen extends StatelessWidget {
 
               const SizedBox(height: 18),
 
-              const Text(
+              Text(
                 "Muhammad Saad",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: Theme.of(context).textTheme.titleLarge?.color,
+                ),
               ),
 
               const SizedBox(height: 4),
 
               Text(
                 "saad@gmail.com",
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                  fontSize: 14,
+                ),
               ),
 
               const SizedBox(height: 16),
@@ -178,7 +186,7 @@ class ProfileScreen extends StatelessWidget {
                     Row(
                       children: [
                         //Icon
-                        buildCircleIcon(Icons.currency_exchange),
+                        buildCircleIcon(context, Icons.currency_exchange),
                         const SizedBox(width: 12),
                         const Expanded(
                           child: Text(
@@ -203,7 +211,10 @@ class ProfileScreen extends StatelessWidget {
 
                     Row(
                       children: [
-                        buildCircleIcon(Icons.notifications_on_outlined),
+                        buildCircleIcon(
+                          context,
+                          Icons.notifications_on_outlined,
+                        ),
                         const SizedBox(width: 12),
                         const Expanded(
                           child: Text(
@@ -217,19 +228,32 @@ class ProfileScreen extends StatelessWidget {
 
                     const Divider(),
 
-                    Row(
-                      children: [
-                        buildCircleIcon(Icons.dark_mode_outlined),
-                        const SizedBox(width: 12),
-                        const Expanded(
-                          child: Text(
-                            "Dark Mode",
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                    Obx(() {
+                      final themeController = Get.find<ThemeController>();
+                      return Row(
+                        children: [
+                          buildCircleIcon(context, Icons.dark_mode_outlined),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              "Dark Mode",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge?.color,
+                              ),
+                            ),
                           ),
-                        ),
-                        Switch(value: false, onChanged: (value) {}),
-                      ],
-                    ),
+                          Switch(
+                            value: themeController.isDarkMode.value,
+                            onChanged: (value) {
+                              themeController.toggleTheme();
+                            },
+                          ),
+                        ],
+                      );
+                    }),
                   ],
                 ),
               ),
@@ -302,16 +326,14 @@ class _SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).textTheme.bodySmall?.color;
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.only(left: 6, bottom: 8),
 
         //background: #565E74;
-        child: Text(
-          title,
-          style: const TextStyle(fontSize: 12, color: Color(0xFF565E74)),
-        ),
+        child: Text(title, style: TextStyle(fontSize: 12, color: color)),
       ),
     );
   }
@@ -334,6 +356,8 @@ class _ArrowTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return ListTile(
       leading: Container(
         height: 44,
@@ -341,7 +365,7 @@ class _ArrowTile extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: iconBgColor,
-          border: Border.all(color: const Color(0xFFE5E7EB)),
+          // border: Border.all(color: theme.dividerColor),
         ),
         child: Center(child: Icon(icon, size: 22, color: iconColor)),
       ),
@@ -349,30 +373,44 @@ class _ArrowTile extends StatelessWidget {
       //background: #191C1D;
       title: Text(
         title,
-        style: TextStyle(fontSize: 16, color: Color(0xFF191C1D)),
+        style: TextStyle(fontSize: 16, color: theme.textTheme.bodyLarge?.color),
       ),
 
       //background: #565E74;
       subtitle: Text(
         subtitle,
-        style: TextStyle(color: Color(0xFF565E74), fontSize: 13),
+        style: TextStyle(
+          color: theme.textTheme.bodyMedium?.color,
+          fontSize: 13,
+        ),
       ),
 
       //background: #E1E3E4;
-      trailing: const Icon(Icons.chevron_right, color: Color(0xFFE1E3E4)),
+      trailing: Icon(Icons.chevron_right, color: theme.dividerColor),
     );
   }
 }
 
-Widget buildCircleIcon(IconData icon, {Color bg = const Color(0xFFF5F6F8)}) {
+Widget buildCircleIcon(BuildContext context, IconData icon, {Color? bg}) {
+  // final theme = Theme.of(context);
+  // final defaultBg = bg ?? theme.cardColor;
+  // final iconColor = theme.iconTheme.color;
   return Container(
     height: 40,
     width: 40,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
-      color: bg,
-      border: Border.all(color: const Color(0xFFE5E7EB)),
+      color: Get.isDarkMode
+          ? Colors.black
+          : Color(0xFFF3F4F5), //background: #F3F4F5;
+      // border: Border.all(color: theme.dividerColor),
     ),
-    child: Center(child: Icon(icon, size: 20, color: Colors.black87)),
+    child: Center(
+      child: Icon(
+        icon,
+        size: 20,
+        color: Get.isDarkMode ? Colors.white : AppColors.black,
+      ),
+    ),
   );
 }

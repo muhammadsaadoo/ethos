@@ -84,7 +84,7 @@ class HomeScreen extends GetView<HomeController> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).primaryColor.withAlpha(150),
+                color: AppColors.primary.withAlpha(150),
                 blurRadius: 20,
                 offset: const Offset(0, 5),
               ),
@@ -96,12 +96,9 @@ class HomeScreen extends GetView<HomeController> {
               // Add action here
               Get.toNamed(AppRoutes.addTransaction);
             },
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: AppColors.primary,
             elevation: 0, // IMPORTANT: we use custom shadow instead
-            child: Icon(
-              Icons.add,
-              color: Get.isDarkMode ? AppColors.black : AppColors.white,
-            ),
+            child: const Icon(Icons.add, color: AppColors.white),
           ),
         ),
       ),
@@ -115,9 +112,7 @@ class HomeScreen extends GetView<HomeController> {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: Get.isDarkMode
-              ? AppColors.darkPrimaryGradient
-              : AppColors.lightPrimaryGradient,
+          colors: [Color(0xFF10B981), Color(0xFF00BD85)],
         ),
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
@@ -134,20 +129,17 @@ class HomeScreen extends GetView<HomeController> {
           children: [
             Text(
               "Total Balance",
-              style: TextStyle(
-                fontSize: 14,
-                color: Get.isDarkMode ? Colors.black : Colors.white,
-              ),
+              style: const TextStyle(fontSize: 14, color: AppColors.white),
             ),
 
             const SizedBox(height: 10),
 
             Text(
               "\$${controller.totalBalance.value.toStringAsFixed(2)}",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 48,
                 fontWeight: FontWeight.w700,
-                color: Get.isDarkMode ? Colors.black : Colors.white,
+                color: AppColors.white,
               ),
             ),
 
@@ -182,11 +174,11 @@ class HomeScreen extends GetView<HomeController> {
             const SizedBox(height: 12),
 
             Container(
-              width: double.infinity,
+              width: 143,
               height: 130,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Get.isDarkMode ? AppColors.darkCard : AppColors.primary,
+                color: _sectionCardColor(context),
                 borderRadius: BorderRadius.circular(30),
                 boxShadow: _sectionCardShadow(),
               ),
@@ -197,14 +189,14 @@ class HomeScreen extends GetView<HomeController> {
                     children: [
                       Icon(
                         Icons.savings_outlined,
-                        color: AppColors.white,
+                        color: AppColors.primary,
                         size: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
                         "Savings",
                         style: TextStyle(
-                          color: AppColors.white,
+                          color: _sectionTextColor(),
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
@@ -215,7 +207,7 @@ class HomeScreen extends GetView<HomeController> {
                   Text(
                     "${controller.totalSavings.value}",
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: _sectionTextColor(),
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ),
@@ -241,7 +233,7 @@ class HomeScreen extends GetView<HomeController> {
       height: 130,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Get.isDarkMode ? AppColors.darkCard : AppColors.primary,
+        color: _sectionCardColor(context),
         borderRadius: BorderRadius.circular(30),
         boxShadow: _sectionCardShadow(),
       ),
@@ -255,7 +247,7 @@ class HomeScreen extends GetView<HomeController> {
               Text(
                 title,
                 style: TextStyle(
-                  color: color,
+                  color: _sectionTextColor(),
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                 ),
@@ -266,7 +258,7 @@ class HomeScreen extends GetView<HomeController> {
           Text(
             "\$${amount.toStringAsFixed(2)}",
             style: TextStyle(
-              color: Colors.white,
+              color: _sectionTextColor(),
               fontSize: 24,
               fontWeight: FontWeight.w700,
             ),
@@ -338,12 +330,9 @@ class HomeScreen extends GetView<HomeController> {
               Container(
                 width: 112,
                 height: 112,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: AppColors.white,
-                  // color: Get.isDarkMode
-                  //     ? AppColors.mintAccent
-                  //     : AppColors.white,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
@@ -351,13 +340,10 @@ class HomeScreen extends GetView<HomeController> {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: Get.isDarkMode
-                          ? AppColors.circleGradientdark
-                          : AppColors.circleGradient,
-                      // colors: [
-                      //   AppColors.black.withAlpha(100),
-                      //   AppColors.transparent,
-                      // ],
+                      colors: [
+                        AppColors.black.withOpacity(0.05),
+                        AppColors.transparent,
+                      ],
                     ),
                   ),
                 ),
@@ -367,20 +353,17 @@ class HomeScreen extends GetView<HomeController> {
               Container(
                 width: 100,
                 height: 100,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
+                  color: AppColors.white,
                 ),
                 alignment: Alignment.center,
                 child: Obx(
                   () => Text(
                     controller.categoryData.isEmpty ? '0%' : '100%',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
-                      color: Get.isDarkMode
-                          ? AppColors.mintAccent
-                          : AppColors.black,
                     ),
                   ),
                 ),
@@ -628,7 +611,7 @@ class HomeScreen extends GetView<HomeController> {
                 width: 8,
                 height: 8,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
+                  color: AppColors.primary,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -719,12 +702,9 @@ class HomeScreen extends GetView<HomeController> {
                                 padding: const EdgeInsets.only(top: 40),
                                 child: Text(
                                   data[value.toInt()].month,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w600,
-                                    color: Get.isDarkMode
-                                        ? Colors.white
-                                        : AppColors.black,
                                   ),
                                 ),
                               );
@@ -743,7 +723,7 @@ class HomeScreen extends GetView<HomeController> {
                             BarChartRodData(
                               toY: item.income,
                               width: 24,
-                              color: Theme.of(context).primaryColor,
+                              color: AppColors.primary,
                               borderRadius: BorderRadius.circular(0),
                             ),
                             BarChartRodData(
@@ -765,12 +745,7 @@ class HomeScreen extends GetView<HomeController> {
                     bottom: 50, // 👈 adjust until it sits between bars & labels
                     left: 10,
                     right: 10,
-                    child: Container(
-                      height: 1,
-                      color: Get.isDarkMode
-                          ? Colors.white54
-                          : AppColors.shadowMedium,
-                    ),
+                    child: Container(height: 1, color: AppColors.shadowMedium),
                   ),
                 ],
               ),

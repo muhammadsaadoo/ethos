@@ -13,14 +13,14 @@ class CreateCardScreen extends GetView<CreateCardController> {
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: const Color(0xffF7F7F7),
+        backgroundColor: AppColors.pageBackground,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: AppColors.black),
           onPressed: () => Get.back(),
         ),
         title: const Text(
           'Create card',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          style: TextStyle(color: AppColors.black, fontWeight: FontWeight.w600),
         ),
       ),
       body: Form(
@@ -40,7 +40,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xff10B981), Color(0xff006C49)],
+                      colors: [AppColors.success, AppColors.primary],
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -61,7 +61,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                           height: 180,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.07),
+                            color: AppColors.white.withOpacity(0.07),
                           ),
                         ),
                       ),
@@ -73,7 +73,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                           height: 220,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.white.withOpacity(0.05),
+                            color: AppColors.white.withOpacity(0.05),
                           ),
                         ),
                       ),
@@ -91,7 +91,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                     ? "Card Name"
                                     : controller.cardName.value,
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: AppColors.white,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 0.3,
@@ -107,8 +107,8 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                     colors: [
-                                      Color(0xFFFFD97A),
-                                      Color(0xFFC9960C),
+                                      AppColors.cardGoldLight,
+                                      AppColors.cardGold,
                                     ],
                                   ),
                                 ),
@@ -122,7 +122,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                     6,
                                     (_) => Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.25),
+                                        color: AppColors.black.withOpacity(0.25),
                                         borderRadius: BorderRadius.circular(1),
                                       ),
                                     ),
@@ -140,7 +140,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                 ? "**** **** **** ****"
                                 : controller.cardNumber.value,
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: AppColors.white,
                               fontSize: 19,
                               letterSpacing: 3,
                               fontFamily: 'monospace',
@@ -162,7 +162,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                     const Text(
                                       "CARD HOLDER",
                                       style: TextStyle(
-                                        color: Colors.white54,
+                                        color: AppColors.white54,
                                         fontSize: 10,
                                         letterSpacing: 1,
                                       ),
@@ -174,7 +174,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                           : controller.holderName.value
                                                 .toUpperCase(),
                                       style: const TextStyle(
-                                        color: Colors.white,
+                                        color: AppColors.white,
                                         fontSize: 13,
                                         fontWeight: FontWeight.w500,
                                         letterSpacing: 0.5,
@@ -192,7 +192,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                   const Text(
                                     "EXPIRES",
                                     style: TextStyle(
-                                      color: Colors.white54,
+                                      color: AppColors.white54,
                                       fontSize: 10,
                                       letterSpacing: 1,
                                     ),
@@ -203,7 +203,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                         ? "MM/YY"
                                         : controller.expiryDate.value,
                                     style: const TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.white,
                                       fontSize: 13,
                                       fontWeight: FontWeight.w500,
                                       letterSpacing: 0.5,
@@ -227,7 +227,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                         height: 28,
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color(0xCCEB001B),
+                                          color: AppColors.cardNetworkRed,
                                         ),
                                       ),
                                     ),
@@ -238,7 +238,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                         height: 28,
                                         decoration: const BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: Color(0xCCF79E1B),
+                                          color: AppColors.cardNetworkOrange,
                                         ),
                                       ),
                                     ),
@@ -261,11 +261,11 @@ class CreateCardScreen extends GetView<CreateCardController> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withAlpha(40),
+                      color: AppColors.black.withAlpha(40),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -369,32 +369,32 @@ class CreateCardScreen extends GetView<CreateCardController> {
 
                     icon: controller.isLoading.value
                         ? const SizedBox()
-                        : const Icon(Icons.add, color: Colors.white),
+                        : const Icon(Icons.add, color: AppColors.white),
 
                     label: controller.isLoading.value
                         ? const SizedBox(
                             width: 22,
                             height: 22,
                             child: CircularProgressIndicator(
-                              color: Colors.white,
+                              color: AppColors.white,
                               strokeWidth: 2,
                             ),
                           )
                         : const Text(
                             "Create Card",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: AppColors.white,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
 
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.resolveWith(
-                        (states) => const Color(0xff006C49),
+                        (states) => AppColors.primary,
                       ),
 
                       shadowColor: WidgetStateProperty.resolveWith(
-                        (states) => const Color(0x4010B981),
+                        (states) => AppColors.successGlow,
                       ),
 
                       elevation: WidgetStateProperty.resolveWith((states) => 6),
@@ -424,7 +424,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: Colors.grey.shade700,
+          color: AppColors.grey700,
         ),
       ),
     );
@@ -439,7 +439,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
     Function(String)? onChanged,
     String? Function(String?)? validator,
   }) {
-    const borderColor = Color(0x4DBBCABF);
+    const borderColor = AppColors.inputHintMedium;
 
     return TextFormField(
       controller: controller,
@@ -448,10 +448,10 @@ class CreateCardScreen extends GetView<CreateCardController> {
       validator: validator,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey.withAlpha(150)),
+        hintStyle: TextStyle(color: AppColors.grey.withAlpha(150)),
         prefixIcon: Icon(icon),
         filled: true,
-        fillColor: const Color(0xFFF3F4F5),
+        fillColor: AppColors.fieldFill,
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
@@ -465,12 +465,12 @@ class CreateCardScreen extends GetView<CreateCardController> {
 
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(color: Colors.red, width: 1),
+          borderSide: const BorderSide(color: AppColors.red, width: 1),
         ),
 
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(color: Colors.red, width: 2),
+          borderSide: const BorderSide(color: AppColors.red, width: 2),
         ),
       ),
     );

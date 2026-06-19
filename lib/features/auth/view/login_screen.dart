@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:expence_management/core/utils/theme/appcolor/app_colors.dart';
 import 'package:expence_management/features/auth/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
       body: SingleChildScrollView(
         child: SizedBox(
@@ -34,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFF006C49), Color(0xFF10B981)],
+                      colors: [AppColors.primary, AppColors.success],
                     ),
 
                     borderRadius: BorderRadius.only(
@@ -44,7 +45,7 @@ class LoginScreen extends StatelessWidget {
 
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0x26006C49),
+                        color: AppColors.primarySoft,
                         blurRadius: 30,
                         offset: Offset(0, 8),
                       ),
@@ -93,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Color(0x1A000000),
+                                    color: AppColors.blackOverlay10,
                                     blurRadius: 20,
                                     offset: Offset(0, 10),
                                   ),
@@ -109,9 +110,9 @@ class LoginScreen extends StatelessWidget {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: const Color(0x33FFFFFF),
+                                      color: AppColors.whiteSoft,
                                       border: Border.all(
-                                        color: const Color(0x33FFFFFF),
+                                        color: AppColors.whiteSoft,
                                       ),
                                     ),
                                     child: Image.asset(
@@ -129,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                             const Text(
                               "Welcome Back",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -140,7 +141,7 @@ class LoginScreen extends StatelessWidget {
                             const Text(
                               "Securely access your portfolio",
                               style: TextStyle(
-                                color: Color(0xFF6FFBBE),
+                                color: AppColors.mintAccent,
                                 fontSize: 16,
                               ),
                             ),
@@ -163,7 +164,7 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(24),
 
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).scaffoldBackgroundColor,
 
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(45),
@@ -172,7 +173,7 @@ class LoginScreen extends StatelessWidget {
 
                     boxShadow: const [
                       BoxShadow(
-                        color: Color(0x14000000),
+                        color: AppColors.blackOverlay08,
                         blurRadius: 20,
                         offset: Offset(0, 4),
                       ),
@@ -227,12 +228,12 @@ class LoginScreen extends StatelessWidget {
                             GestureDetector(
                               onTap: () {},
 
-                              child: const Text(
+                              child: Text(
                                 "Forgot?",
 
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Color(0xFF006C49),
+                                  color: Theme.of(context).primaryColor,
 
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -292,12 +293,13 @@ class LoginScreen extends StatelessWidget {
                                     ),
 
                                     decoration: BoxDecoration(
-                                      color: const Color(0xFF006C49),
+                                      color: Theme.of(context).primaryColor,
 
                                       borderRadius: BorderRadius.circular(30),
                                       boxShadow: const [
                                         BoxShadow(
-                                          color: Color(0x26006C49), // #006C4926
+                                          color: AppColors
+                                              .primarySoft, // #006C4926
                                           blurRadius: 20,
                                           offset: Offset(0, 8),
                                         ),
@@ -306,13 +308,15 @@ class LoginScreen extends StatelessWidget {
 
                                     child: Center(
                                       child: controller.isLoading.value
-                                          ? const SizedBox(
+                                          ? SizedBox(
                                               width: 22,
                                               height: 22,
 
                                               child: CircularProgressIndicator(
                                                 strokeWidth: 2,
-                                                color: Colors.white,
+                                                color: Get.isDarkMode
+                                                    ? Colors.black
+                                                    : Colors.white,
                                               ),
                                             )
                                           : Center(
@@ -320,11 +324,13 @@ class LoginScreen extends StatelessWidget {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  const Text(
+                                                  Text(
                                                     "Login Securly",
 
                                                     style: TextStyle(
-                                                      color: Colors.white,
+                                                      color: Get.isDarkMode
+                                                          ? Colors.black
+                                                          : Colors.white,
 
                                                       fontSize: 16,
 
@@ -335,7 +341,9 @@ class LoginScreen extends StatelessWidget {
                                                   SizedBox(width: 10),
                                                   Icon(
                                                     Icons.arrow_forward,
-                                                    color: Colors.white,
+                                                    color: Get.isDarkMode
+                                                        ? Colors.black
+                                                        : Colors.white,
                                                   ),
                                                 ],
                                               ),
@@ -356,31 +364,38 @@ class LoginScreen extends StatelessWidget {
 
                               decoration: BoxDecoration(
                                 // background: #E7E8E9
-                                color: const Color(0xFFE7E8E9),
+                                color: Get.isDarkMode
+                                    ? AppColors.darkCard
+                                    : AppColors.transparent,
 
+                                // color: AppColors.transparent,
+                                // AppColors.darkCard,
                                 shape: BoxShape.circle,
 
                                 // border: 1px solid #BBCABF33
                                 border: Border.all(
-                                  color: const Color(0x33BBCABF),
+                                  color: AppColors.inputHintSoft,
                                   width: 1,
                                 ),
 
                                 // box-shadow: 0px 1px 2px 0px #0000000D
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
-                                    color: Color(0x0D000000),
+                                    color: AppColors.blackOverlay05,
+                                    // color: Get.isDarkMode
+                                    //     ? Colors.black
+                                    //     : AppColors.blackOverlay05,
                                     blurRadius: 2,
                                     offset: Offset(0, 1),
                                   ),
                                 ],
                               ),
 
-                              child: const Icon(
+                              child: Icon(
                                 Icons.fingerprint,
 
                                 //background: #006C49;
-                                color: Color(0xFF006C49),
+                                color: Theme.of(context).primaryColor,
                                 size: 22,
                               ),
                             ),
@@ -392,7 +407,7 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Divider(
-                                color: const Color(0xFFBBCABF),
+                                color: AppColors.inputHint,
                                 thickness: 0.5,
                               ),
                             ),
@@ -405,9 +420,12 @@ class LoginScreen extends StatelessWidget {
                               child: Text(
                                 "OR CONNECT VIA",
 
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 12,
-                                  color: Color(0xFF3C4A42),
+                                  // color: AppColors.lightSecondaryText,
+                                  color: Get.isDarkMode
+                                      ? AppColors.darkSubtitle
+                                      : AppColors.lightSecondaryText,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -415,7 +433,9 @@ class LoginScreen extends StatelessWidget {
 
                             Expanded(
                               child: Divider(
-                                color: const Color(0xFFBBCABF),
+                                color: Get.isDarkMode
+                                    ? AppColors.darkSubtitle
+                                    : AppColors.lightSecondaryText,
                                 thickness: 0.5,
                               ),
                             ),
@@ -447,10 +467,15 @@ class LoginScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
 
                             children: [
-                              const Text(
+                              Text(
                                 "Don't have an account? ",
 
-                                style: TextStyle(color: Color(0xFF3C4A42)),
+                                style: TextStyle(
+                                  // color: AppColors.lightSecondaryText,
+                                  color: Get.isDarkMode
+                                      ? AppColors.darkSubtitle
+                                      : AppColors.lightSecondaryText,
+                                ),
                               ),
 
                               GestureDetector(
@@ -464,11 +489,11 @@ class LoginScreen extends StatelessWidget {
                                   // );
                                 },
 
-                                child: const Text(
+                                child: Text(
                                   "Create Account",
 
                                   style: TextStyle(
-                                    color: Color(0xFF006C49),
+                                    color: Theme.of(context).primaryColor,
 
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -503,42 +528,39 @@ class LoginScreen extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: obscureText,
-
       decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: Icon(icon),
+        suffixIcon: suffixIcon,
         errorText: errorText != null && errorText.isNotEmpty ? errorText : null,
 
-        errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
-
-        hintText: hintText,
-
-        hintStyle: const TextStyle(color: Color(0xFFBBCABF), fontSize: 16),
-
-        prefixIcon: Icon(icon),
-
-        suffixIcon: suffixIcon,
-
-        filled: true,
-
-        fillColor: const Color(0xFFEDEEEF),
-
+        // Only override what's different from the theme
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
 
+        // Override the border radius while keeping theme colors
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-
           borderSide: BorderSide.none,
         ),
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: AppColors.transparent),
         ),
 
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.primary),
+        ),
 
-          borderSide: const BorderSide(color: Color(0xFF006C49)),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.expense),
+        ),
+
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: const BorderSide(color: AppColors.expense),
         ),
       ),
     );
@@ -552,11 +574,14 @@ class LoginScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
 
         borderRadius: BorderRadius.circular(30),
 
-        border: Border.all(color: const Color(0xFFE5E7EB), width: 2),
+        border: Border.all(
+          color: Get.isDarkMode ? AppColors.transparent : AppColors.borderMuted,
+          width: 2,
+        ),
       ),
 
       child: Row(

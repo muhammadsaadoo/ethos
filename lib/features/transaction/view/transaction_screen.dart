@@ -31,7 +31,7 @@ class TransactionScreen extends GetView<TransactionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -42,15 +42,25 @@ class TransactionScreen extends GetView<TransactionController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "My Cards",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: Get.isDarkMode ? Colors.white : AppColors.black,
+                    ),
                   ),
                   TextButton(
                     onPressed: () {
                       Get.toNamed(AppRoutes.createcard);
                     },
-                    child: const Text("Add Card"),
+                    child: Text(
+                      "+Add Card",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -106,8 +116,8 @@ class TransactionScreen extends GetView<TransactionController> {
                       width: isActive ? 20 : 8,
                       decoration: BoxDecoration(
                         color: isActive
-                            ? AppColors.primary
-                            : Colors.grey.shade400,
+                            ? Theme.of(context).primaryColor
+                            : AppColors.grey400,
                         borderRadius: BorderRadius.circular(20),
                       ),
                     );
@@ -187,7 +197,7 @@ class TransactionScreen extends GetView<TransactionController> {
                                     ),
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red,
+                                        backgroundColor: AppColors.red,
                                       ),
                                       onPressed: () => Get.back(result: true),
                                       child: const Text('Delete'),
@@ -211,11 +221,13 @@ class TransactionScreen extends GetView<TransactionController> {
                             child: Container(
                               padding: const EdgeInsets.all(14),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Get.isDarkMode
+                                    ? AppColors.darkCard
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(18),
                                 boxShadow: const [
                                   BoxShadow(
-                                    color: Color(0x0D565E74),
+                                    color: AppColors.mutedShadow,
                                     blurRadius: 2,
                                     offset: Offset(0, 1),
                                   ),
@@ -229,15 +241,15 @@ class TransactionScreen extends GetView<TransactionController> {
                                     width: 42,
                                     decoration: BoxDecoration(
                                       color: tx.isExpense
-                                          ? Colors.red.withOpacity(0.1)
-                                          : Colors.green.withOpacity(0.1),
+                                          ? AppColors.red.withOpacity(0.1)
+                                          : AppColors.green.withOpacity(0.1),
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
                                       controller.getCategoryIcon(tx.category),
                                       color: tx.isExpense
-                                          ? Colors.red
-                                          : Colors.green,
+                                          ? AppColors.red
+                                          : AppColors.green,
                                     ),
                                   ),
 
@@ -264,7 +276,7 @@ class TransactionScreen extends GetView<TransactionController> {
                                             fontSize: 12,
 
                                             // background: #565E74;
-                                            color: Color(0xFF565E74),
+                                            color: AppColors.mutedText,
                                           ),
                                         ),
 
@@ -286,8 +298,8 @@ class TransactionScreen extends GetView<TransactionController> {
                                     "\$${tx.amount}",
                                     style: TextStyle(
                                       color: tx.isExpense
-                                          ? Colors.red
-                                          : Colors.green,
+                                          ? AppColors.red
+                                          : AppColors.green,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -308,7 +320,12 @@ class TransactionScreen extends GetView<TransactionController> {
                 margin: const EdgeInsets.only(bottom: 10),
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.green),
+                  // color: AppColors.actionGreen,
+                  border: Border.all(
+                    color: Get.isDarkMode
+                        ? AppColors.mintAccent
+                        : AppColors.primary,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Center(
@@ -338,11 +355,11 @@ class TransactionScreen extends GetView<TransactionController> {
         width: 78,
         height: 88,
         padding: const EdgeInsets.only(top: 10),
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: Get.isDarkMode ? AppColors.darkCard : Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Color(0x0D565E74),
+              color: AppColors.mutedShadow,
               blurRadius: 2,
               offset: Offset(0, 1),
             ),
@@ -361,13 +378,27 @@ class TransactionScreen extends GetView<TransactionController> {
 
                 //background: #10B9811A;
                 color: isSelected
-                    ? const Color(0xFF10B981).withAlpha(30)
+                    // ? AppColors.success.withAlpha(30)
+                    ? Get.isDarkMode
+                          ? AppColors.success.withAlpha(30)
+                          : AppColors.success.withAlpha(30)
                     //background: #EDEEEF;
-                    : const Color(0xFFEDEEEF),
+                    // : AppColors.inputFill,
+                    : Get.isDarkMode
+                    ? AppColors.black
+                    : AppColors.inputFill,
               ),
               child: Icon(
                 icon,
-                color: isSelected ? AppColors.primary : Colors.black54,
+                color: isSelected
+                    ? Get.isDarkMode
+                          ? AppColors.mintAccent
+                          : AppColors.primary
+                    // ? AppColors.primary
+                    // : AppColors.blackOverlay54,
+                    : Get.isDarkMode
+                    ? AppColors.white
+                    : AppColors.blackOverlay54,
               ),
             ),
 
@@ -379,7 +410,8 @@ class TransactionScreen extends GetView<TransactionController> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: Colors.black87,
+                // color: AppColors.blackOverlay87,
+                color: Get.isDarkMode ? Colors.white : AppColors.blackOverlay87,
               ),
             ),
           ],
@@ -405,8 +437,8 @@ class _ActionIcon extends StatelessWidget {
           // alignment: Alignment.center,
           child: Column(
             children: [
-              Icon(icon, color: Colors.white, size: 18),
-              Text(lable, style: TextStyle(color: Colors.white)),
+              Icon(icon, color: AppColors.white, size: 18),
+              Text(lable, style: TextStyle(color: AppColors.white)),
             ],
           ),
         ),
@@ -492,7 +524,7 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Colors.green,
+                    color: AppColors.green,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(18),
                       bottomLeft: Radius.circular(18),
@@ -515,7 +547,7 @@ class _SwipeTransactionCardState extends State<SwipeTransactionCard>
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Colors.red,
+                    color: AppColors.red,
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(18),
                       bottomRight: Radius.circular(18),
@@ -588,31 +620,41 @@ Widget yourCardWidget(card, last4) {
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      gradient: const LinearGradient(
-        colors: [Color(0xFF2E3132), Color(0xFF006C49)],
+      gradient: LinearGradient(
+        // colors: [AppColors.cardGradientDark, AppColors.primary],
+        colors: Get.isDarkMode
+            ? AppColors.darkPrimaryGradient
+            : AppColors.transactionCardLight,
       ),
       boxShadow: const [
-        BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, 6)),
+        BoxShadow(
+          color: AppColors.blackOverlay26,
+          blurRadius: 10,
+          offset: Offset(0, 6),
+        ),
       ],
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Available Balance",
-              style: TextStyle(color: Colors.white70, fontSize: 14),
+              style: TextStyle(
+                color: Get.isDarkMode ? Colors.black : Colors.white70,
+                fontSize: 14,
+              ),
             ),
-            Icon(Icons.credit_card, color: Colors.white),
+            Icon(Icons.credit_card, color: _sectionTextColor()),
           ],
         ),
         const SizedBox(height: 10),
         Text(
           "\$${card.totalAmount}",
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: _sectionTextColor(),
             fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
@@ -623,16 +665,23 @@ Widget yourCardWidget(card, last4) {
           children: [
             Text(
               "**** **** **** $last4",
-              style: const TextStyle(color: Colors.white70, letterSpacing: 2),
+              style: TextStyle(
+                color: Get.isDarkMode ? Colors.black : Colors.white70,
+                letterSpacing: 2,
+              ),
             ),
-            const Text(
+            Text(
               "VISA",
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: TextStyle(color: _sectionTextColor(), fontSize: 16),
             ),
           ],
         ),
-        Text(card.cardHolderName, style: const TextStyle(color: Colors.white)),
+        Text(card.cardHolderName, style: TextStyle(color: _sectionTextColor())),
       ],
     ),
   );
+}
+
+Color? _sectionTextColor() {
+  return Get.isDarkMode ? Colors.black : Colors.white;
 }
