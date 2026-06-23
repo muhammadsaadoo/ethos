@@ -13,14 +13,22 @@ class CreateCardScreen extends GetView<CreateCardController> {
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: AppColors.pageBackground,
+        backgroundColor: Get.isDarkMode
+            ? AppColors.black
+            : AppColors.pageBackground,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? AppColors.white : AppColors.black,
+          ),
           onPressed: () => Get.back(),
         ),
-        title: const Text(
+        title: Text(
           'Create card',
-          style: TextStyle(color: AppColors.black, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            color: Get.isDarkMode ? AppColors.white : AppColors.black,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Form(
@@ -122,7 +130,9 @@ class CreateCardScreen extends GetView<CreateCardController> {
                                     6,
                                     (_) => Container(
                                       decoration: BoxDecoration(
-                                        color: AppColors.black.withOpacity(0.25),
+                                        color: AppColors.black.withOpacity(
+                                          0.25,
+                                        ),
                                         borderRadius: BorderRadius.circular(1),
                                       ),
                                     ),
@@ -261,12 +271,14 @@ class CreateCardScreen extends GetView<CreateCardController> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
+                  color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
                   borderRadius: BorderRadius.circular(30),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.black.withAlpha(40),
-                      blurRadius: 10,
+                      color: Get.isDarkMode
+                          ? AppColors.darkCard
+                          : AppColors.black,
+                      blurRadius: 20,
                       offset: const Offset(0, 4),
                     ),
                   ],
@@ -369,32 +381,43 @@ class CreateCardScreen extends GetView<CreateCardController> {
 
                     icon: controller.isLoading.value
                         ? const SizedBox()
-                        : const Icon(Icons.add, color: AppColors.white),
+                        : Icon(
+                            Icons.add,
+                            color: Get.isDarkMode
+                                ? AppColors.black
+                                : AppColors.white,
+                          ),
 
                     label: controller.isLoading.value
-                        ? const SizedBox(
+                        ? SizedBox(
                             width: 22,
                             height: 22,
                             child: CircularProgressIndicator(
-                              color: AppColors.white,
+                              color: Get.isDarkMode
+                                  ? AppColors.black
+                                  : AppColors.white,
                               strokeWidth: 2,
                             ),
                           )
-                        : const Text(
+                        : Text(
                             "Create Card",
                             style: TextStyle(
-                              color: AppColors.white,
+                              color: Get.isDarkMode
+                                  ? AppColors.black
+                                  : AppColors.white,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
 
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.resolveWith(
-                        (states) => AppColors.primary,
+                        (states) => Theme.of(context).primaryColor,
                       ),
 
                       shadowColor: WidgetStateProperty.resolveWith(
-                        (states) => AppColors.successGlow,
+                        (states) => Get.isDarkMode
+                            ? AppColors.mintAccent
+                            : AppColors.successGlow,
                       ),
 
                       elevation: WidgetStateProperty.resolveWith((states) => 6),
@@ -424,7 +447,7 @@ class CreateCardScreen extends GetView<CreateCardController> {
         style: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: AppColors.grey700,
+          color: Get.isDarkMode ? AppColors.darkSubtitle : AppColors.grey700,
         ),
       ),
     );
@@ -449,9 +472,10 @@ class CreateCardScreen extends GetView<CreateCardController> {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(color: AppColors.grey.withAlpha(150)),
+
         prefixIcon: Icon(icon),
         filled: true,
-        fillColor: AppColors.fieldFill,
+        fillColor: Get.isDarkMode ? AppColors.black : AppColors.fieldFill,
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),

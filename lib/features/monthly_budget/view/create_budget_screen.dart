@@ -44,14 +44,17 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
         centerTitle: true,
-        backgroundColor: AppColors.white,
+        backgroundColor: Get.isDarkMode ? AppColors.black : AppColors.white,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.black),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Get.isDarkMode ? AppColors.white : AppColors.black,
+          ),
           onPressed: () {
             controller.clearForm();
             Get.back();
@@ -62,7 +65,10 @@ class CreateBudgetScreen extends GetView<BudgetController> {
             controller.editingBudgetId.value != null
                 ? 'Edit Budget'
                 : 'New Budget',
-            style: const TextStyle(color: AppColors.black, fontSize: 16),
+            style: TextStyle(
+              color: Get.isDarkMode ? AppColors.white : AppColors.black,
+              fontSize: 16,
+            ),
           ),
         ),
       ),
@@ -100,16 +106,16 @@ class CreateBudgetScreen extends GetView<BudgetController> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
       child: Column(
         children: [
-          const Text(
+          Text(
             "TARGET AMOUNT",
             style: TextStyle(
-              color: reusablecolor,
+              color: Get.isDarkMode ? AppColors.white : AppColors.black,
               letterSpacing: 1.5,
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -122,12 +128,14 @@ class CreateBudgetScreen extends GetView<BudgetController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "\$ ",
                   style: TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.actionGreen,
+                    color: Get.isDarkMode
+                        ? AppColors.mintAccent
+                        : AppColors.primary,
                   ),
                 ),
                 const SizedBox(width: 4),
@@ -138,18 +146,25 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                       decimal: true,
                     ),
                     textAlign: TextAlign.left,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.actionGreen,
+                      color: Get.isDarkMode
+                          ? AppColors.mintAccent
+                          : AppColors.actionGreen,
                     ),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "10,000",
+                      fillColor: Get.isDarkMode
+                          ? AppColors.darkCard
+                          : AppColors.white,
                       hintStyle: TextStyle(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.black,
+                        color: Get.isDarkMode
+                            ? AppColors.darkSubtitle
+                            : AppColors.darkSubtitle,
                       ),
                       contentPadding: EdgeInsets.zero,
                       isDense: true,
@@ -193,7 +208,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(5),
         boxShadow: _shadow,
       ),
@@ -202,12 +217,12 @@ class CreateBudgetScreen extends GetView<BudgetController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               "Select Month",
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 12,
-                color: reusablecolor,
+                color: Get.isDarkMode ? AppColors.white : AppColors.black,
               ),
             ),
             const SizedBox(height: 8),
@@ -270,7 +285,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.fieldFill,
+                  color: Get.isDarkMode ? AppColors.black : AppColors.fieldFill,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
@@ -280,9 +295,11 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.calendar_today_outlined,
-                        color: AppColors.bodyText,
+                        color: Get.isDarkMode
+                            ? AppColors.white
+                            : AppColors.black,
                         size: 15,
                       ),
                       const SizedBox(width: 12),
@@ -291,8 +308,10 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                           controller.selectedMonth.value.isEmpty
                               ? "Select month"
                               : _formatMonth(controller.selectedMonth.value),
-                          style: const TextStyle(
-                            color: AppColors.bodyText,
+                          style: TextStyle(
+                            color: Get.isDarkMode
+                                ? AppColors.white
+                                : AppColors.black,
                             fontSize: 14,
                           ),
                         ),
@@ -471,7 +490,7 @@ class CreateBudgetScreen extends GetView<BudgetController> {
   Widget _buildCategoryGrid() {
     return Container(
       height: 350,
-      color: AppColors.white,
+      color: Get.isDarkMode ? AppColors.darkBackground : AppColors.white,
       child: GridView.builder(
         physics: const BouncingScrollPhysics(),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -495,11 +514,17 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                   boxShadow: _shadow,
                   color: isSelected
                       ? AppColors.actionGreen.withOpacity(0.08)
+                      : Get.isDarkMode
+                      ? AppColors.darkCard
                       : AppColors.white,
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
                     color: isSelected
-                        ? AppColors.actionGreen
+                        ? Get.isDarkMode
+                              ? AppColors.mintAccent
+                              : AppColors.actionGreen
+                        : Get.isDarkMode
+                        ? AppColors.darkCard
                         : AppColors.grey200,
                     width: isSelected ? 1.5 : 1,
                   ),
@@ -511,16 +536,24 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                       item['icon'] as IconData,
                       size: 26,
                       color: isSelected
-                          ? AppColors.actionGreen
-                          : reusablecolor,
+                          ? Get.isDarkMode
+                                ? AppColors.mintAccent
+                                : AppColors.actionGreen
+                          : Get.isDarkMode
+                          ? AppColors.white
+                          : AppColors.black,
                     ),
                     const SizedBox(height: 6),
                     Text(
                       item['title'] as String,
                       style: TextStyle(
                         color: isSelected
-                            ? AppColors.actionGreen
-                            : reusablecolor,
+                            ? Get.isDarkMode
+                                  ? AppColors.mintAccent
+                                  : AppColors.actionGreen
+                            : Get.isDarkMode
+                            ? AppColors.white
+                            : AppColors.black,
                         fontWeight: FontWeight.w500,
                         fontSize: 13,
                       ),
@@ -562,19 +595,21 @@ class CreateBudgetScreen extends GetView<BudgetController> {
         child: ElevatedButton(
           onPressed: controller.isLoading.value ? null : controller.saveBudget,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: Get.isDarkMode
+                ? AppColors.mintAccent
+                : AppColors.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
             elevation: 0,
           ),
           child: controller.isLoading.value
-              ? const SizedBox(
+              ? SizedBox(
                   height: 24,
                   width: 24,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: AppColors.white,
+                    color: Get.isDarkMode ? AppColors.black : AppColors.white,
                   ),
                 )
               : Text(
@@ -582,9 +617,9 @@ class CreateBudgetScreen extends GetView<BudgetController> {
                   controller.editingBudgetId.value != null
                       ? 'Update Budget'
                       : 'Create Budget',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.white,
+                    color: Get.isDarkMode ? AppColors.black : AppColors.white,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

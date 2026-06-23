@@ -35,12 +35,14 @@ class AddTransactionScreen extends StatelessWidget {
     return Scaffold(
       extendBody: false,
       // background: #FBFCFCCC;
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       // ── App Bar ────────────────────────────────────────────────────────────
       appBar: AppBar(
         //         background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
         // linear-gradient(0deg, #FBFCFC, #FBFCFC);
-        backgroundColor: AppColors.lightBackground,
+        backgroundColor: Get.isDarkMode
+            ? AppColors.black
+            : AppColors.lightBackground,
 
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -53,9 +55,9 @@ class AddTransactionScreen extends StatelessWidget {
             //   borderRadius: BorderRadius.circular(12),
             //   border: Border.all(color: _border),
             // ),
-            child: const Icon(
+            child: Icon(
               Icons.arrow_back_ios_new_rounded,
-              color: AppColors.black,
+              color: Get.isDarkMode ? AppColors.white : AppColors.black,
               size: 16,
             ),
           ),
@@ -64,8 +66,8 @@ class AddTransactionScreen extends StatelessWidget {
           ctrl.editingTransaction.value == null
               ? 'Add Transaction'
               : 'Edit Transaction',
-          style: const TextStyle(
-            color: AppColors.black,
+          style: TextStyle(
+            color: Get.isDarkMode ? AppColors.white : AppColors.black,
             fontSize: 18,
             fontWeight: FontWeight.w700,
             letterSpacing: -0.3,
@@ -129,11 +131,13 @@ class _CardSelector extends StatelessWidget {
       height: 46,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: Get.isDarkMode ? AppColors.darkCard : AppColors.white,
         borderRadius: BorderRadius.circular(40),
 
         // background: #FFFFFF; border: 1px solid #EDEEEF
-        border: Border.all(color: AppColors.inputFill),
+        border: Border.all(
+          color: Get.isDarkMode ? AppColors.darkCard : AppColors.inputFill,
+        ),
       ),
       child: Obx(
         () => Row(
@@ -144,7 +148,7 @@ class _CardSelector extends StatelessWidget {
 
               decoration: BoxDecoration(
                 //background: #DAE2FD;
-                color: AppColors.purpleSoft,
+                color: Get.isDarkMode ? AppColors.black : AppColors.purpleSoft,
                 // borderRadius: BorderRadius.circular(),
                 shape: BoxShape.circle,
               ),
@@ -163,10 +167,14 @@ class _CardSelector extends StatelessWidget {
                   DropdownButtonHideUnderline(
                     child: DropdownButton<CardModel>(
                       value: ctrl.selectedCard.value,
-                      dropdownColor: AppColors.white,
-                      icon: const Icon(
+                      dropdownColor: Get.isDarkMode
+                          ? AppColors.black
+                          : AppColors.white,
+                      icon: Icon(
                         Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.black,
+                        color: Get.isDarkMode
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                       style: const TextStyle(
                         color: _textPri,
@@ -180,8 +188,10 @@ class _CardSelector extends StatelessWidget {
                               value: c,
                               child: Text(
                                 c.cardName,
-                                style: const TextStyle(
-                                  color: AppColors.black,
+                                style: TextStyle(
+                                  color: Get.isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
                                   fontSize: 14,
                                 ),
                               ),
@@ -219,7 +229,7 @@ class _TypeSwitcher extends StatelessWidget {
         width: 240,
         decoration: BoxDecoration(
           // background: #EDEEEF;
-          color: AppColors.inputFill,
+          color: Get.isDarkMode ? AppColors.darkCard : AppColors.inputFill,
           borderRadius: BorderRadius.circular(30),
           // border: Border.all(color: _border),
         ),
@@ -273,7 +283,9 @@ class _SwitchTab extends StatelessWidget {
             height: 50,
             curve: Curves.easeInOut,
             decoration: BoxDecoration(
-              color: active ? AppColors.primary : AppColors.transparent,
+              color: active
+                  ? Theme.of(context).primaryColor
+                  : AppColors.transparent,
               borderRadius: BorderRadius.circular(30),
               // border: active
               //     ? Border.all(color: activeColor.withOpacity(0.4))
@@ -287,7 +299,13 @@ class _SwitchTab extends StatelessWidget {
                 Text(
                   label,
                   style: TextStyle(
-                    color: active ? AppColors.white : AppColors.black,
+                    color: active
+                        ? Get.isDarkMode
+                              ? AppColors.black
+                              : AppColors.white
+                        : Get.isDarkMode
+                        ? AppColors.white
+                        : AppColors.black,
                     fontWeight: active ? FontWeight.w700 : FontWeight.w500,
                     fontSize: 14,
                   ),
@@ -343,13 +361,13 @@ class _AmountDisplay extends StatelessWidget {
                     child: Text(
                       "\$${ctrl.amountDisplay}",
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: Theme.of(context).primaryColor,
                         fontSize: 56,
                         fontWeight: FontWeight.w800,
                         letterSpacing: -2,
                         shadows: [
                           Shadow(
-                            color: AppColors.primary.withAlpha(70),
+                            color: Theme.of(context).primaryColor.withAlpha(70),
                             blurRadius: 60,
                           ),
                         ],
@@ -453,14 +471,22 @@ class _CategoryRow extends StatelessWidget {
                       height: 64,
                       width: 64,
                       decoration: BoxDecoration(
-                        color: AppColors.white,
+                        color: Get.isDarkMode
+                            ? AppColors.darkCard
+                            : AppColors.white,
                         // borderRadius: BorderRadius.circular(30),
                         shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.inputFill),
+                        border: Border.all(
+                          color: Get.isDarkMode
+                              ? AppColors.darkCard
+                              : AppColors.inputFill,
+                        ),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.apps_rounded,
-                        color: AppColors.black,
+                        color: Get.isDarkMode
+                            ? AppColors.white
+                            : AppColors.black,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -505,7 +531,11 @@ class _CategoryChip extends StatelessWidget {
             height: 64,
             width: 64,
             decoration: BoxDecoration(
-              color: selected ? AppColors.primary : AppColors.white,
+              color: selected
+                  ? Theme.of(context).primaryColor
+                  : Get.isDarkMode
+                  ? AppColors.darkCard
+                  : AppColors.white,
               shape: BoxShape.circle,
               // borderRadius: BorderRadius.circular(30),
               boxShadow: selected
@@ -518,10 +548,23 @@ class _CategoryChip extends StatelessWidget {
                     ]
                   : [],
               border: Border.all(
-                color: selected ? AppColors.primary : AppColors.inputFill,
+                color: selected
+                    ? Theme.of(context).primaryColor
+                    : Get.isDarkMode
+                    ? AppColors.darkCard
+                    : AppColors.inputFill,
               ),
             ),
-            child: Icon(icon, color: selected ? AppColors.white : AppColors.black),
+            child: Icon(
+              icon,
+              color: selected
+                  ? Get.isDarkMode
+                        ? AppColors.black
+                        : AppColors.white
+                  : Get.isDarkMode
+                  ? AppColors.white
+                  : AppColors.black,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
@@ -553,7 +596,9 @@ class _NumPad extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        color: AppColors.lightBackground,
+        color: Get.isDarkMode
+            ? AppColors.darkBackground
+            : AppColors.lightBackground,
         // borderRadius: BorderRadius.circular(24),
         // border: Border.all(color: _border),
       ),
@@ -575,7 +620,9 @@ class _NumPad extends StatelessWidget {
                         duration: const Duration(milliseconds: 100),
                         height: 56,
                         decoration: BoxDecoration(
-                          color: AppColors.lightBackground,
+                          color: Get.isDarkMode
+                              ? AppColors.darkBackground
+                              : AppColors.lightBackground,
                           // borderRadius: BorderRadius.circular(14),
                           // border: Border.all(
                           //   color: isBack ? _accent.withOpacity(0.3) : _border,
@@ -583,15 +630,19 @@ class _NumPad extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: isBack
-                            ? const Icon(
+                            ? Icon(
                                 Icons.backspace_outlined,
-                                color: AppColors.black,
+                                color: Get.isDarkMode
+                                    ? AppColors.white
+                                    : AppColors.black,
                                 size: 24,
                               )
                             : Text(
                                 key,
-                                style: const TextStyle(
-                                  color: AppColors.black,
+                                style: TextStyle(
+                                  color: Get.isDarkMode
+                                      ? AppColors.white
+                                      : AppColors.black,
                                   fontSize: 24,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -626,12 +677,12 @@ class _ConfirmButton extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           height: 58,
           decoration: BoxDecoration(
-            color: AppColors.primary,
+            color: Theme.of(context).primaryColor,
             // gradient: LinearGradient(colors: AppColors.primary),
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withAlpha(100),
+                color: Theme.of(context).primaryColor.withAlpha(100),
                 blurRadius: 20,
                 offset: const Offset(0, 6),
               ),
@@ -639,11 +690,11 @@ class _ConfirmButton extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: loading
-              ? const SizedBox(
+              ? SizedBox(
                   width: 22,
                   height: 22,
                   child: CircularProgressIndicator(
-                    color: AppColors.white,
+                    color: Get.isDarkMode ? AppColors.black : AppColors.white,
                     strokeWidth: 2.5,
                   ),
                 )
@@ -652,8 +703,8 @@ class _ConfirmButton extends StatelessWidget {
                     ctrl.editingTransaction.value == null
                         ? 'Confirm Transaction'
                         : 'Update Transaction',
-                    style: const TextStyle(
-                      color: AppColors.white,
+                    style: TextStyle(
+                      color: Get.isDarkMode ? AppColors.black : AppColors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.2,
@@ -676,11 +727,11 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.lightBackground,
+      color: Get.isDarkMode ? AppColors.black : AppColors.lightBackground,
       child: Container(
         height: 75,
         decoration: BoxDecoration(
-          color: AppColors.lightBackground,
+          color: Get.isDarkMode ? AppColors.black : AppColors.lightBackground,
           // border: const Border(top: BorderSide(color: _border)),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(25),

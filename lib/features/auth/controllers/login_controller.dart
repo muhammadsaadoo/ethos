@@ -84,6 +84,8 @@ class LoginController extends GetxController {
       // await dummyDataService.runCleanTestFlow();
       print("test end.................");
       await Get.putAsync(() => UserSessionService().init());
+      print("user id is .................");
+      print(UserSessionService().userId);
 
       Get.offAllNamed(AppRoutes.mainScreen);
     } catch (e) {

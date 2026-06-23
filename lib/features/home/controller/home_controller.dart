@@ -39,7 +39,10 @@ class HomeController extends GetxController {
     _txSub?.cancel();
 
     // 1. GET INITIAL DATA FIRST
+
     final initialData = await transactionRepository.getTransactions(userId);
+    print("initial data");
+    print(initialData);
 
     _recalculateAll(initialData);
 
@@ -49,6 +52,7 @@ class HomeController extends GetxController {
       debugPrint("Total TX: ${data.length}");
 
       _recalculateAll(data);
+      // print(UserSessionService().userId);
     });
   }
 
